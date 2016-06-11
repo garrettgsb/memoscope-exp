@@ -1,8 +1,37 @@
-body {
+/*body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+}*/
 
 a {
   color: #00B7FF;
+}
+
+.nav {
+	border-bottom: 2px solid grey;
+}
+.footer{
+	background-color: white;
+	border-top: 2px solid grey;
+}
+
+.hero .container{
+	padding: 20px;
+}
+
+.solar-system {
+	z-index: 1;
+	background-image: url("http://i.imgur.com/Ptob9un.jpg");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.tile:hover {
+	border: 2px solid red;
+}
+
+.footer{
+	background-color: white;
+	border-top: 3px solid grey;
 }
