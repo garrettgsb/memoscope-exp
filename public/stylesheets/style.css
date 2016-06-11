@@ -1,13 +1,18 @@
-/*body {
-  padding: 50px;
+html{
+	background-color: white;
+}
+
+.hero-head {
+  padding-top: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}*/
+}
 
 a {
   color: #00B7FF;
 }
 
 .nav {
+	width: 100%;
 	border-bottom: 2px solid grey;
 }
 .footer{
@@ -17,10 +22,6 @@ a {
 
 .hero .container{
 	padding: 20px;
-}
-
-.tile:hover {
-	border: 2px solid red;
 }
 
 .footer{
