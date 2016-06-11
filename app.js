@@ -19,6 +19,7 @@ var users = require('./routes/users');
 var dashboard = require('./routes/dashboard');
 var cards = require('./routes/cards');
 var notification = require('./routes/notification');
+var decks = require('./routes/decks');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use('/users', users);
 app.use('/dashboard', dashboard);
 app.use('/cards', cards);
 app.use('/notification', notification);
+app.use('/decks', decks);
 
 
 
