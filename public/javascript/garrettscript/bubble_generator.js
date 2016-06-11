@@ -21,7 +21,7 @@ $(document).ready(function() {
     })
 
 
-  }, 4000);
+  }, 8000);
 
   var $bottom = $(".footer");
   var $bubble = "<div class='bubble'></div>";
