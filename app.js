@@ -68,9 +68,6 @@ if (app.get('env') === 'development') {
   });
 }
 
-app.get('/dashboard', function(req,res){
-  res.send("Hello Oblate Spheroid");
-});
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
