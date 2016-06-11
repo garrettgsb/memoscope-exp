@@ -35,3 +35,7 @@ a {
 	background-color: white;
 	border-top: 3px solid grey;
 }
+
+.container.is-fluid{
+	padding-bottom: 20px;
+}

@@ -1,9 +1,9 @@
-var express = require('express');
-var path = require('path');
-// var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+// const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 
 // These reference all TOP DIRECTORY routes.
@@ -14,14 +14,14 @@ var bodyParser = require('body-parser');
 // '/' as a reference to themselves:
 
 // e.g.: If you want to type "localhost:3000/users/"
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var dashboard = require('./routes/dashboard');
-var cards = require('./routes/cards');
-var notification = require('./routes/notification');
-var decks = require('./routes/decks');
+const routes = require('./routes/index');
+const users = require('./routes/users');
+const dashboard = require('./routes/dashboard');
+const cards = require('./routes/cards');
+const notification = require('./routes/notification');
+const decks = require('./routes/decks');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
