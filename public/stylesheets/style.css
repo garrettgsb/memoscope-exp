@@ -19,14 +19,6 @@ a {
 	padding: 20px;
 }
 
-.solar-system {
-	z-index: 1;
-	background-image: url("http://i.imgur.com/Ptob9un.jpg");
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
-}
-
 .tile:hover {
 	border: 2px solid red;
 }
