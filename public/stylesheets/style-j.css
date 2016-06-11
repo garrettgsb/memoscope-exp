@@ -5,6 +5,11 @@
 	z-index: 0;
   left: 0;
   right: 0;
+  padding: 0;
+}
+
+.tile.is-child:hover{
+	border: 3px solid steelblue;
 }
 
 .footer{
@@ -18,4 +23,8 @@
 	position: fixed;
 	width: 100%;
 	top: 0px;
+}
+
+.hero-head.has-pads{
+	/*padding: 50px;*/
 }
