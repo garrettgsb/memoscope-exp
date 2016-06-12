@@ -64,3 +64,16 @@
   font-family: Trebuchet !important;
   font-weight: 400 !important;
 }
+
+.card-expand {
+  min-width: 100%;
+  min-height: 240px;
+}
+
+.editable {
+  /* No changes-- Just a selector for JS */
+}
+
+.editing {
+  border: 2px solid red;
+}
