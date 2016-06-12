@@ -1,5 +1,33 @@
 extends layout
 
 block content
-  h1= title
-  p Take a look through my #{title}
+	.tile.is-ancestor.is-vertical
+		.tile.is-parent.center
+			.tile.is-child.box
+				.button.is-outlined.is-primary.is-large
+					h3  Poem Quotes 
+		.tile.is-parent.center
+			.tile.is-child.box
+				p.control
+					a.button.is-dark
+						| Previous
+			.tile.is-child.box
+				.card
+					.card-content
+						.content
+							br
+							h5 “ O Romeo, Romeo! wherefore art thou Romeo? ~William Shakespeare”
+			.tile.is-child.box
+				p.control
+					a.button.is-dark
+						| Next
+		.tile.is-parent.center
+			.tile.is-child.box
+				p.control
+					a.button.is-primary.is-warning.is-large
+						| Edit
+			.tile.is-child.box
+				p.control
+					a.button.is-primary.is-danger.is-large
+						| Delete
+

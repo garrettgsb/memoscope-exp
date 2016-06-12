@@ -1,0 +1,25 @@
+.center {
+	align: center;
+	margin: auto;
+	align-items: center;
+}
+
+.tile.is-child {
+		background-color: transparent;
+		border: none;
+		box-shadow: none;
+}
+
+table {
+		width:100%;
+}
+table, th, td {
+		border: 1px solid black;
+		border-collapse: collapse;
+}
+th, td {
+		padding: 5px;
+		text-align: left;
+}
+
+
