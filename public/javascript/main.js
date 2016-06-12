@@ -29,4 +29,13 @@ $(function(){
       }
     }
   });
+	$('.card').on('click', function(){
+		$('.modal').toggleClass('is-active');
+	});
+	$('.modal-close').on('click', function(){
+		$('.modal').removeClass('is-active');
+	});
+	$('.modal-background').on('click', function(){
+		$('.modal').removeClass('is-active');
+	});
 });

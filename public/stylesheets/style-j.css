@@ -25,6 +25,11 @@
 	width: 100%;
 	top: 0px;
 }
+.modal-content{
+	margin-top: 15%;
+	vertical-align: middle;
+	/*z-index: 300;*/
+}
 
 html,body {
 	margin:0;
