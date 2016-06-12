@@ -1,5 +1,11 @@
 $(document).ready(function() {
   var $aquarium = $(".aquarium");
+  $aquarium.append($(bubbleGenerate()));
+  $aquarium.append($(bubbleGenerate()));
+  $aquarium.append($(bubbleGenerate()));
+  $aquarium.append($(bubbleGenerate()));
+  $aquarium.append($(bubbleGenerate()));
+  $aquarium.append($(bubbleGenerate()));
   setInterval(function(){
     $aquarium.append($(bubbleGenerate()));
     $aquarium.append($(bubbleGenerate()));
@@ -16,7 +22,10 @@ $(document).ready(function() {
 
 
     $('.bubble').each(function(i,e) {$(e).animate({marginTop: -40}, $(e).data("riseSpeed"), function(){
-      if ($(e).position()['top'] < 1) { $(e).remove();}
+      if (parseInt($(e).css("margin-top")) < 1) {
+        $(e).remove();
+        console.log("Bubble popped.");
+      }
     });
     })
 
@@ -41,6 +50,7 @@ $(document).ready(function() {
       var horiz = Math.random() * (($(document).width()) - (diameter*2)) + diameter;
       $(bubble).data("riseSpeed", (diameter * 2000));
       $(bubble).css({height: diameter, width: diameter, marginTop: $(window).height() + 50, marginLeft: horiz, borderColor: fillColor});
+      console.log("Bubble created.")
       return bubble;
   }
 
