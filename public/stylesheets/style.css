@@ -3,9 +3,9 @@
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }*/
 
-a {
+/*a {
   color: #00B7FF;
-}
+}*/
 
 .nav {
 	border-bottom: 2px solid grey;
@@ -19,9 +19,9 @@ a {
 	padding: 20px;
 }
 
-.tile:hover {
+/*.tile:hover {
 	border: 2px solid red;
-}
+}*/
 
 .footer{
 	background-color: white;
