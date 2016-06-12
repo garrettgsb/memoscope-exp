@@ -21,27 +21,29 @@ const cards = require('./routes/cards');
 const notification = require('./routes/notification');
 const decks = require('./routes/decks');
 
+// sequelize initialization
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('database_name', 'username', 'password', {
+var db = new Sequelize('memoscope_database', null, null, {
       dialect: "postgres", // or 'sqlite', 'postgres', 'mariadb'
       port:    5432 // or 5432 (for postgres)
     });
+var userService= require("./userService";)(sequelize);
 
-sequelize
-  .authenticate()
-  .then(function(err) {
-    console.log('Connection has been established successfully.');
-  }, function (err) { 
-    console.log('Unable to connect to the database:', err);
-  });
+// check database connection
+sequelize.authenticate().complete(function(err) {
+    if (err) {
+      console.log('Unable to connect to the database:', err);
+    } else {
+      console.log('Connection has been established successfully.');
+    }
+});
 
-sequelize
-  .sync({ force: true })
-  .then(function(err) {
-    console.log('It worked!');
-  }, function (err) { 
-    console.log('An error occurred while creating the table:', err);
-  });
+//sync the model with the database
+sequelize.sync().success(function (err) {
+    app.get("/users", userService.get);
+    app.post("/users", userService.create);
+});
+
 
 const app = express();
 
