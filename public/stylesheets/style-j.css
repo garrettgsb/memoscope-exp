@@ -28,3 +28,41 @@
 .hero-head.has-pads{
 	/*padding: 50px;*/
 }
+.anchor-nav{
+	top: 50%;
+	text-align: center;
+	margin: auto;
+	align-items: center;
+	align: center;
+	position: fixed;
+}
+.anchor-nav > .nav-circle{
+	display: block;
+}
+.divider{
+	margin-left: 10%; 
+	margin-right: 10%;
+}
+.nav-circle{
+	width: 20px;
+	height: 20px;
+	border: 2px solid #69707a;
+	border-radius: 100px;
+	margin: 10px;
+}
+
+.nav-circle:hover{
+	border: 3px solid purple;
+}
+
+.primary-color{
+	background-color: steelblue;
+}
+
+.secondary-color{
+	background-color: tomato;
+}
+
+.tertiary-color{
+	background-color: seagreen;
+}

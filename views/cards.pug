@@ -1,33 +1,23 @@
 extends layout
 
 block content
-	.tile.is-ancestor.is-vertical
-		.tile.is-parent.center
-			.tile.is-child.box
-				.button.is-outlined.is-primary.is-large
-					h3  Poem Quotes 
-		.tile.is-parent.center
-			.tile.is-child.box
-				p.control
-					a.button.is-dark
-						| Previous
-			.tile.is-child.box
-				.card
-					.card-content
-						.content
-							br
-							h5 “ O Romeo, Romeo! wherefore art thou Romeo? ~William Shakespeare”
-			.tile.is-child.box
-				p.control
-					a.button.is-dark
-						| Next
-		.tile.is-parent.center
-			.tile.is-child.box
-				p.control
-					a.button.is-primary.is-warning.is-large
-						| Edit
-			.tile.is-child.box
-				p.control
-					a.button.is-primary.is-danger.is-large
-						| Delete
-
+	.container.has-text-centered
+		.anchor-nav
+			a(href="#section1").nav-circle.primary-color
+			a(href="#section2").nav-circle.secondary-color
+			a(href="#section3").nav-circle.tertiary-color
+		section#section1.section.content
+			h1 Section 1
+			hr.divider
+			p
+				h3 Content
+		section#section2.section.content
+			h1 Section 2
+			hr.divider
+			p
+				h3 Content
+		section#section3.section.content
+			h1 Section 3
+			hr.divider
+			p
+				h3 Content
