@@ -3,7 +3,7 @@ const router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Userscope' });
+  res.render('users', { title: 'Userscope' });
 });
 
 // NOTE: This should be /users/:id/decks but I'm
@@ -11,9 +11,5 @@ router.get('/', function(req, res, next) {
 // For the purposes of static markup, this route is fine.
 
 //**Jordan: You literally put :id in the url. req.params to fetch it.
-router.get('/decks', function(req, res, next) {
-  res.render('index', { title: 'Deckoscope' });
-});
-
 
 module.exports = router;
