@@ -2,7 +2,7 @@ extends layout
 
 block content
 	section.hero.has-text-centered
-		.hero-head
+		.hero-head.has-pads
 			.container
 				h1.title
 					| my decks
@@ -12,32 +12,38 @@ block content
 	.container.is-fluid
 		.tile.is-ancestor.is-12
 			.tile.is-parent
+				a(href='/notification')
 				article.tile.is-child.notification.is-info
 					p.title Deck Name
 					p.subtitle Deck Description
 					.content
 			.tile.is-parent
+				a(href='/notification')
 				article.tile.is-child.notification.is-danger
 					p.title Deck
 					p.subtitle Deck description
 					.content
 			.tile.is-parent
+				a(href='/notification')
 				article.tile.is-child.notification.is-warning
 					p.title Deck Name
 					p.subtitle Deck description
 					.content
 		.tile.is-ancestor.is-12
 			.tile.is-parent
+				a(href='/notification')
 				article.tile.is-child.notification.is-success
 					p.title Deck Name
 					p.subtitle Deck Description
 					.content
 			.tile.is-parent
+				a(href='/notification')
 				article.tile.is-child.notification.is-info
 					p.title Deck
 					p.subtitle Deck description
 					.content
 			.tile.is-parent
+				a(href='/notification')
 				article.tile.is-child.notification.is-primary
 					p.title Deck Name
 					p.subtitle Deck description
