@@ -25,11 +25,40 @@
 	top: 0px;
 }
 
-.hero-head.has-pads{
-	/*padding: 50px;*/
+html,body {
+	margin:0;
+	padding:0;
+	background-color: white;
+	height:100%; /* needed for container min-height */
+}
+
+
+#container {
+	position:relative; /* needed for footer positioning*/
+	height:auto !important; /* real browsers */
+	min-height:100%; /* real browsers */
+}
+
+#header {
+	/*padding:1em;*/
+	padding-top: 50px;
+  background:#efe;
+}
+
+#content {
+	padding-bottom: 20px;
+}
+
+#footer {
+	position:absolute;
+	width:100%;
+	bottom:0; /* stick to bottom */
+	background:#ddd;
 }
 .anchor-nav{
-	top: 50%;
+	top: 42.5%;
+	z-index: 2;
+	right: 0px;
 	text-align: center;
 	margin: auto;
 	align-items: center;
@@ -42,6 +71,9 @@
 .divider{
 	margin-left: 10%; 
 	margin-right: 10%;
+}
+#section3{
+	padding-bottom: 50px;
 }
 .nav-circle{
 	width: 20px;
@@ -65,4 +97,7 @@
 
 .tertiary-color{
 	background-color: seagreen;
+}
+.unselected{
+	background-color: white;
 }

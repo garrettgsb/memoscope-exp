@@ -1,23 +1,53 @@
 extends layout
 
 block content
+	#nav-anchor
 	.container.has-text-centered
 		.anchor-nav
-			a(href="#section1").nav-circle.primary-color
-			a(href="#section2").nav-circle.secondary-color
-			a(href="#section3").nav-circle.tertiary-color
+			a(href="#section1")
+				nav.section1.nav-circle.primary-color
+			a(href="#section2")
+				nav.section2.nav-circle.secondary-color.unselected
+			a(href="#section3")
+				nav.section3.nav-circle.tertiary-color.unselected
 		section#section1.section.content
 			h1 Section 1
 			hr.divider
-			p
-				h3 Content
+			.columns
+				include card.pug
+				include card.pug
+				include card.pug
+			.columns
+				include card.pug
+				include card.pug
+				include card.pug
 		section#section2.section.content
 			h1 Section 2
 			hr.divider
-			p
-				h3 Content
+			.columns
+				include card.pug
+				include card.pug
+				include card.pug
+			.columns
+				include card.pug
+				include card.pug
+				include card.pug
+			.columns
+				include card.pug
+				include card.pug
+				include card.pug
 		section#section3.section.content
 			h1 Section 3
 			hr.divider
-			p
-				h3 Content
+			.columns
+				include card.pug
+				include card.pug
+				include card.pug
+			.columns
+				include card.pug
+				include card.pug
+				include card.pug
+			.columns
+				include card.pug
+				include card.pug
+				include card.pug
