@@ -13,6 +13,8 @@
     "express-session": "^1.13.0",
     "morgan": "~1.6.1",
     "nodemon": "^1.9.2",
+    "pg": "^5.1.0",
+    "pg-hstore": "^2.3.2",
     "pg-promise": "^4.6.2",
     "pug": "^2.0.0-beta3",
     "sequelize": "^3.23.3",
