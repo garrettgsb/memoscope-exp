@@ -1,0 +1,30 @@
+.container.has-text-centered.fullwidth{
+	position: fixed;
+	margin-left: auto;
+  margin-right: auto;
+	z-index: 0;
+  left: 0;
+  right: 0;
+  padding: 0;
+}
+
+.tile.is-child:hover{
+	border: 3px solid steelblue;
+}
+
+.footer{
+	background-color: white;
+	position: fixed;
+	padding: 20px 40px;
+	bottom: 0;
+	width:100%;
+}
+.nav{
+	position: fixed;
+	width: 100%;
+	top: 0px;
+}
+
+.hero-head.has-pads{
+	/*padding: 50px;*/
+}
