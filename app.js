@@ -21,39 +21,16 @@ const cards = require('./routes/cards');
 const notification = require('./routes/notification');
 const decks = require('./routes/decks');
 
-// sequelize initialization
-const Sequelize = require('sequelize');
-var pg = require('pg').native;
-var config = require('./db_config');
-var models = require('./model');
-var sequelize = new Sequelize(config.database, config.username, config.password, {
-      host: config.host,
-      port: config.port,
-      dialect: config.dialect,
-      native: config.native
-    });
-
-// check database connection
-sequelize.authenticate()
-  .then(function(err) {
-    console.log('Connection has been established successfully.');
-    
-    var User = models.User;
-    var Card = models.Card;
-    var Deck = models.Deck;
-
-
-    console.log('Imported all models');
-  })
-  .catch(function (err) {
-    console.log('Unable to connect to the database:', err);
-  });
-
-  // Use this to to require a class of the model in a controller without importing the model:
-  // var User = app.get('models').User;
-
-
 const app = express();
+//tryint to see what the fuck is wrong with the server:
+// app.listen(3000, function() {
+//     console.log("The frontend server is running on port 5000!");
+// });
+//
+
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

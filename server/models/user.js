@@ -1,17 +1,17 @@
 'use strict';
+
+var bcrypt = require('bcrypt-nodejs');
+
 module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define('User', {
+  var User = sequelize.define('user', {
     username: DataTypes.STRING,
-    firstname: DataTypes.STRING,
-    lastname: DataTypes.STRING,
-    email: DataTypes.STRING
+    password: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
-        User.hasMany(models.Card)
-        // associations can be defined here
-      }
-    }
+        User.belongsToMany(models.card, { as: { singular: 'userCard', plural: 'userCards' }, through: 'decks' });
+      },
+    },
   });
   return User;
 };

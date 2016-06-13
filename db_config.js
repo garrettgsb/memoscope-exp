@@ -1,7 +1,7 @@
 module.exports = {
   database: 'memoscope_database', 
-  username: 'root', 
-  password: 'verysecret',
+  username: 'development', 
+  password: 'development',
   host: 'localhost',
   port: 5432,
   dialect: 'postgres',
