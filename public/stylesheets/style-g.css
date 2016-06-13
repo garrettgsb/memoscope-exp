@@ -1,0 +1,66 @@
+:root {
+  --bg-dark: #000000;
+}
+
+.aquarium {
+ background-color: var(--bg-dark);
+}
+
+.footer{
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.bubble {
+  border-style: solid;
+  border-width: 3px;
+  border-color: var(--fg-light);
+  border-radius: 100%;
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  float: left;
+  position: absolute;
+}
+
+.bottom {
+  background-color: red;
+  opacity: 0.5;
+  width: 100%;
+  height: 50px;
+}
+
+.g-aquarium-overlay {
+  background-color: rgba(0,0,0,0.8);
+  border-radius: 2%;
+  position: fixed;
+  width: 33%;
+  height: auto;
+  text-align: center;
+  z-index: 1;
+}
+
+.g-aquarium-login {
+  margin: 5% 33%;
+  padding: 10px;
+  z-index: 1;
+}
+
+.g-aquarium-label {
+  margin: 22% 33%;
+}
+
+.g-home-tagline {
+  color: white !important;
+  font-family: Trebuchet !important;
+  font-weight: 200 !important;
+  margin: 10px;
+
+}
+
+.g-home-memoscope {
+  color: white !important;
+  font-family: Trebuchet !important;
+  font-weight: 400 !important;
+}

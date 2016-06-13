@@ -1,5 +1,99 @@
-extends layout
+html
+  head
+    meta(charset='UTF-8')
+    title= title
+    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css', rel='stylesheet', integrity='sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1', crossorigin='anonymous')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.0.28/css/bulma.css', type='text/css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
 
-block content
-	h1= title
-	p Take a look through my #{title}
+    link(rel="stylesheet" href="/stylesheets/solar_system/solar.css")
+    link(rel='stylesheet', href='/stylesheets/style-g.css')
+    link(rel='stylesheet', href='/stylesheets/style-j.css')
+    link(rel='stylesheet', href='/stylesheets/style-s.css')
+  body.opening.hide-UI.view-2D.zoom-large.data-close.controls-close
+    include navbar.pug
+
+    .columns.is-overlay(style="margin:120px; z-index: 1000000;")
+      .column
+        a(href="/cards/new")
+          h1(class="title box" style="background-color: rgba(0,0,0,0.2)") Make New Card
+      .column.is-info
+        a(href="/decks")
+          h1(class="title box" style="background-color: rgba(0,0,0,0.2)") Browse Decks
+
+    #universe.scale-stretched
+      #galaxy
+        #solar-system.earth
+          #mercury.orbit
+            .pos
+              .planet
+                dl.infos
+                  dt Mercury
+                  dd
+                    span
+          #venus.orbit
+            .pos
+              .planet
+                dl.infos
+                  dt Venus
+                  dd
+                    span
+          #earth.orbit
+            .pos
+              .orbit
+                .pos
+                  .moon
+              .planet
+                dl.infos
+                  dt Earth
+                  dd
+                    span
+          #mars.orbit
+            .pos
+              .planet
+                dl.infos
+                  dt Mars
+                  dd
+                    span
+          #jupiter.orbit
+            .pos
+              .planet
+                dl.infos
+                  dt Jupiter
+                  dd
+                    span
+          #saturn.orbit
+            .pos
+              .planet
+                .ring
+                dl.infos
+                  dt Saturn
+                  dd
+                    span
+          #uranus.orbit
+            .pos
+              .planet
+                dl.infos
+                  dt Uranus
+                  dd
+                    span
+          #neptune.orbit
+            .pos
+              .planet
+                dl.infos
+                  dt Neptune
+                  dd
+                    span
+          #sun
+            dl.infos
+              dt Sun
+              dd
+                span
+    include footer.pug
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js')
+    script(type='text/javascript').
+      if (typeof jQuery == 'undefined') {
+      document.write(unescape("%3Cscript src='js/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
+      }
+    script(src='js/prefixfree.min.js')
+    script(src='javascript/solar_system/solar_system.js')
