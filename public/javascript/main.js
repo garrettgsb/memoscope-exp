@@ -14,6 +14,11 @@ $(function(){
       }
   	});
 	}
+	$('.slick-center').focus();
+
+	$(".card.is-6").on('click', function(){
+		$(this).flip({axis: 'y'});
+	});
 
 	$('.slider-container .card-header-icon').on('click', function() {
 		var slideIndex = $(this).parent().parent().parent().data("slick-index");
