@@ -19,9 +19,9 @@ module.exports = function (sequelize) {
     }, {
         timestamps: true
     });
-    Card.belongsTo(Deck, {foreignKey: 'fk_Deck'});
-    Card.belongsTo(User, {foreignKey: 'fk_User'});
-    Deck.belongsTo(User, {foreignKey: 'fk_User'});
+    User.hasMany(Card, {as: 'UserCards'});
+    User.hasMany(Deck, {as: 'Decks'});
+    Deck.hasMany(Card, {as: 'DeckCards'});
     return {
         User: User,
         Card: Card,
