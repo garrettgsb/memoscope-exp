@@ -15,6 +15,7 @@
     "nodemon": "^1.9.2",
     "pg": "^5.1.0",
     "pg-hstore": "^2.3.2",
+    "pg-native": "^1.10.0",
     "pg-promise": "^4.6.2",
     "pug": "^2.0.0-beta3",
     "sequelize": "^3.23.3",

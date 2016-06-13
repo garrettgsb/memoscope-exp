@@ -23,26 +23,34 @@ const decks = require('./routes/decks');
 
 // sequelize initialization
 const Sequelize = require('sequelize');
-var db = new Sequelize('memoscope_database', null, null, {
-      dialect: "postgres", // or 'sqlite', 'postgres', 'mariadb'
-      port:    5432 // or 5432 (for postgres)
+var pg = require('pg').native;
+var config = require('./db_config');
+var models = require('./model');
+var sequelize = new Sequelize(config.database, config.username, config.password, {
+      host: config.host,
+      port: config.port,
+      dialect: config.dialect,
+      native: config.native
     });
-var userService= require("./userService";)(sequelize);
 
 // check database connection
-sequelize.authenticate().complete(function(err) {
-    if (err) {
-      console.log('Unable to connect to the database:', err);
-    } else {
-      console.log('Connection has been established successfully.');
-    }
-});
+sequelize.authenticate()
+  .then(function(err) {
+    console.log('Connection has been established successfully.');
+    
+    var User = models.User;
+    var Card = models.Card;
+    var Deck = models.Deck;
 
-//sync the model with the database
-sequelize.sync().success(function (err) {
-    app.get("/users", userService.get);
-    app.post("/users", userService.create);
-});
+
+    console.log('Imported all models');
+  })
+  .catch(function (err) {
+    console.log('Unable to connect to the database:', err);
+  });
+
+  // Use this to to require a class of the model in a controller without importing the model:
+  // var User = app.get('models').User;
 
 
 const app = express();
