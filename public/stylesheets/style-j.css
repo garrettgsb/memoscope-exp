@@ -12,10 +12,17 @@
 	/*border: 3px solid steelblue;*/
 	box-shadow: inset 0 0 0 3px steelblue;
 }
+.slick-center .card-header-title{
+	color: orange;
+}
 
+.hero.is-fullheight .hero-body{
+	padding-top: -48px;
+}
 .footer{
 	background-color: white;
-	position: fixed;
+	/*position: fixed;*/
+	position: relative;
 	padding: 20px 40px;
 	bottom: 0;
 	width:100%;
