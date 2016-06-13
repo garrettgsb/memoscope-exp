@@ -1,5 +1,10 @@
 :root {
   --bg-dark: #000000;
+  --highlighter-red: rgba(255,68,68, 0.8);
+  --highlighter-blue: rgba(68,68,255, 0.8);
+  --highlighter-yellow: rgba(255,255,68,0.8);
+  --highlighter-green: rgba(68,255,68,0.8);
+
 }
 
 .aquarium {
@@ -78,4 +83,40 @@
 
 .edit-hide {
   visibility: hidden;
+}
+
+.highlighter-red {
+  fill: var(--highlighter-red);
+  background-color: var(--highlighter-red);
+}
+
+.highlighter-blue {
+  fill: var(--highlighter-blue);
+  background-color: var(--highlighter-blue);
+}
+
+.highlighter-green {
+  fill: var(--highlighter-green);
+  background-color: var(--highlighter-green);
+}
+
+.highlighter-yellow {
+  fill: var(--highlighter-yellow);
+  background-color: var(--highlighter-yellow);
+}
+
+.red-mark {
+  background-color: var(--highlighter-red)
+}
+
+.blue-mark {
+  background-color: var(--highlighter-blue)
+}
+
+.green-mark {
+  background-color: var(--highlighter-green)
+}
+
+.yellow-mark {
+  background-color: var(--highlighter-yellow)
 }

@@ -15,9 +15,15 @@ block content
 			.tile.is-child.box.card-expand
 				.card.center.card-expand.editable
 					.card-content
-						.content.editable
+						.content
 							br
 							h5.render-mode “ O Romeo, Romeo! wherefore art thou Romeo? ~William Shakespeare”
+
+					svg.highlight-bar.is-pulled-right(height="30" width="106")
+						circle.highlighter-red(cx="12" cy="12" r="12")
+						circle.highlighter-blue(cx="40" cy="12" r="12")
+						circle.highlighter-green(cx="68" cy="12" r="12")
+						circle.highlighter-yellow(cx="94" cy="12" r="12")
 	.tile.is-ancestor.is-vertical
 		.tile.is-parent.center
 			.tile.is-child.box
