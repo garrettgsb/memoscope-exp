@@ -74,6 +74,6 @@
   /* No changes-- Just a selector for JS */
 }
 
-.editing {
-  border: 2px solid red;
+.edit-hide {
+  visibility: hidden;
 }
