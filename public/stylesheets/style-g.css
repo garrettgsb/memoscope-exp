@@ -66,6 +66,8 @@
 }
 
 .card-expand {
+  padding: 0px;
+  margin: 0px;
   min-width: 100%;
   min-height: 240px;
 }
