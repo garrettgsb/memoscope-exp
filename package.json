@@ -21,6 +21,7 @@
     "pug": "^2.0.0-beta3",
     "sequelize": "^3.23.3",
     "sequelize-cli": "^2.4.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "slick-carousel": "^1.6.0"
   }
 }
