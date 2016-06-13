@@ -115,27 +115,34 @@ html,body {
 .unselected{
 	background-color: white;
 }
+.background-div{
+	position: absolute;
+}
 
 
 .flip-container {
 	perspective: 1000px;
 }
 	/* flip the pane when hovered */
-	.flip-container:hover .flipper, .flip-container.hover .flipper {
+/*	.flip-container:hover .flipper, .flip-container.hover .flipper {
 		transform: rotateY(180deg);
-	}
+	}*/
 	.slick-center .flip-container .flipper{
 		transform: rotateY(180deg);
 	}
 
 .flip-container, .front, .back {
 	width: 320px;
-	height: 320px;
+	height: 200px;
+}
+
+.card-dimensions{
+	height: 200px;
 }
 
 /* flip speed goes here */
 .flipper {
-	transition: 0.6s;
+	transition: 0.4s;
 	transform-style: preserve-3d;
 
 	position: relative;

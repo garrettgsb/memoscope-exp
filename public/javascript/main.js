@@ -1,4 +1,7 @@
 $(function(){
+
+	var $sliderContainer = $('.slider-container');
+
 	$(".columns .card-header-icon").on('click', function(){
 		var thisCard = $(this).parent().parent().parent();
 		deleteCard(thisCard);
@@ -16,15 +19,37 @@ $(function(){
 	}
 	$('.slick-center').focus();
 
-	$(".card.is-6").on('click', function(){
-		$(this).flip({axis: 'y'});
+	$('.slider-container .card-header-icon').on('click', function() {
+		var slideIndex = $(".slider-container").slick("slickCurrentSlide");
+		var formattedSlide = $('[data-slick-index="'+ slideIndex + '"]');
+		// console.log(slideIndex, formattedSlide);
+		formattedSlide.delay(100).fadeOut(600);
+    formattedSlide.animate({
+      "opacity" : "0",
+      },{
+      "complete" : function() {
+      	console.log($sliderContainer.slick("slickCurrentSlide"));
+				// $('[data-slick-index="'+ (slideIndex + 1) + '"]').addClass('slick-center');
+				$('[data-slick-index=' + slideIndex + ']').addClass('slick-center');
+	  		// $('.slider-container').slick('slickRemove', formattedSlide);
+	  		$('.slider-container').slick('slickRemove', slideIndex);
+    var j = 0;
+    $(".slick-slide").each(function(){
+       $(this).attr("data-slick-index",j);
+       j++;
+     });
+	  	}
+  	});
 	});
 
-	$('.slider-container .card-header-icon').on('click', function() {
-		var slideIndex = $(this).parent().parent().parent().data("slick-index");
-		console.log(slideIndex);
-	  $('.slider-container').slick('slickRemove', slideIndex);
+	$sliderContainer.on('afterChange', function onSlideChange(slick, currentSlide, slideIndex)
+	{
+		console.log('Changed to', currentSlide, slideIndex);
 	});
+
+	// $('.slider-container').on("destroy", function(event, slick){
+	// 	console.log("hello world", arguments);
+	// });
 
 	$(window).on('scroll', function(){
 		if ($(this).scrollTop() > $("#section1").offset().top - 60){
@@ -65,30 +90,30 @@ $(function(){
 
   $('.slider-container').slick({
 	  centerMode: true,
-	  centerPadding: '60px',
+	  centerPadding: '40px',
 	  slidesToShow: 3,
+	  infinite: false,
+	  nextArrow: "<a class='button is-primary'>Next</a>",
+	  prevArrow: "<a class='button is-primary'>Previous</a>",
 	  responsive: [
 	    {
 	      breakpoint: 768,
 	      settings: {
 	        arrows: true,
 	        centerMode: true,
-	        centerPadding: '40px',
+	        centerPadding: '0px',
 	        slidesToShow: 3
 	      }
 	    },
 	    {
 	      breakpoint: 480,
 	      settings: {
-	        arrows: false,
+	        arrows: true,
 	        centerMode: true,
-	        centerPadding: '40px',
+	        centerPadding: '0px',
 	        slidesToShow: 1
 	      }
 	    }
 	  ]
-	});
-	$('.slick-prev').on('click', function(){
-		$('.slider-container').slickPrev();
 	});
 });
