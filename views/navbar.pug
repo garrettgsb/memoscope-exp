@@ -7,9 +7,34 @@ nav.nav
 		span
 		span
 	.nav-right.nav-menu
-		a.nav-item(href='#')
+		a.nav-item(href='/dashboard')
 			| Dashboard
-		a.nav-item(href='#')
+		a.nav-item.card-nav(href='/cards')
+			| Cards
+		a.nav-item.deck-nav(href='/decks')
 			| Decks
-		a.nav-item(href='#')
+		a.nav-item.user-nav(href='/users')
 			| User
+
+
+.user-menu.nav-submenu.hidden
+	a.nav-item(href='/profile')
+		| Profile
+	a.nav-item(href='/settings')
+		| Settings
+	a.nav-item(href='/logout')
+		| Logout
+
+.deck-menu.nav-submenu.hidden
+	a.nav-item(href='/deck/new')
+		| New Deck
+	a.nav-item(href='/decks')
+		| All Decks
+	a.nav-item(href='/user/decks')
+		| My Decks
+
+.card-menu.nav-submenu.hidden
+	a.nav-item(href='/card/new')
+		| New Card
+	a.nav-item(href='/cards')
+		| My Cards

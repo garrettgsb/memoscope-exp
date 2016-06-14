@@ -23,6 +23,15 @@ const notification = require('./routes/notification');
 const decks = require('./routes/decks');
 
 const app = express();
+//tryint to see what the fuck is wrong with the server:
+// app.listen(3000, function() {
+//     console.log("The frontend server is running on port 5000!");
+// });
+//
+
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -82,7 +91,6 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 
 module.exports = app;

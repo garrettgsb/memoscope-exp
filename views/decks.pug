@@ -1,50 +1,64 @@
 extends layout
 
 block content
-	section.hero.has-text-centered
-		.hero-head.has-pads
+	.anchor-nav
+			a(href="#section1")
+				nav.section1.nav-circle.primary-color
+			a(href="#section2")
+				nav.section2.nav-circle.secondary-color.unselected
+			a(href="#section3")
+				nav.section3.nav-circle.tertiary-color.unselected
+	section#section1.hero.has-text-centered
+		.hero-head
 			.container
 				h1.title
 					| my decks
 				h2.subtitle
 					| ready to learn?
-	hr(style='margin-left: 10%; margin-right: 10%')
-	.container.is-fluid
-		.tile.is-ancestor.is-12
-			.tile.is-parent
-				a(href='/notification')
-				article.tile.is-child.notification.is-info
-					p.title Deck Name
-					p.subtitle Deck Description
-					.content
-			.tile.is-parent
-				a(href='/notification')
-				article.tile.is-child.notification.is-danger
-					p.title Deck
-					p.subtitle Deck description
-					.content
-			.tile.is-parent
-				a(href='/notification')
-				article.tile.is-child.notification.is-warning
-					p.title Deck Name
-					p.subtitle Deck description
-					.content
-		.tile.is-ancestor.is-12
-			.tile.is-parent
-				a(href='/notification')
-				article.tile.is-child.notification.is-success
-					p.title Deck Name
-					p.subtitle Deck Description
-					.content
-			.tile.is-parent
-				a(href='/notification')
-				article.tile.is-child.notification.is-info
-					p.title Deck
-					p.subtitle Deck description
-					.content
-			.tile.is-parent
-				a(href='/notification')
-				article.tile.is-child.notification.is-primary
-					p.title Deck Name
-					p.subtitle Deck description
-					.content
+		.hero-body
+			hr(style='margin-left: 10%; margin-right: 10%')
+			.container.is-fluid
+				.tile.is-ancestor.is-12
+					include deck.pug
+					include deck.pug
+					include deck.pug
+				.tile.is-ancestor.is-12
+					include deck.pug
+					include deck.pug
+					include deck.pug
+	section#section2.hero.has-text-centered
+		.hero-head
+			.container
+				h1.title
+					| recommended decks
+				h2.subtitle
+					| you might be interested in these
+		.hero-body
+			hr(style='margin-left: 10%; margin-right: 10%')
+			.container.is-fluid
+				.tile.is-ancestor.is-12
+					include deck.pug
+					include deck.pug
+					include deck.pug
+				.tile.is-ancestor.is-12
+					include deck.pug
+					include deck.pug
+					include deck.pug
+	section#section3.hero.has-text-centered
+		.hero-head
+			.container
+				h1.title
+					| popular decks
+				h2.subtitle
+					| there's a reason these are popular
+		.hero-body
+			hr(style='margin-left: 10%; margin-right: 10%')
+			.container.is-fluid
+				.tile.is-ancestor.is-12
+					include deck.pug
+					include deck.pug
+					include deck.pug
+				.tile.is-ancestor.is-12
+					include deck.pug
+					include deck.pug
+					include deck.pug

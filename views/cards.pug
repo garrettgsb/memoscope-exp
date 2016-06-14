@@ -1,5 +1,59 @@
 extends layout
 
 block content
-  h1= title
-  p Take a look through my #{title}
+	#nav-anchor
+	.container.has-text-centered
+		.anchor-nav
+			a(href="#section1")
+				nav.section1.nav-circle.primary-color
+			a(href="#section2")
+				nav.section2.nav-circle.secondary-color.unselected
+			a(href="#section3")
+				nav.section3.nav-circle.tertiary-color.unselected
+		section#section1.section.content
+			h1 Section 1
+			hr.divider
+			.columns
+				include card-no-flip.pug
+				include card-no-flip.pug
+				include card-no-flip.pug
+			.columns
+				include card-no-flip.pug
+				include card-no-flip.pug
+				include card-no-flip.pug
+		section#section2.section.content
+			h1 Section 2
+			hr.divider
+			.columns
+				include card-no-flip.pug
+				include card-no-flip.pug
+				include card-no-flip.pug
+			.columns
+				include card-no-flip.pug
+				include card-no-flip.pug
+				include card-no-flip.pug
+			.columns
+				include card-no-flip.pug
+				include card-no-flip.pug
+				include card-no-flip.pug
+		section#section3.section.content
+			h1 Section 3
+			hr.divider
+			.columns
+				include card-no-flip.pug
+				include card-no-flip.pug
+				include card-no-flip.pug
+			.columns
+				include card-no-flip.pug
+				include card-no-flip.pug
+				include card-no-flip.pug
+			.columns
+				include card-no-flip.pug
+				include card-no-flip.pug
+				include card-no-flip.pug
+	//- .modal
+	//- 	.modal-background
+	//- 		.modal-container
+	//- 			.modal-content.is-centered
+	//- 				include card-new.pug
+	//- 			button.modal-close

@@ -9,12 +9,20 @@
 }
 
 .tile.is-child:hover{
-	border: 3px solid steelblue;
+	/*border: 3px solid steelblue;*/
+	box-shadow: inset 0 0 0 3px steelblue;
+}
+.slick-center .card-header-title{
+	color: orange;
 }
 
+.hero.is-fullheight .hero-body{
+	padding-top: -48px;
+}
 .footer{
 	background-color: white;
-	position: fixed;
+	/*position: fixed;*/
+	position: relative;
 	padding: 20px 40px;
 	bottom: 0;
 	width:100%;
@@ -24,7 +32,152 @@
 	width: 100%;
 	top: 0px;
 }
+.modal-content{
+	margin-top: 15%;
+	vertical-align: middle;
+	/*z-index: 300;*/
+}
 
-.hero-head.has-pads{
-	/*padding: 50px;*/
+html,body {
+	margin:0;
+	padding:0;
+	background-color: white;
+	height:100%; /* needed for container min-height */
+}
+
+
+#container {
+	position:relative; /* needed for footer positioning*/
+	height:auto !important; /* real browsers */
+	min-height:100%; /* real browsers */
+}
+
+#header {
+	/*padding:1em;*/
+	padding-top: 50px;
+  background:#efe;
+}
+
+#content {
+	padding-bottom: 20px;
+}
+
+#footer {
+	position:absolute;
+	width:100%;
+	bottom:0; /* stick to bottom */
+	background:#ddd;
+}
+.anchor-nav{
+	top: 42.5%;
+	z-index: 2;
+	right: 0px;
+	text-align: center;
+	margin: auto;
+	align-items: center;
+	align: center;
+	position: fixed;
+}
+.anchor-nav > .nav-circle{
+	display: block;
+}
+.divider{
+	margin-left: 10%; 
+	margin-right: 10%;
+}
+#section3{
+	padding-bottom: 50px;
+}
+.nav-circle{
+	width: 20px;
+	height: 20px;
+	border: 2px solid #69707a;
+	border-radius: 100px;
+	margin: 10px;
+}
+
+.nav-circle:hover{
+	border: 3px solid purple;
+}
+
+.primary-color{
+	background-color: steelblue;
+}
+
+.secondary-color{
+	background-color: tomato;
+}
+
+.tertiary-color{
+	background-color: seagreen;
+}
+.unselected{
+	background-color: white;
+}
+.background-div{
+	position: absolute;
+}
+
+
+.flip-container {
+	perspective: 1000px;
+}
+	/* flip the pane when hovered */
+/*	.flip-container:hover .flipper, .flip-container.hover .flipper {
+		transform: rotateY(180deg);
+	}*/
+	.slick-center .flip-container .flipper{
+		transform: rotateY(180deg);
+	}
+
+.flip-container, .front, .back {
+	width: 320px;
+	height: 200px;
+}
+
+.card-dimensions{
+	height: 200px;
+}
+
+.nav-submenu {
+	background-color: white;
+	z-index: 3;
+	border: grey;
+	border-style: solid;
+	border-width: 0 3px 3px 3px;
+	position: fixed;
+	top: 40px;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.4s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.hidden{
+	display: none;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
 }
