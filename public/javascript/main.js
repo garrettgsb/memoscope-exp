@@ -172,3 +172,29 @@ $(function(){
 	  ]
 	});
 });
+
+
+window.onload = function onLoad() {
+    var circle = new ProgressBar.Circle('#progress', {
+        color: 'red',
+        strokeWidth: 4,
+        duration: 3000,
+        easing: 'easeInOut'
+    });
+    var mediumCircle = new ProgressBar.Circle('#progress2', {
+        color: 'orange',
+        strokeWidth: 4,
+        duration: 3000,
+        easing: 'easeInOut'
+    });
+    var smallCircle = new ProgressBar.Circle('#progress3', {
+        color: 'green',
+        strokeWidth: 4,
+        duration: 3000,
+        easing: 'easeInOut'
+    });
+
+    circle.animate(1);
+    smallCircle.animate(1);
+    mediumCircle.animate(1);
+};

@@ -96,6 +96,40 @@ html,body {
 	margin: 10px;
 }
 
+.progress-container{
+	height:300px;
+  z-index: 6;
+  align: center;
+  vertical-align: middle;	
+}
+
+.progress {
+  margin-top: 12.5%;
+  margin-left: 12.5%;
+  position: absolute;
+  width: 75%;
+  height: 75%;
+}
+.progress > svg {
+  height: 100%;
+  display: block;
+}
+#progress2{
+  margin-top: 12.5%;
+  margin-left: 12.5%;
+  position: absolute;
+  width: 75%;
+  height: 75%;
+}
+#progress3{
+  margin-top: 12.5%;
+  margin-left: 12.5%;
+  position: absolute;
+  width: 75%;
+  height: 75%;
+}
+
+
 .nav-circle:hover{
 	border: 3px solid purple;
 }
