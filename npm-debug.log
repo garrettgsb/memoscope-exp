@@ -1,35 +1,33 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/home/vagrant/.nvm/versions/node/v6.1.0/bin/node',
-1 verbose cli   '/home/vagrant/.nvm/versions/node/v6.1.0/bin/npm',
-1 verbose cli   'start' ]
-2 info using npm@3.8.6
-3 info using node@v6.1.0
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'start' ]
+2 info using npm@3.8.9
+3 info using node@v6.2.0
 4 verbose run-script [ 'prestart', 'start', 'poststart' ]
 5 info lifecycle memoscope-exp@0.0.0~prestart: memoscope-exp@0.0.0
 6 silly lifecycle memoscope-exp@0.0.0~prestart: no script for prestart, continuing
 7 info lifecycle memoscope-exp@0.0.0~start: memoscope-exp@0.0.0
 8 verbose lifecycle memoscope-exp@0.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle memoscope-exp@0.0.0~start: PATH: /home/vagrant/.nvm/versions/node/v6.1.0/lib/node_modules/npm/bin/node-gyp-bin:/vagrant/memoscope-express/node_modules/.bin:/home/vagrant/.nvm/versions/node/v6.1.0/bin:/usr/local/heroku/bin:/home/vagrant/.nvm/versions/node/v6.1.0/bin:/usr/local/rvm/gems/ruby-2.3.0/bin:/usr/local/rvm/gems/ruby-2.3.0@global/bin:/usr/local/rvm/rubies/ruby-2.3.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/rvm/bin:/opt/vagrant_ruby/bin
-10 verbose lifecycle memoscope-exp@0.0.0~start: CWD: /vagrant/memoscope-express
+9 verbose lifecycle memoscope-exp@0.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/Jordan/lighthouse/lighthouse/memoscope-express/node_modules/.bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:/Users/Jordan/.rvm/bin
+10 verbose lifecycle memoscope-exp@0.0.0~start: CWD: /Users/Jordan/lighthouse/lighthouse/memoscope-express
 11 silly lifecycle memoscope-exp@0.0.0~start: Args: [ '-c', 'nodemon -e pug ./bin/www' ]
 12 silly lifecycle memoscope-exp@0.0.0~start: Returned: code: 1  signal: null
 13 info lifecycle memoscope-exp@0.0.0~start: Failed to exec start script
 14 verbose stack Error: memoscope-exp@0.0.0 start: `nodemon -e pug ./bin/www`
 14 verbose stack Exit status 1
-14 verbose stack     at EventEmitter.<anonymous> (/home/vagrant/.nvm/versions/node/v6.1.0/lib/node_modules/npm/lib/utils/lifecycle.js:239:16)
+14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:245:16)
 14 verbose stack     at emitTwo (events.js:106:13)
 14 verbose stack     at EventEmitter.emit (events.js:191:7)
-14 verbose stack     at ChildProcess.<anonymous> (/home/vagrant/.nvm/versions/node/v6.1.0/lib/node_modules/npm/lib/utils/spawn.js:24:14)
+14 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:24:14)
 14 verbose stack     at emitTwo (events.js:106:13)
 14 verbose stack     at ChildProcess.emit (events.js:191:7)
 14 verbose stack     at maybeClose (internal/child_process.js:850:16)
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
 15 verbose pkgid memoscope-exp@0.0.0
-16 verbose cwd /vagrant/memoscope-express
-17 error Linux 3.2.0-101-generic-pae
-18 error argv "/home/vagrant/.nvm/versions/node/v6.1.0/bin/node" "/home/vagrant/.nvm/versions/node/v6.1.0/bin/npm" "start"
-19 error node v6.1.0
-20 error npm  v3.8.6
+16 verbose cwd /Users/Jordan/lighthouse/lighthouse/memoscope-express
+17 error Darwin 15.5.0
+18 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
+19 error node v6.2.0
+20 error npm  v3.8.9
 21 error code ELIFECYCLE
 22 error memoscope-exp@0.0.0 start: `nodemon -e pug ./bin/www`
 22 error Exit status 1
