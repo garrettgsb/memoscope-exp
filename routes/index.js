@@ -4,7 +4,10 @@ const router = express.Router();
 const Sequelize = require('sequelize');
 var pg = require('pg').native;
 var config = require('../db_config');
-var models = require('../server/models');
+var db = require('../server/models');
+var User = require('../server/models').User;
+var Card = require('../server/models').Card;
+var Deck = require('../server/models').Deck;
 var sequelize = new Sequelize(config.database, config.username, config.password, {
       host: config.host,
       port: config.port,
@@ -26,17 +29,16 @@ router.get('/index', function(req, res, next) {
 sequelize.authenticate()
   .then(function(err) {
     console.log('Database Connection has been established successfully.');
-    console.log('Imported all models');
   })
   .catch(function (err) {
     console.log('Unable to connect to the database:', err);
   });
 
   // now hopefully we should be able to do:
-  // models.user.findById()
-  // models.card.findAll()
-  // models.card.findOrCreate()
-  // models.deck.findOrCreate()
+  // User.findById()
+  // Card.findAll()
+  // Card.findOrCreate()
+  // Deck.findOrCreate()
 
 
 module.exports = router;
