@@ -1,6 +1,5 @@
 {
   "development": {
-
     "username": "development",
     "password": "development",
     "database": "memoscope_database",
