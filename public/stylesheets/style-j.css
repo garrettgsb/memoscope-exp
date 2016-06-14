@@ -8,7 +8,6 @@
   padding: 0;
 }
 
-
 .tile.is-child:hover{
 	/*border: 3px solid steelblue;*/
 	box-shadow: inset 0 0 0 3px steelblue;
@@ -140,6 +139,16 @@ html,body {
 	height: 200px;
 }
 
+.nav-submenu {
+	background-color: white;
+	z-index: 3;
+	border: grey;
+	border-style: solid;
+	border-width: 0 3px 3px 3px;
+	position: fixed;
+	top: 40px;
+}
+
 /* flip speed goes here */
 .flipper {
 	transition: 0.4s;
@@ -155,6 +164,10 @@ html,body {
 	position: absolute;
 	top: 0;
 	left: 0;
+}
+
+.hidden{
+	display: none;
 }
 
 /* front pane, placed above back */
