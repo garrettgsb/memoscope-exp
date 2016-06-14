@@ -1,5 +1,7 @@
 $(function(){
 
+	var $sliderContainer = $('.slider-container');
+
 	//inititialize slider
   $('.slider-container').slick({
 	  centerMode: true,
@@ -36,24 +38,28 @@ $(function(){
 
 	//Slide completion logic
 	$('.slider-container .card-header-icon').on('click', function() {
-		var slideIndex = $(".slider-container").slick("slickCurrentSlide");
+		var slideIndex = $sliderContainer.slick("slickCurrentSlide");
 		var formattedSlide = $('[data-slick-index="'+ slideIndex + '"]');
-		formattedSlide.delay(100).fadeOut(600);
+		formattedSlide.delay(50).fadeOut(600);
     formattedSlide.animate({
       "opacity" : "0",
       },{
       "complete" : function() {
-      	console.log($sliderContainer.slick("slickCurrentSlide"));
 				$('[data-slick-index=' + slideIndex + ']').addClass('slick-center');
-	  		$('.slider-container').slick('slickRemove', slideIndex);
-    var j = 0;
-    $(".slick-slide").each(function(){
-       $(this).attr("data-slick-index",j);
-       j++;
-     });
+	  		$sliderContainer.slick('slickRemove', slideIndex);
+		    var j = 0;
+		    if ($(".slick-slide").length == 0){
+		    	$('.hero-body .has-text-centered').append("<div class='title'>well done.</div>").hide().fadeIn(1400);
+		    	//Load Counters here
+		    }
+		    $(".slick-slide").each(function(){
+       		$(this).attr("data-slick-index",j);
+       		j++;
+     		});
 	  	}
   	});
 	});
+
 	//AfterChange Event
 	// $sliderContainer.on('afterChange', function onSlideChange(slick, currentSlide, slideIndex)
 	// {
