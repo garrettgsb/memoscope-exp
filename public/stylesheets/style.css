@@ -10,9 +10,9 @@ body{
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
+/*a {
   color: #00B7FF;
-}
+}*/
 
 .nav {
 	width: 100%;
@@ -26,6 +26,7 @@ a {
 .hero .container{
 	padding: 20px;
 }
+
 
 .footer{
 	background-color: white;
