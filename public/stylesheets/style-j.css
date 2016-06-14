@@ -142,11 +142,12 @@ html,body {
 .nav-submenu {
 	background-color: white;
 	z-index: 3;
+	position: fixed;
 	border: grey;
 	border-style: solid;
 	border-width: 0 3px 3px 3px;
 	position: fixed;
-	top: 40px;
+	top: 48px;
 }
 
 /* flip speed goes here */

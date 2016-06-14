@@ -8,7 +8,7 @@ $(function(){
 	});
 
 	function deleteCard(card){
-		$(card).delay(100).fadeOut(1000);
+		$(card).delay(50).fadeOut(600);
     $(card).animate({
       "opacity" : "0",
       },{
@@ -22,22 +22,22 @@ $(function(){
 	$('.slider-container .card-header-icon').on('click', function() {
 		var slideIndex = $(".slider-container").slick("slickCurrentSlide");
 		var formattedSlide = $('[data-slick-index="'+ slideIndex + '"]');
-		// console.log(slideIndex, formattedSlide);
-		formattedSlide.delay(100).fadeOut(600);
+		formattedSlide.delay(50).fadeOut(600);
     formattedSlide.animate({
       "opacity" : "0",
       },{
       "complete" : function() {
-      	console.log($sliderContainer.slick("slickCurrentSlide"));
-				// $('[data-slick-index="'+ (slideIndex + 1) + '"]').addClass('slick-center');
 				$('[data-slick-index=' + slideIndex + ']').addClass('slick-center');
-	  		// $('.slider-container').slick('slickRemove', formattedSlide);
 	  		$('.slider-container').slick('slickRemove', slideIndex);
-    var j = 0;
-    $(".slick-slide").each(function(){
-       $(this).attr("data-slick-index",j);
-       j++;
-     });
+		    var j = 0;
+		    if ($(".slick-slide").length == 0){
+		    	$('.hero-body .has-text-centered').append("<div class='title'>well done.</div>").hide().fadeIn(1400);
+		    	//Load Counters here
+		    }
+		    $(".slick-slide").each(function(){
+       		$(this).attr("data-slick-index",j);
+       		j++;
+     		});
 	  	}
   	});
 	});
@@ -81,8 +81,8 @@ $(function(){
 	// Navigation stuff
 	$(".user-nav").hover(function(){
 		$(".user-menu").css({
-			"top": $(".nav").offset().top + $(".nav").outerHeight() -2,
-			"right": 0,
+			// "top": $(".nav").offset().top + $(".nav").outerHeight() -2,
+			"right": 2,
 			"display": "block"
 		})
 	}, function(){
@@ -98,7 +98,7 @@ $(function(){
 
 	$(".deck-nav").hover(function(){
 		$(".deck-menu").css({
-			"top": $(".nav").offset().top + $(".nav").outerHeight() -2,
+			// "top": $(".nav").offset().top + $(".nav").outerHeight() -2,
 			"left": $(".deck-nav").offset().left,
 			"display": "block"
 		})
@@ -115,7 +115,7 @@ $(function(){
 
 	$(".card-nav").hover(function(){
 		$(".card-menu").css({
-			"top": $(".nav").offset().top + $(".nav").outerHeight() -2,
+			// "top": $(".nav").offset().top + $(".nav").outerHeight() -2,
 			"left": $(".card-nav").offset().left,
 			"display": "block"
 		})
