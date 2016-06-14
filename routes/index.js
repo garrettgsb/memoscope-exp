@@ -15,6 +15,13 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
       native: config.native
     });
 
+User.findById(1).then(
+  function(user){
+    var user_name = user.username;
+    console.log('Current user is: ' + user_name);
+});
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Memoscope' });
