@@ -1,28 +1,182 @@
-.hero-head {
-  /*padding-top: 50px;*/
-/*  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
+Layout Containers*/
+
+html,body{
+	margin:0;
+	padding:0;
+	background-color: white;
+	height:100%; 
 }
 
-/*a {
-  color: #00B7FF;
-}*/
+#header{
+	/*padding-top: 50px;*/
+  background: white;
+}
+
+#content{
+	padding-bottom: 20px;
+}
+
+#footer{
+	position: absolute;
+	width:100%;
+	bottom:0;
+	background:#ddd;
+}
+/*----------------------------------*/
+/*Navbar and Footer*/
 
 .nav {
 	width: 100%;
 	border-bottom: 2px solid grey;
+	width: 100%;
 }
+
+.nav-submenu{
+	background-color: white;
+	z-index: 3;
+	border: grey;
+	border-style: solid;
+	border-width: 0 3px 3px 3px;
+	position: fixed;
+	top: 40px;
+}
+
 .footer{
 	background-color: white;
 	border-top: 2px solid grey;
+	padding: 20px 40px;
+	bottom: 0;
+	width:100%;
+	position: relative;
 }
+/*--------------------------------*/
+/*Section Navigation*/
+
+.anchor-nav{
+	top: 42.5%;
+	z-index: 2;
+	right: 0px;
+	text-align: center;
+	margin: auto;
+	align-items: center;
+	align: center;
+	position: fixed;
+}
+
+.anchor-nav > .nav-circle{
+	display: block;
+}
+
+#section3{
+	padding-bottom: 50px;
+}
+
+.nav-circle{
+	width: 20px;
+	height: 20px;
+	border: 2px solid #69707a;
+	border-radius: 100px;
+	margin: 10px;
+}
+
+.nav-circle:hover{
+	border: 3px solid purple;
+}
+
+.unselected{
+	background-color: white !important;
+}
+/*------------------------------------*/
+/*Slick*/
+
+.slick-center .flip-container .flipper{
+	transform: rotateY(180deg);
+}
+
+.slick-center .card-header-title{
+	color: orange;
+}
+
+/*--------------------------------------*/
+/*Flip*/
+
+.flip-container, .front, .back{
+	width: 320px;
+	height: 200px;
+}
+
+.flip-container{
+	perspective: 1000px;
+}
+
+.card-dimensions{
+	height: 200px;
+}
+
+.flipper{
+	transition: 0.4s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+.front, .back{
+	backface-visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.front{
+	z-index: 2;
+	transform: rotateY(0deg);
+}
+
+.back{
+	transform: rotateY(180deg);
+}
+/*---------------------------------------------*/
+/*ProgressBar*/
+
+.progress-container{
+	height:300px;
+	top: 0;
+	left: 0;
+  z-index: 6;
+  align: center;
+  vertical-align: top;	
+}
+
+.progress {
+  margin-top: 5%;
+  margin-left: 12.5%;
+  position: absolute;
+  width: 75%;
+  height: 75%;
+}
+.progress > svg {
+  height: 100%;
+  display: block;
+}
+/*#progress2{
+  margin-top: 5%;
+  margin-left: 12.5%;
+  position: absolute;
+  width: 75%;
+  height: 75%;
+}
+#progress3{
+  margin-top: 5%;
+  margin-left: 12.5%;
+  position: absolute;
+  width: 75%;
+  height: 75%;*/
+}
+/*----------------------------------------------*/
+/*Assorted*/
 
 .hero .container{
 	padding: 20px;
-}
-
-.footer{
-	background-color: white;
-	border-top: 3px solid grey;
 }
 
 .container.is-fluid{
@@ -37,6 +191,7 @@
   margin-left: auto;
   margin-right: auto;
 }
+
 #card2{
 	position: relative;
 	left: +30px;
@@ -44,4 +199,59 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.container.has-text-centered.fullwidth{
+	position: fixed;
+	margin-left: auto;
+  margin-right: auto;
+	z-index: 0;
+  left: 0;
+  right: 0;
+  padding: 0;
 }
+
+.tile.is-child:hover{
+	box-shadow: inset 0 0 0 3px steelblue;
+}
+
+.hero.is-fullheight .hero-body{
+	padding-top: -48px;
+}
+
+.modal-content{
+	margin-top: 15%;
+	vertical-align: middle;
+	/*z-index: 300;*/
+}
+
+#container{
+	position:relative;
+	height:auto !important;
+	min-height:100%;
+}
+.divider{
+	margin-left: 10%; 
+	margin-right: 10%;
+}
+
+.primary-color{
+	background-color: steelblue;
+}
+
+.secondary-color{
+	background-color: tomato;
+}
+
+.tertiary-color{
+	background-color: seagreen;
+}
+
+
+.background-div{
+	position: absolute;
+}
+
+.hidden{
+	display: none;
+}
+/*--------------------------------------
