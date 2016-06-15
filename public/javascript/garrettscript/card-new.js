@@ -66,7 +66,6 @@ function highlightMode(){
     updateHighlight("highlighter-yellow");
   });
 
-
   function updateHighlight(color){
     // assume that we have the variable "selection" from some previous step
     //  (selection is from 'selection = window.getSelection()')
@@ -175,10 +174,27 @@ function highlightText(color){
                   + fullText.slice(end+1);
   $("h5").html(newString);
   console.log(newString);
-
 }
 
-
+function sendErOff() {
+  //TODO: When multiple users are a thing,
+  //      include UserId in the JSON.
+  var cardContent = $("#card-content").html();
+  var deck = $("select").val();
+  var returnVal = JSON.stringify({
+    content: cardContent,
+    deck: deck,
+    userId: 1
+  });
+  $.ajax({
+    type: 'post',
+    data: returnVal,
+    url: '/cards/create',
+    contentType: 'application/json',
+    dataType: 'json'
+  });
+  console.log(returnVal);
+}
 
 
 
@@ -203,6 +219,25 @@ $(".highlight-light").on('click', function(){
   console.log("Clicked highlight button");
   highlightMode()
 });
+
+$("#submit-button").on('click', function(){
+  return sendErOff();
+})
+
+
+// Writing a new deck in the text box and clicking "add"
+// will add it to the list of decks and select it automatically.
+// Then it follows the same flow as a regular deck selection
+// when submitted.
+$("#add-new-deck").on('click', function(){
+  if ($("#add-deck-name").val()) {
+  console.log(`Clicked with ${$("#add-deck-name")}`);
+  var newDeckName = $("#add-deck-name").val();
+  console.log(newDeckName);
+  $("select").append(`<option>${newDeckName}</option>`);
+  $("select").val(newDeckName);
+};
+})
 
 // Create the highlighter panel, but don't
 // render it until the button is clicked.

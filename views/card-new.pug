@@ -30,14 +30,14 @@ block content
 				p.control.has-addons.has-addons-centered
 					span.select
 						select
-							option Add to Existing Decks (Default)
+							option (No Deck)
 							option Poem Quotes
 							option Another Deck
-					input.input(type='text', placeholder='Or Enter Deck Name')
-					a.button.is-primary
+					input.input#add-deck-name(type='text', placeholder='Or Enter Deck Name')
+					a.button.is-primary#add-new-deck
 						| Add
 		.tile.is-parent.center
-			.tile.is-child.box
+			.tile.is-child.box#submit-button
 				a.button.is-success
 					span.icon
 						i.fa.fa-check

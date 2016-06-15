@@ -23,13 +23,6 @@ const notification = require('./routes/notification');
 const decks = require('./routes/decks');
 
 const app = express();
-//tryint to see what the fuck is wrong with the server:
-// app.listen(3000, function() {
-//     console.log("The frontend server is running on port 5000!");
-// });
-//
-
-
 
 
 
