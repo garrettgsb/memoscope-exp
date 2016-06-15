@@ -38,7 +38,7 @@ $(function(){
 
 	//Slide completion logic
 	$('.slider-container .card-header-icon').on('click', function() {
-		var slideIndex = $sliderContainer.slick("slickCurrentSlide");
+		var slideIndex = $(".slider-container").slick("slickCurrentSlide");
 		var formattedSlide = $('[data-slick-index="'+ slideIndex + '"]');
 		formattedSlide.delay(50).fadeOut(600);
     formattedSlide.animate({
@@ -46,7 +46,7 @@ $(function(){
       },{
       "complete" : function() {
 				$('[data-slick-index=' + slideIndex + ']').addClass('slick-center');
-	  		$sliderContainer.slick('slickRemove', slideIndex);
+	  		$('.slider-container').slick('slickRemove', slideIndex);
 		    var j = 0;
 		    if ($(".slick-slide").length == 0){
 		    	$('.hero-body .has-text-centered').append("<div class='title'>well done.</div>").hide().fadeIn(1400);
