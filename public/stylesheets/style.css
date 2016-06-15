@@ -1,4 +1,4 @@
-Layout Containers*/
+/*Layout Containers*/
 
 html,body{
 	margin:0;
@@ -28,6 +28,7 @@ html,body{
 .nav {
 	width: 100%;
 	border-bottom: 2px solid grey;
+	z-index: 3;
 	width: 100%;
 }
 
@@ -37,7 +38,7 @@ html,body{
 	border: grey;
 	border-style: solid;
 	border-width: 0 3px 3px 3px;
-	position: fixed;
+	position: absolute;
 	top: 40px;
 }
 
@@ -137,41 +138,40 @@ html,body{
 }
 /*---------------------------------------------*/
 /*ProgressBar*/
-
+/*When resizing, only resize the container, and keep it square.*/
 .progress-container{
+	padding-top: 50px;
+	position: absolute;
+	width: 300px;
 	height:300px;
 	top: 0;
 	left: 0;
-  z-index: 6;
-  align: center;
-  vertical-align: top;	
+  z-index: 2;
+  vertical-align: middle;	
 }
 
 .progress {
-  margin-top: 5%;
+  margin-top: 12.5%;
   margin-left: 12.5%;
   position: absolute;
   width: 75%;
   height: 75%;
 }
+
 .progress > svg {
   height: 100%;
   display: block;
 }
-/*#progress2{
-  margin-top: 5%;
-  margin-left: 12.5%;
-  position: absolute;
-  width: 75%;
-  height: 75%;
+
+.progTitle{
+	z-index: 7;
+	color: white;
+	position: absolute;
+	text-align: center;
+	line-height: 450%;
+	width: 100%
 }
-#progress3{
-  margin-top: 5%;
-  margin-left: 12.5%;
-  position: absolute;
-  width: 75%;
-  height: 75%;*/
-}
+
 /*----------------------------------------------*/
 /*Assorted*/
 
