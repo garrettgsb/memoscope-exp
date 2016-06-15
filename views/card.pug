@@ -4,19 +4,11 @@
 			.back
 				.card.is-6
 					header.card-header
-						p.card-header-title
-							| Component
+						p.card-header-title= post.deck_id.name
 						a.card-header-icon
 							i.fa.fa-angle-down
 					.card-content
-						.content
-							| Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. 
-							a(href='/decks') @bulmaio
-							| . 
-							a(href='/decks') #css
-							a(href='/decks') #responsive
-							br
-							small 11:09 PM - 1 Jan 2016
+						.content= post.content
 					footer.card-footer
 						a.card-footer-item Save
 						a.card-footer-item Edit
@@ -24,4 +16,4 @@
 			.front
 				.card.is-6.card-dimensions
 					.myCard
-						img(src="http://i.imgur.com/QKm8xnW.png")
+						img(src="/images/logo.png")

@@ -1,6 +1,11 @@
-.tile.is-parent
-	a(href='/notification')
-	article.tile.is-child.notification.is-info
-		p.title Deck Name
-		p.subtitle Deck Description
-		.content
+extends layout
+
+block content
+	.hero.has-text-centered
+		.hero-head
+			.container
+				h1.title= deck.name
+				h2.subtitle= deck.decription
+	hr.divider
+		each card in cards
+			include card.pug
