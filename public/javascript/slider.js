@@ -8,8 +8,8 @@ $(function(){
 	  centerPadding: '40px',
 	  slidesToShow: 3,
 	  infinite: false,
-	  nextArrow: "<a class='button is-primary'>Next</a>",
-	  prevArrow: "<a class='button is-primary'>Previous</a>",
+	  nextArrow: "<a class='button is-primary next-arrow'>Next</a>",
+	  prevArrow: "<a class='button is-primary prev-arrow'>Previous</a>",
 	  responsive: [
 	    {
 	      breakpoint: 768,
@@ -31,6 +31,27 @@ $(function(){
 	    }
 	  ]
 	});	
+	
+	// $('.slick-arrow').click(function(){
+	// 	var slideIndex = $sliderContainer.slick("slickCurrentSlide");
+	// 	console.log(slideIndex);
+	// 	disableArrows(slideIndex);
+	// });
+
+
+	// function disableArrows(slideIndex){
+	// 	if(slideIndex == 0){
+	// 		$('prev-arrow').addClass('disabled');
+	// 	}else{
+	// 		$('prev-arrow').removeClass('disabled');
+	// 	}
+	// 	if(slideIndex == $('.slick-slide').length){
+	// 		$('next-arrow').addClass('disabled');
+	// 	}else{
+	// 		$('next-arrow').removeClass('disabled');
+	// 	}	
+	// }
+
 
 
   //Find out how to give div focus on pageload

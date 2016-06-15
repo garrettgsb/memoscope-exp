@@ -11,11 +11,11 @@
  background-color: var(--bg-dark);
 }
 
-.footer{
+/*.footer{
   bottom: 0;
   position: fixed;
   width: 100%;
-}
+}*/
 
 .bubble {
   border-style: solid;
