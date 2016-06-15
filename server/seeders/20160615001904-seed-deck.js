@@ -1,19 +1,22 @@
 'use strict';
 
-
 module.exports = {
   up: function (queryInterface, Sequelize) {
-
-    return queryInterface.bulkInsert('Users', [{
+    
+    return queryInterface.bulkInsert('Decks', [{
       id: 1,
-      username: 'joe',
-      password: 'schmo'
+      UserId: 1,
+      content: 'Poem Quotes'
     }], {});
   },
 
+
+
   down: function (queryInterface, Sequelize) {
-    
-    return queryInterface.bulkDelete('Users', null, {});
+
+    return queryInterface.bulkDelete('Decks', null, {});
+
+
 
   }
 };
