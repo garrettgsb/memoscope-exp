@@ -24,7 +24,6 @@ module.exports = {
         next_notification_time: null,
         createdAt: '2016-06-14T12:02:00',
         updatedAt: '2016-06-14T12:03:00'}
-
     ], {});
   },
 
