@@ -5,9 +5,5 @@ block content
 		.hero-body
 			.container.has-text-centered
 				.slider-container
-					include card.pug
-					include card.pug
-					include card.pug
-					include card.pug
-					include card.pug
-					include card.pug
+					each card in cards
+						include card.pug
