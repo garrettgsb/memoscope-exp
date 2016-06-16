@@ -24,6 +24,57 @@ router.get('/users', function (req, res) {
   })
 });
 
+// CARD ROUTES
+router.get('/cards', function(req, res){
+  queryParams('SELECT * FROM cards WHERE user_id = $1',
+              [req.session.user_id],
+              function(err, myCards){
+              res.send({cards: myCards});
+            });
+});
+
+router.get('/cards/new', function(req,res){
+  res.render('cards-new', { title: "New Card" });
+});
+
+router.post('/cards/new', function(req,res){
+  // Put a new card into the database
+});
+
+router.get('/cards/:id', function(req, res){
+  queryParams('SELECT * FROM cards WHERE id = $1',
+             [req.params.id], function(err, myCard){
+             res.send({card: myCard});
+   })
+});
+
+router.put('/cards/:id', function(req, res){
+  // Submit edited card data
+});
+
+// DECK ROUTES
+router.get('/decks', function(req, res){
+  // Show all user decks
+});
+
+router.put('/decks', function(req,res){
+  //TODO: Come up with proper data endpoints from Request
+  queryParams('INSERT INTO decks (name, user_id) VALUES($1, $2)',
+              [req.deckName, req.userId],
+              function(err, return) {
+                router.get('/decks'); // I guess. I dunno.
+              }
+});
+
+router.get('/decks/:id', function(req,res){
+
+
+});
+
+
+
+
+
 //neeed to create these views
 router.get('/users/new', function (req, res) {
   res.redirect('/users/new' + result.rows[0].id);
