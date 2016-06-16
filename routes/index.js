@@ -4,7 +4,6 @@ const router = express.Router();
 // database initialization
 var pg = require('pg').native;
 const connectionString = "postgres://development:development@localhost/memoscope";
-
 function queryParams(sql, params, cb) {
   pg.connect(connectionString, function(err, db, done) {
     if (err) return cb(err);
@@ -15,7 +14,6 @@ function queryParams(sql, params, cb) {
     });
   });
 }
-
 //neeed to create these views
 router.get('/users', function (req, res) {
   queryParams('SELECT * FROM users;', [], function (err, users) {
@@ -53,18 +51,27 @@ router.put('/cards/:id', function(req, res){
 });
 
 // DECK ROUTES
-router.get('/decks', function(req, res){
-  // Show all user decks
+router.get('/decks/new', function(req, res){
+  res.render('deck-new', { user_id: 1 });
 });
 
-router.put('/decks', function(req,res){
-  //TODO: Come up with proper data endpoints from Request
-  queryParams('INSERT INTO decks (name, user_id) VALUES($1, $2)',
-              [req.deckName, req.userId],
-              function(err, return) {
-                router.get('/decks'); // I guess. I dunno.
-              }
+router.post('/decks/new', function(req, res){
+  queryParams('INSERT INTO decks (name,user_id,created_at,modified_at) VALUES ($1,$2,current_timestamp,current_timestamp);', 
+    [req.body.deck_name, req.body.user_id], 
+    function (err, result) {
+      if (err) return console.log(err);
+      res.send(JSON.stringify(req.body));
+    })
 });
+
+// router.put('/decks', function(req,res){
+//   //TODO: Come up with proper data endpoints from Request
+//   queryParams('INSERT INTO decks (name, user_id) VALUES($1, $2)',
+//               [req.deckName, req.userId],
+//               function(err, return) {
+//                 router.get('/decks'); // I guess. I dunno.
+//               }
+// });
 
 router.get('/decks/:id', function(req,res){
 
