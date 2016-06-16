@@ -37,6 +37,7 @@ function highlightMode(){
   var cc_element = $("#card-content");
   var cc_text = cc_element.text();
   var rangeSet = [[0, cc_text.length, null]]; // overwrite old highlight rules, if any
+  var answer = [];
 
   $("#card-content").on('mouseup', function(e) {
     if(e.target == $("#card-content")) {
@@ -182,9 +183,9 @@ function sendErOff() {
   var cardContent = $("#card-content").html();
   var deck = $("select").val();
   var returnVal = JSON.stringify({
-    content: cardContent,
+    content_html: cardContent,
     deck: deck,
-    userId: 1
+    user_id: 1 //TODO: Replace with actual session ID... Or delete, depending on how we implement it.
   });
   $.ajax({
     type: 'post',
@@ -221,7 +222,7 @@ $(".highlight-light").on('click', function(){
 });
 
 $("#submit-button").on('click', function(){
-  return sendErOff();
+  sendErOff();
 })
 
 

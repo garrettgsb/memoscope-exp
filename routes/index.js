@@ -3,6 +3,7 @@ const router = express.Router();
 
 // database initialization
 var pg = require('pg').native;
+
 const connectionString = "postgres://development:development@localhost/memoscope";
 
 function queryParams(sql, params, cb) {
@@ -14,6 +15,23 @@ function queryParams(sql, params, cb) {
       cb(null, result);
     });
   });
+}
+
+function findOrCreateDeck(deck, cb){
+  var deck_id = "thing";
+  queryParams("SELECT * FROM decks WHERE id = $1", [deck],
+    function(err, result){
+      if (result.rows[0]) {
+        console.log(`Result is: ${result.rows[0].id}`);
+        cb(null, result.rows[0].id)
+      }
+      else {
+        console.log("Not found :\\");
+        cb("Not found")
+        // Create card, and return that buddy's ID.
+      }
+    })
+  // return deck_id
 }
 
 //neeed to create these views
@@ -37,14 +55,26 @@ router.get('/cards/new', function(req,res){
   res.render('cards-new', { title: "New Card" });
 });
 
-router.post('/cards/new', function(req,res){
+router.post('/cards/create', function(req,res){
   // Put a new card into the database
+  console.log(req.body.content_html);
+  console.log(req.body.deck);
+  console.log(req.body.user_id); // User ID currently hard coded to 1
+  content_html = req.body.content_html;
+  deck_id = 1;
+
+  queryParams('INSERT INTO cards (deck_id, content_html, orbit, notify_at, created_at, modified_at) VALUES ($1, $2, 0, current_timestamp, current_timestamp, current_timestamp)',
+              [deck_id, req.body.content_html],
+              function(err, redirect){
+                if (err) { console.log(err) };
+                router.get('/');
+              });
 });
 
 router.get('/cards/:id', function(req, res){
   queryParams('SELECT * FROM cards WHERE id = $1',
              [req.params.id], function(err, myCard){
-             res.send({card: myCard});
+             res.send({card: myCard});d
    })
 });
 
@@ -61,9 +91,9 @@ router.put('/decks', function(req,res){
   //TODO: Come up with proper data endpoints from Request
   queryParams('INSERT INTO decks (name, user_id) VALUES($1, $2)',
               [req.deckName, req.userId],
-              function(err, return) {
+              function(err, data) {
                 router.get('/decks'); // I guess. I dunno.
-              }
+              });
 });
 
 router.get('/decks/:id', function(req,res){
