@@ -27,8 +27,7 @@ function queryParams(sql, params, cb) {
     });
   });
 }
-<<<<<<< HEAD
-=======
+
 
 function findOrCreateDeck(deck, cb){
   var deck_id = "thing";
@@ -47,7 +46,7 @@ function findOrCreateDeck(deck, cb){
   // return deck_id
 }
 
->>>>>>> deb13ed5b5ebdea0342d4ee4876341a9508a2138
+
 //neeed to create these views
 router.get('/users', function (req, res) {
   queryParams('SELECT * FROM users;', [], function (err, users) {
