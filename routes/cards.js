@@ -5,11 +5,11 @@ const router = express.Router();
 
 
 router.get('/', function(req, res, next) {
-  res.render('cards', { title: 'All Cards Information' });
+  res.render('cards', { title: 'All Cards Information', username: req.session.username});
 });
 
 router.get('/new', function(req, res, next) {
-  res.render('card-new', { title: 'User Information'} );
+  res.render('card-new', { title: 'User Information', username: req.session.username} );
 });
 
 module.exports = router;
