@@ -127,8 +127,8 @@
   height: 300px;
 }
 
-.dash-dropdown {
-  top: 0;
+.dash-content {
+  position: fixed;
 }
 
 .dash-hidden {

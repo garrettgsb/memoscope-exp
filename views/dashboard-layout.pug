@@ -9,7 +9,7 @@ block content
 	link(rel='stylesheet', href='/stylesheets/style-g.css')
 	link(rel='stylesheet', href='/stylesheets/style-j.css')
 	link(rel='stylesheet', href='/stylesheets/style-s.css')
-	.container.opening.hide-UI.view-2D.zoom-large.data-close.controls-close
+	.container
 		.columns.is-fullheight(style="margin:120px;")
 			.column.is-3
 				nav.panel.box
@@ -17,88 +17,94 @@ block content
 					a.panel-block.button.is-info.is-fullwidth#trigger_notification
 						span.icon
 							i.fa.fa-space-shuttle
-						span Notifications
-					a.panel-block.is-active(href="#")
+						span Notifications (0)
+					a.panel-block.is-active.dash-display#dash-new-card-link(href="#")
 						span.panel-icon
 							i(class="fa fa-space-shuttle")
 						p New Card
-					a.panel-block.is-active(href="#")
+					a.panel-block.is-active.dash-display#dash-manage-cards-link(href="/cards")
 						span.panel-icon
 							i(class="fa fa-space-shuttle")
 						p Manage Cards
-					a.panel-block.is-active(href="#")
+					a.panel-block.is-active.dash-display#dash-manage-decks-link(href="/decks")
 						span.panel-icon
 							i(class="fa fa-space-shuttle")
 						p Manage Decks
-			.column
+					a.panel-block.is-active.dash-display#dash-stats-link(href="/#")
+						span.panel-icon
+							i(class="fa fa-space-shuttle")
+						p Stats
+			.column.dash_content#dash-new-card-content.dash-hidden
+				include card-new-dashboard.pug
+			.column.dash_content#dash-visualization
 				#universe.scale-stretched
 					#galaxy
-					#solar-system.earth
-						#mercury.orbit
-							.pos
+						#solar-system.earth
+							#mercury.orbit
+								.pos
 								.planet
 									dl.infos
 										dt Mercury
 										dd
 											span
-						#venus.orbit
-							.pos
-								.planet
-									dl.infos
-										dt Venus
-										dd
-											span
-						#earth.orbit
-							.pos
-								.orbit
-									.pos
-										.moon
-								.planet
-									dl.infos
-										dt Earth
-										dd
-											span
-						#mars.orbit
-							.pos
-								.planet
-									dl.infos
-										dt Mars
-										dd
-											span
-						#jupiter.orbit
-							.pos
-								.planet
-									dl.infos
-										dt Jupiter
-										dd
-											span
-						#saturn.orbit
-							.pos
-								.planet
-									.ring
-									dl.infos
-										dt Saturn
-										dd
-											span
-						#uranus.orbit
-							.pos
-								.planet
-									dl.infos
-										dt Uranus
-										dd
-											span
-						#neptune.orbit
-							.pos
-								.planet
-									dl.infos
-										dt Neptune
-										dd
-											span
-						#sun
-							dl.infos
-								dt Sun
-								dd
-									span
+							#venus.orbit
+								.pos
+									.planet
+										dl.infos
+											dt Venus
+											dd
+												span
+							#earth.orbit
+								.pos
+									.orbit
+										.pos
+											.moon
+									.planet
+										dl.infos
+											dt Earth
+											dd
+												span
+							#mars.orbit
+								.pos
+									.planet
+										dl.infos
+											dt Mars
+											dd
+												span
+							#jupiter.orbit
+								.pos
+									.planet
+										dl.infos
+											dt Jupiter
+											dd
+												span
+							#saturn.orbit
+								.pos
+									.planet
+										.ring
+										dl.infos
+											dt Saturn
+											dd
+												span
+							#uranus.orbit
+								.pos
+									.planet
+										dl.infos
+											dt Uranus
+											dd
+												span
+							#neptune.orbit
+								.pos
+									.planet
+										dl.infos
+											dt Neptune
+											dd
+												span
+							#sun
+								dl.infos
+									dt Sun
+									dd
+										span
 
 block scripts
 	script(src="/javascript/garrettscript/card-new.js")
