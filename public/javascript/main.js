@@ -59,3 +59,31 @@ window.onload = function onLoad() {
     mediumCircle.animate(1);
     circle.animate(1);
 };
+
+// Notification Functions
+
+function generateNotification(message) {
+	var options = {
+		body: message,
+		icon: "http://www.marismith.com/wp-content/uploads/2013/07/One-Thing-Remember-Shutterstock.jpg",
+	}
+	var n = new Notification('Memoscope', options);
+	setTimeout(n.close.bind(n), 10000);
+}
+
+
+
+
+function notifyMe(message) {
+	if (!("Notification" in window)) {
+		alert("This browser does not support desktop notification");
+	}else if (Notification.permission === "granted") {
+		generateNotification(message);
+	}else if (Notification.permission !== 'denied') {
+		Notification.requestPermission(function (permission) {
+			if (permission === "granted") {
+				generateNotification(message);
+			}
+		});
+	}
+};

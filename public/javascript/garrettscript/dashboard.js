@@ -9,4 +9,9 @@ $(document).ready(function(){
     var content = $(this).children()[1]
     $(content).toggleClass("dash-hidden");
   });
+
+  $("#trigger_notification").on("click", function(){
+    console.log("Click");
+    notifyMe("Woohoo!");
+  })
 });

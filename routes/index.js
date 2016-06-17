@@ -27,10 +27,6 @@ function queryParams(sql, params, cb) {
     });
   });
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 2557f881d0a90b2553f57a218f17d739c6127f0a
 
 function findOrCreateDeck(deck, cb){
   var deck_id = "thing";
