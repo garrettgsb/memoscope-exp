@@ -3,18 +3,30 @@ extends layout
 block content
 	.section
 		.container
-			div.columns
-				div.column.notification.is-info.dash-drop#newCard
-					heading
-						p first
-					content
-						include card-new-dashboard.pug
+			.columns
+				.column.is-3
+					nav.panel
+						p.panel-heading Take A Look Through My Memoscope
+						a.panel-block.button.is-info.is-fullwidth
+							span.icon
+								i.fa.fa-space-shuttle
+							span Notifications
+						a.panel-block.is-active(href="#")
+							span.panel-icon
+								i(class="fa fa-space-shuttle")
+							p New Card
+						a.panel-block.is-active(href="#")
+							span.panel-icon
+								i(class="fa fa-space-shuttle")
+							p Manage Cards
+						a.panel-block.is-active(href="#")
+							span.panel-icon
+								i(class="fa fa-space-shuttle")
+							p Manage Decks
+				.column
+					.box.notification.is-info
+						include all-cards-dashboard.pug
 
-				div.column.is-offset-1.notification.is-success.dash-drop#notifications
-					heading
-						p second
-					content
-						p You have one trillion notifications.
 
 block scripts
 	script(src="/javascript/garrettscript/dashboard.js")

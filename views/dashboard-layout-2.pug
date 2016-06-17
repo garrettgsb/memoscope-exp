@@ -1,0 +1,20 @@
+extends layout
+
+block content
+	.container.dash-dropdown
+		div.columns
+			div.column.notification.is-info.dash-drop#newCard
+				heading
+					h2 New Card
+				content
+					include card-new-dashboard.pug
+
+			div.column.is-offset-1.notification.is-success.dash-drop#notifications
+				heading
+					h2 Notifications
+				content
+					include all-cards-dashboard.pug
+
+block scripts
+	script(src="/javascript/garrettscript/dashboard.js")
+	script(src="/javascript/garrettscript/card-new.js")

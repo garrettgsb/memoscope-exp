@@ -5,4 +5,8 @@ $(document).ready(function(){
     var text = $(this).text();
     $(this).html(text);
   });
+  $(".dash-drop").on('click', function(){
+    var content = $(this).children()[1]
+    $(content).toggleClass("dash-hidden");
+  });
 });
