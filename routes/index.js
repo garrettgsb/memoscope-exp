@@ -105,13 +105,8 @@ router.put('/cards/:id', function(req, res){
 
 // DECK ROUTES
 
-router.put('/decks', function(req,res){
-  //TODO: Come up with proper data endpoints from Request
-  queryParams('INSERT INTO decks (name, user_id) VALUES($1, $2)',
-              [req.deckName, req.userId],
-              function(err, data) {
-                router.get('/decks'); // I guess. I dunno.
-              });
+router.get('/decks/new', function(req, res){
+  res.render('deck-new', { user_id: req.session.user_id });
 });
 
 router.post('/decks/new', function(req, res){
@@ -133,13 +128,13 @@ router.post('/decks/new', function(req, res){
 //               }
 // });
 
-router.get('/decks/:id', function(req,res){
-    queryParams('SELECT * FROM decks WHERE id =$1',
-    [req.params.id], function(err,myDeck){
-      console.log("myDeck: ", myDeck)
-    res.render('deck', {title: 'deck', card: myDeck})
-    });
-});
+// router.get('/decks/:id', function(req,res){
+//     queryParams('SELECT * FROM decks WHERE id =$1',
+//     [req.params.id], function(err,myDeck){
+//       console.log("myDeck: ", myDeck)
+//     res.render('deck', {title: 'deck', card: myDeck})
+//     });
+// });
 
 router.get('/dashboard', function(req,res){
     queryParams('SELECT * FROM cards',
@@ -149,12 +144,12 @@ router.get('/dashboard', function(req,res){
     });
 
 });
-router.get('/user/decks', function(req, res){
-  queryParams('SELECT * FROM decks WHERE decks.user_id = $1', [req.session.user_id],
-    function(err, myDecks){
-      res.render('decks', {decks: myDecks.rows});
-    });
-});
+// router.get('/user/decks', function(req, res){
+//   queryParams('SELECT * FROM decks WHERE decks.user_id = $1', [req.session.user_id],
+//     function(err, myDecks){
+//       res.render('decks', {decks: myDecks.rows});
+//     });
+// });
 //neeed to create these views
 router.get('/users/new', function (req, res) {
   res.redirect('/users/new' + result.rows[0].id);
