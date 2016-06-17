@@ -120,3 +120,13 @@
 .yellow-mark {
   background-color: var(--highlighter-yellow)
 }
+
+/* Dashboard */
+
+.dash-stretch {
+  height: 300px;
+}
+
+.dash-dropdown {
+  top: 0;
+}

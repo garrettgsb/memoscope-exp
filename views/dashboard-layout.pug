@@ -1,0 +1,21 @@
+extends layout
+
+block content
+	.section
+		.container
+			div.columns
+				div.column.notification.is-info.dash-drop#newCard
+					heading
+						p first
+					content
+						include card-new-dashboard.pug
+
+				div.column.is-offset-1.notification.is-success.dash-drop#notifications
+					heading
+						p second
+					content
+						p You have one trillion notifications.
+
+block scripts
+	script(src="/javascript/garrettscript/dashboard.js")
+	script(src="/javascript/garrettscript/card-new.js")

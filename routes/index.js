@@ -27,8 +27,6 @@ function queryParams(sql, params, cb) {
     });
   });
 }
-<<<<<<< HEAD
-=======
 
 function findOrCreateDeck(deck, cb){
   var deck_id = "thing";
@@ -47,7 +45,6 @@ function findOrCreateDeck(deck, cb){
   // return deck_id
 }
 
->>>>>>> deb13ed5b5ebdea0342d4ee4876341a9508a2138
 //neeed to create these views
 router.get('/users', function (req, res) {
   queryParams('SELECT * FROM users;', [], function (err, users) {
@@ -116,8 +113,8 @@ router.put('/decks', function(req,res){
 });
 
 router.post('/decks/new', function(req, res){
-  queryParams('INSERT INTO decks (name,user_id,created_at,modified_at) VALUES ($1,$2,current_timestamp,current_timestamp);', 
-    [req.body.deck_name, req.body.user_id], 
+  queryParams('INSERT INTO decks (name,user_id,created_at,modified_at) VALUES ($1,$2,current_timestamp,current_timestamp);',
+    [req.body.deck_name, req.body.user_id],
     function (err, result) {
       if (err) return console.log(err);
       res.send(JSON.stringify(req.body));
@@ -146,7 +143,7 @@ router.get('/dashboard', function(req,res){
     queryParams('SELECT * FROM cards',
     [], function(err,myCards){
       console.log("myCards: ", myCards.rows)
-    res.render('dashboard', {title: 'dashboard', cards: myCards.rows})
+    res.render('dashboard-layout', {title: 'dashboard', cards: myCards.rows})
     });
 
 });
