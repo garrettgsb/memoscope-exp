@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const pg = require('pg');
-var dotenv  = require('dotenv');
 
 // These reference all TOP DIRECTORY routes.
 // To add sub-routes, add them to the relevant

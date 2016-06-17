@@ -16,6 +16,49 @@ app.use(session({secret: "stringofwords",
     saveUninitialized: true
     }));
 
+function setOrbitTime(orbit){
+  switch(orbit){
+    case 0:
+      return null;
+      break;
+    case 1:
+      return 5;
+      break;
+    case 2:
+      return 25;
+      break;
+    case 3:
+      return 120;
+      break;
+    case 4:
+      return 600;
+      break;
+    case 5:
+      return 3600;
+      break;
+    case 6:
+      return 3600 * 5;
+      break;
+    case 7:
+      return 3600 * 24;
+      break;
+    case 8: 
+      return 3600 * 24 * 5;
+      break;
+    case 9:
+      return 3600 * 24 * 25;
+      break;
+    case 10:
+      return 3600 * 24 * 30 * 4;
+      break;
+    default:
+      return null;
+  }
+}
+
+function setNotification(card){
+card.notify_at = setOrbitTime(card.orbit) + date.getTime();
+}
 
 function queryParams(sql, params, cb) {
   pg.connect(connectionString, function(err, db, done) {
@@ -27,8 +70,6 @@ function queryParams(sql, params, cb) {
     });
   });
 }
-<<<<<<< HEAD
-=======
 
 function findOrCreateDeck(deck, cb){
   var deck_id = "thing";
@@ -47,7 +88,6 @@ function findOrCreateDeck(deck, cb){
   // return deck_id
 }
 
->>>>>>> deb13ed5b5ebdea0342d4ee4876341a9508a2138
 //neeed to create these views
 router.get('/users', function (req, res) {
   queryParams('SELECT * FROM users;', [], function (err, users) {
