@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+ <meta charset="utf-8" />
+ <title>Document</title>
+ <style>
+   body { background: black; margin: 0;}
+ </style>
+</head>
+<body>
+<canvas id="visualization" width="640" height="640"></canvas>
+<script>
+ (function () {
+   var canvas = document.getElementById('visualization');
+   var ctx = canvas.getContext('2d');
+
+   var xOffset = canvas.width / 2;
+   var yOffset = canvas.height / 2;
+
+   var orbits = {
+     1: {
+       radius: 50,
+       time: 300000
+     },
+     2: {
+       radius: 100,
+       time: 2500000
+     }
+   };
+
+   var sun = {
+     x: xOffset,
+     y: yOffset,
+     r: 15
+   };
+
+   var cards = [{
+     orbit: 2,
+     notifiedAt: 1466197895701,
+     r: 5
+   }, {
+     orbit: 1,
+     notifiedAt: 1466197895701,
+     r: 5
+   }];
+
+   function moveCard(card) {
+     var orbit = orbits[card.orbit];
+     var endTime = orbit.time + card.notifiedAt;
+     var now = (new Date()).getTime();
+     var delta = now - card.notifiedAt;
+     var total = endTime - card.notifiedAt;
+     // TODO Calculate x and y
+     var percent = delta / total;
+     var angle = 360 * percent;
+     angle = angle * (Math.PI / 180);
+     var x = Math.cos(angle) * orbit.radius;
+     var y = Math.sin(angle) * orbit.radius;
+     card.x = x + xOffset;
+     card.y = y + yOffset;
+   }
+
+   function move() {
+     cards.forEach(function (card) {
+       moveCard(card);
+     });
+   }
+
+   function draw() {
+     ctx.clearRect(0, 0, canvas.width, canvas.height);
+     ctx.strokeStyle = "rgb(50,50,50)";
+     ctx.beginPath();
+     ctx.moveTo(xOffset, yOffset);
+     ctx.lineTo(0, yOffset);
+     ctx.stroke();
+     for (var orbit in orbits) {
+       ctx.beginPath();
+       ctx.strokeStyle = "rgb(150,150,150)";
+       ctx.arc(xOffset, yOffset, orbits[orbit].radius, 0, 2 * Math.PI, true);
+       ctx.stroke();
+     }
+     cards.forEach(function (card) {
+       ctx.beginPath();
+       ctx.fillStyle = "rgb(0,100,200)";
+       ctx.arc(card.x, card.y, card.r, 0, 2 * Math.PI, true);
+       ctx.fill();
+     });
+     ctx.beginPath();
+     ctx.fillStyle = "rgb(200,200,0)";
+     ctx.arc(sun.x, sun.y, sun.r, 0, 2 * Math.PI, true);
+     ctx.fill();
+   }
+
+   (function update() {
+     move();
+     draw();
+     requestAnimationFrame(update);
+   }());
+
+ })();
+</script>
+</body>
+</html>

@@ -63,6 +63,18 @@ router.get('/cards', function(req, res){
     });
 });
 
+router.get('/viz', function(req, res){
+  queryParams('SELECT * FROM cards;', [],
+    function(err, myCards){
+      console.log('session ID: ', req.session.user_id);
+      myCards.rows.forEach(function(card) {
+        console.log(card);
+      })
+      // console.log(myCards);
+      res.render('viz', {username: req.session.username, cards: myCards.rows});
+    });
+});
+
 router.get('/cards/new', function(req,res){
   res.render('cards-new', { title: "New Card" });
 });
