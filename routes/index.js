@@ -63,6 +63,16 @@ router.get('/cards', function(req, res){
     });
 });
 
+
+// Test route for "viz" view AJAX call
+router.get('/cards/all', function(req, res){
+  queryParams('SELECT * FROM cards', [],
+    function(err, myCards){
+      console.log(myCards);
+      res.json(myCards.rows);
+    });
+});
+
 router.get('/viz', function(req, res){
   queryParams('SELECT * FROM cards;', [],
     function(err, myCards){
