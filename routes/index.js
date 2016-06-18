@@ -1,22 +1,18 @@
+// route requirements
 const express = require('express');
 const app = express();
 const router = express.Router();
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-// database initialization
-var pg = require('pg').native;
-
-const connectionString = "postgres://development:development@localhost/memoscope";
-
-
-
 app.use(cookieParser());
 app.use(session({secret: "stringofwords",
     resave: true,
     saveUninitialized: true
     }));
 
-
+// database initialization
+var pg = require('pg').native;
+const connectionString = "postgres://development:development@localhost/memoscope";
 function queryParams(sql, params, cb) {
   pg.connect(connectionString, function(err, db, done) {
     if (err) return cb(err);
@@ -28,163 +24,114 @@ function queryParams(sql, params, cb) {
   });
 }
 
-function findOrCreateDeck(deck, cb){
-  var deck_id = "thing";
-  queryParams("SELECT * FROM decks WHERE id = $1", [deck],
-    function(err, result){
-      if (result.rows[0]) {
-        console.log(`Result is: ${result.rows[0].id}`);
-        cb(null, result.rows[0].id)
-      }
-      else {
-        console.log("Not found :\\");
-        cb("Not found")
-        // Create card, and return that buddy's ID.
-      }
-    })
-  // return deck_id
-}
-
-//neeed to create these views
-router.get('/users', function (req, res) {
-  queryParams('SELECT * FROM users;', [], function (err, users) {
-    if (err) return res.send(500);
-    res.render('users-all', { title: users.rows });
-  })
+//Homepage routes
+router.get('/', function(req, res, next) {
+  res.render('index');
 });
 
-// CARD ROUTES
-router.get('/cards', function(req, res){
-  queryParams('SELECT * FROM cards INNER JOIN decks on cards.deck_id=decks.id WHERE decks.user_id = $1', [req.session.user_id],
-    function(err, myCards){
-      console.log('session ID: ', req.session.user_id);
-      console.log(myCards);
-      res.render('cards', {username: req.session.username, cards: myCards.rows});
-    });
-});
-
-router.get('/cards/new', function(req,res){
-  res.render('cards-new', { title: "New Card" });
-});
-
-router.post('/cards/create', function(req,res){
-  // Put a new card into the database
-  console.log(req.body.content_html);
-  console.log(req.body.deck);
-  console.log(req.body.user_id); // User ID currently hard coded to 1
-  content_html = req.body.content_html;
-  deck_id = 1;
-
-  queryParams('INSERT INTO cards (deck_id, content_html, orbit, notify_at, created_at, modified_at) VALUES ($1, $2, 0, current_timestamp, current_timestamp, current_timestamp)',
-              [deck_id, req.body.content_html],
-              function(err, redirect){
-                if (err) { console.log(err) };
-                router.get('/');
+router.post('/', function(req, res, next) {
+  queryParams('SELECT * FROM users WHERE id =$1;',
+    [req.params.user_id], function(err,user){
+      if (err) return console.log(err);
+      req.session.user_id = user.rows[0].id;
+      req.session.username = user.rows[0].username;
+      queryParams('SELECT * FROM decks WHERE user_id =$2;', [req.params.user_id], 
+        function (err, decks) {
+          if (err) return res.send(500);
+          queryParams('SELECT * FROM cards WHERE deck_id =$3;', [decks.rows[0].id], 
+            function (err, cards) {
+              if (err) return res.send(500);
+              res.render('dashboard', { 
+                user_name: req.session.username,
+                decks: decks.rows,
+                cards: cards.rows 
               });
-});
-// router.get('/cards/:id', function(req, res){
-//   queryParams('SELECT * FROM cards WHERE id = $1',
-//              [req.params.id], function(err, myCard){
-//              res.send({card: myCard});
-//    })
-// });
-
-router.get('/cards/:id', function(req,res){
-  queryParams('SELECT * FROM cards WHERE id =$1',
-    [req.params.id], function(err,myCard){
-      console.log("myCard: ", myCard)
-    res.render('card', {title: 'Card', card: myCard.rows[0]})
+          });
+      });
     });
 });
-
-router.put('/cards/:id', function(req, res){
-  // Submit edited card data
+//User routes
+router.get('/users/new', function (req, res) {
+    res.render('users-new');
 });
-
-// DECK ROUTES
-
-router.get('/decks/new', function(req, res){
-  res.render('deck-new', { user_id: req.session.user_id });
-});
-
-router.post('/decks/new', function(req, res){
-  queryParams('INSERT INTO decks (name,user_id,created_at,modified_at) VALUES ($1,$2,current_timestamp,current_timestamp);',
-    [req.body.deck_name, req.body.user_id],
+router.post('/users/new', function (req, res) {
+  queryParams('INSERT INTO users (name,password,created_at,modified_at) VALUES ($1,$2,current_timestamp,current_timestamp);',
+    [req.body.user_name, req.body.password],
     function (err, result) {
       if (err) return console.log(err);
-      res.send(JSON.stringify(req.body));
-    })
-
-});
-
-// router.put('/decks', function(req,res){
-//   //TODO: Come up with proper data endpoints from Request
-//   queryParams('INSERT INTO decks (name, user_id) VALUES($1, $2)',
-//               [req.deckName, req.userId],
-//               function(err, return) {
-//                 router.get('/decks'); // I guess. I dunno.
-//               }
-// });
-
-// router.get('/decks/:id', function(req,res){
-//     queryParams('SELECT * FROM decks WHERE id =$1',
-//     [req.params.id], function(err,myDeck){
-//       console.log("myDeck: ", myDeck)
-//     res.render('deck', {title: 'deck', card: myDeck})
-//     });
-// });
-
-router.get('/dashboard', function(req,res){
-    queryParams('SELECT * FROM cards',
-    [], function(err,myCards){
-      console.log("myCards: ", myCards.rows)
-    res.render('dashboard-layout', {title: 'dashboard', cards: myCards.rows})
-    });
-
-});
-// router.get('/user/decks', function(req, res){
-//   queryParams('SELECT * FROM decks WHERE decks.user_id = $1', [req.session.user_id],
-//     function(err, myDecks){
-//       res.render('decks', {decks: myDecks.rows});
-//     });
-// });
-//neeed to create these views
-router.get('/users/new', function (req, res) {
-  res.redirect('/users/new' + result.rows[0].id);
-});
-//neeed to create these views
-router.get('/users/:id', function (req, res) {
-  queryParams('SELECT * FROM users WHERE id = $1;', [req.params.id], function (err, users) {
-    if (err) return res.send(500);
-    console.log('users: ', users);
-    res.send(users);
+      res.render('index');
   })
 });
-
-//neeed to create these views
-router.post('/users', function (req, res) {
-  queryParams('INSERT INTO users (last_name, first_name) VALUES ($2, $3) RETURNING id;', [req.params.last_name, req.params.first_name], function (err, result) {
-    if (err) return res.send(500);
-    res.redirect('/users/' + result.rows[0].id);
-  });
+//Deck routes
+router.get('/decks/', function(req, res){
+  queryParams('SELECT * FROM decks;', [], 
+    function (err, decks) {
+      if (err) return res.send(500);
+      res.render('decks', { all_decks: decks.rows });
+  })
 });
-router.get('/login/as/:id', function(req, res){
-  queryParams('SELECT * FROM users WHERE id = $1', [req.params.id], function(err, user){
-    console.log('user rows: ', user.rows[0].username);
-    req.session.user_id = user.rows[0].id;
-    req.session.username = user.rows[0].username;
-    res.render('index', {title: "Index", username: req.session.username});
-  });
+router.post('/decks/new', function(req, res){
+  queryParams('INSERT INTO decks (name,description,user_id,created_at,modified_at) VALUES ($1,$2,$3,current_timestamp,current_timestamp);',
+    [req.body.deck_name,req.body.deck_description,req.body.user_id],
+    function (err, result) {
+      if (err) return res.send(500);
+    })
+});
+router.put('/decks/:id', function(req,res){
+  queryParams('SELECT * FROM decks WHERE id =$1;',
+    [req.body.deck_id], 
+    function(err,myCard){
+      if (err) return res.send(500);
+      queryParams('INSERT INTO decks (name,user_id,created_at,modified_at) VALUES ($1,$2,current_timestamp,current_timestamp);',
+        [req.body.deck_name, req.body.user_id],
+        function (err, result) {
+          if (err) return res.send(500);
+          res.render('decks', { all_decks: decks.rows });
+        })
+    })
+});
+router.delete('/decks/:id', function(req, res){
+  queryParams('DELETE FROM decks WHERE id =$1;',[req.body.deck_id],
+    function (err, result) {
+      if (err) return res.send(500);
+      res.render('decks', { all_decks: decks.rows });
+    })
 });
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  console.log("username", req.session.username)
-  res.render('index', { title: 'Memoscope', username: req.session.username });
+//Card routes
+router.get('/cards/', function(req, res){
+  queryParams('SELECT * FROM cards;', [], 
+    function (err, cards) {
+      if (err) return res.send(500);
+      res.render('cards', { all_decks: cards.rows });
+  })
 });
-
-router.get('/index', function(req, res, next) {
-  res.render('index', { title: 'Memoscope' });
+router.post('/cards/new', function(req, res){
+  queryParams('INSERT INTO cards (deck_id, content_html, orbit, notified_at, created_at, modified_at) VALUES ($1,$2,$3,$4,current_timestamp,current_timestamp);',
+    [req.body.deck_id,req.body.content_html,0,null],
+    function (err, result) {
+      if (err) return res.send(500);
+  })
 });
-
+router.put('/cards/:id', function(req,res){
+  queryParams('SELECT * FROM cards WHERE id =$1;',
+    [req.body.card_id], 
+    function(err,card){
+      if (err) return res.send(500);
+      queryParams('INSERT INTO cards (deck_id, content_html, modified_at) VALUES ($1,$2,current_timestamp);',
+        [req.body.deck_id,req.body.content_html],
+        function (err, result) {
+          if (err) return res.send(500);
+          res.render('cards', { all_decks: cards.rows });
+        })
+    })
+});
+router.delete('/cards/:id', function(req, res){
+  queryParams('DELETE FROM cards WHERE id =$1;',[req.body.card_id],
+    function (err, result) {
+      if (err) return res.send(500);
+      res.render('cards', { all_decks: cards.rows });
+    })
+});
+//
 module.exports = router;

@@ -1,12 +1,15 @@
 extends layout
 
 block content
-	section.hero.is-fullheight
-		.hero-body
-			.container.has-text-centered
-				.slider-container
-					each card in cards
-						include card.pug
+	p= user_name
+	p= decks
+	p= cards
+	//- section.hero.is-fullheight
+	//- 	.hero-body
+	//- 		.container.has-text-centered
+	//- 			.slider-container
+	//- 				each card in cards
+	//- 					include card.pug
 
-block scripts
-	script(src="/javascript/garrettscript/dashboard.js")
+//- block scripts
+//- 	script(src="/javascript/garrettscript/dashboard.js")
