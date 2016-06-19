@@ -6,11 +6,11 @@ $(document).ready(function(){
   var openSideBar = document.getElementById('openSideBar');
 
   openSideBar.onclick = function() { 
-    $(".sidenav").width(window.innerWidth/4);
+    $(".sidenav").width('30%');
   };
 
   closeSideBar.onclick = function() { 
-    $(".sidenav").width(0);
+    $(".sidenav").width('0%');
   };
 
   $.getJSON("/cards/all", function(cardData){
