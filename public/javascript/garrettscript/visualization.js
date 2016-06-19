@@ -1,13 +1,63 @@
 $(document).ready(function(){
   $.getJSON("/cards/all", function(cardData){
+    // All code needs to go below here
     console.log("Visualization script initialized.");
+
+    //Notification Logic
+    var notifications = [];
+    var notification_count = 0;
+    $(".notification_count").on('click', function(){
+      var foundCard;
+      cards.forEach(function(card){
+        if (card.id == notifications[0]) {
+          foundCard = card;
+
+          // Render card text/HTML and create buttons
+          $(".notification_display").text(foundCard.content_html).prepend("<div class='button is-success remembered'>Remembered!</div>").prepend("<div class='button is-danger forgot'>Forgot :(</div>");
+
+          // Success button behavior:
+            // - Increment orbit and update timestamp
+            // -
+          $(".remembered").on('click', function(){
+            foundCard.orbit += 1
+            foundCard.notifiedAt = Date.now();
+            console.log(`Remembered! Orbit for card ${foundCard.id} increased to ${foundCard.orbit}, date changed to ${foundCard.notifiedAt}`)
+            $(".remembered").remove();
+            $(".forgot").remove();
+            //TODO: AJAX: Write card to database
+            //TODO: Update card's entry in var `cards` (if persisted in database...?)
+            notifications.shift();
+          });
+          $(".forgot").on('click', function(foundCard){
+            foundCard.orbit = 1
+            foundCard.notifiedAt = Date.now();
+            console.log(`Forgot! Orbit for card ${foundCard.id} reset to ${foundCard.orbit}, date changed to ${foundCard.notifiedAt}`)
+            $(".remembered").remove();
+            $(".forgot").remove();
+            //TODO: AJAX: Write card to database
+            //TODO: Update card's entry in var `cards` (if persisted in database...?)
+            notifications.shift();
+          });
+        }
+      });
+    })
+
     var cards = [];
+    //TODO: Tie in notifications (IDs) with pop-up content
+    //TODO: Tie in notification_count with representation of number of pending notifications
+
     cardData.forEach(function(card){
       var cardFormatted = {};
+      cardFormatted.id = card.id;
+      cardFormatted.content_html = card.content_html;
+      cardFormatted.deck_id = card.deck_id;
       cardFormatted.orbit = card.orbit;
       cardFormatted.notifiedAt = Date.parse(card.created_at);
-      cardFormatted.r = 5;
-      console.log(cardFormatted);
+      cardFormatted.r = Math.floor((Math.random() * 5) + 5);
+      // Randomizes dot color for each card; Play with that if you want, or just make it one solid color.
+      cardFormatted.colorRed = Math.floor(Math.random() * (150-100)) + 100
+      cardFormatted.colorGreen = Math.floor(Math.random() * (100-20)) + 20
+      cardFormatted.colorBlue = Math.floor(Math.random() * (255-100)) + 100
       cards.push(cardFormatted);
       // cardFormatted['orbit'] = card.orbit
       //   orbit: 5,
@@ -15,7 +65,6 @@ $(document).ready(function(){
       //   r: 5
       // }
     })
-    console.log(cardData);
     var canvas = document.getElementById('visualization');
     var ctx = canvas.getContext('2d');
 
@@ -95,8 +144,7 @@ $(document).ready(function(){
       notifiedAt: 1466197896701,
       r: 5
     }];
-    console.log(cardsOld);
-    function moveCard(card) {
+    function modifyCard(card) {
       var orbit = orbits[card.orbit];
       var endTime = orbit.time + card.notifiedAt;
       var now = (new Date()).getTime();
@@ -110,6 +158,16 @@ $(document).ready(function(){
       var y = Math.sin(angle) * orbit.radius;
       card.x = x + xOffset;
       card.y = y + yOffset;
+
+      // Check for notification
+      if(now >= endTime) {
+        if (notifications.indexOf(card.id) == -1) {
+          notifications.push(card.id);
+        }
+        console.log(notifications[0]);
+        //TODO: Do something with set notifications to render notifications, increment a number.
+      }
+      notification_count = notifications.length;
     }
 
 //Soheil's forumla (not working yet):
@@ -118,7 +176,7 @@ $(document).ready(function(){
 
     function move() {
       cards.forEach(function (card) {
-        moveCard(card);
+        modifyCard(card);
       });
     }
 
@@ -137,7 +195,7 @@ $(document).ready(function(){
       }
       cards.forEach(function (card) {
         ctx.beginPath();
-        ctx.fillStyle = "rgb(0,100,200)";
+        ctx.fillStyle = `rgba(${card.colorRed},${card.colorGreen},${card.colorBlue},0.6)`;
         ctx.arc(card.x, card.y, card.r, 0, 2 * Math.PI, true);
         ctx.fill();
       });
@@ -145,11 +203,13 @@ $(document).ready(function(){
       ctx.fillStyle = "rgb(200,200,0)";
       ctx.arc(sun.x, sun.y, sun.r, 0, 2 * Math.PI, true);
       ctx.fill();
+
     }
 
-    (function update() {
+    (function update(notifications) {
       move();
       draw();
+      $(".notification_count").text(Math.floor(notification_count));
       requestAnimationFrame(update);
     }());
   });
