@@ -15,7 +15,7 @@ $(document).ready(function(){
               foundCard = card;
 
               // Render card text/HTML and create buttons
-              $(".notification_display").html(foundCard.content_html).prepend("<div class='button is-success remembered'>Remembered!</div>").prepend("<div class='button is-danger forgot'>Forgot :(</div>");
+              $(".notification_display").html("<p>" + foundCard.content_html + "</p>").prepend("<div class='button is-success remembered'>Remembered!</div>").prepend("<div class='button is-danger forgot'>Forgot :(</div>");
 
               // - TODO: Write updated data to database
               function notificationFinish(){
@@ -29,7 +29,9 @@ $(document).ready(function(){
                 notifications.shift();
                 $.post('/cards/update', card, function(response){
                   // Basically if I'm parsing the response properly,
-                  // this should return stuff.
+                  // this should return "Derp" and the response.
+                  // Currently, nothing seems to return from the server...
+                  // Or at least I'm not accessing it properly.
                   // This isn't important at the moment, but if we want to edit cards
                   // and show the edits later, we'll probably want to do that here.
                   return console.log("Derp" + response);
@@ -65,7 +67,7 @@ $(document).ready(function(){
       cardFormatted.content_html = card.content_html;
       cardFormatted.deck_id = card.deck_id;
       cardFormatted.orbit = card.orbit;
-      cardFormatted.notifiedAt = card.notified_at;
+      cardFormatted.notifiedAt = card.notified_at || Date.now();
       cardFormatted.r = Math.floor((Math.random() * 5) + 5);
       cardFormatted.notifyFlag = false;
       cardFormatted.rendered = false;

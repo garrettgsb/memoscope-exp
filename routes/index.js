@@ -90,7 +90,7 @@ router.post('/cards/create', function(req,res){
   content_html = req.body.content_html;
   deck_id = 1;
 
-  queryParams('INSERT INTO cards (deck_id, content_html, orbit, notify_at, created_at, modified_at) VALUES ($1, $2, 0, current_timestamp, current_timestamp, current_timestamp)',
+  queryParams('INSERT INTO cards (deck_id, content_html, orbit, notified_at, created_at, modified_at) VALUES ($1, $2, 0, null, current_timestamp, current_timestamp)',
               [deck_id, req.body.content_html],
               function(err, redirect){
                 if (err) { console.log(err) };
