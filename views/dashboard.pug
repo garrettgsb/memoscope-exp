@@ -1,12 +1,8 @@
 extends layout
 
 block content
-	section.hero.is-fullheight
-		.hero-body
-			.container.has-text-centered
-				.slider-container
-					each card in cards
-						include card.pug
+	//- width="1280" height="640" 
+	canvas#visualization(style="background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Night_stars_berlin.png/1024px-Night_stars_berlin.png')")
 
 block scripts
-	script(src="/javascript/garrettscript/dashboard.js")
+	script(src="/javascript/dashboard.js")

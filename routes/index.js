@@ -160,7 +160,7 @@ router.get('/dashboard', function(req,res){
     queryParams('SELECT * FROM cards',
     [], function(err,myCards){
       console.log("myCards: ", myCards.rows)
-    res.render('dashboard-layout', {title: 'dashboard', cards: myCards.rows})
+    res.render('dashboard', {title: 'dashboard', cards: myCards.rows})
     });
 
 });
