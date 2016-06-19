@@ -6,40 +6,53 @@ $(document).ready(function(){
     //Notification Logic
     var notifications = [];
     var notification_count = 0;
+
     $(".notification_count").on('click', function(){
-      var foundCard;
-      cards.forEach(function(card){
-        if (card.id == notifications[0]) {
-          foundCard = card;
+      function displayNotification(){
+        var foundCard;
+          cards.forEach(function(card){
+            if (card.id == notifications[0]) {
+              foundCard = card;
 
-          // Render card text/HTML and create buttons
-          $(".notification_display").text(foundCard.content_html).prepend("<div class='button is-success remembered'>Remembered!</div>").prepend("<div class='button is-danger forgot'>Forgot :(</div>");
+              // Render card text/HTML and create buttons
+              $(".notification_display").html(foundCard.content_html).prepend("<div class='button is-success remembered'>Remembered!</div>").prepend("<div class='button is-danger forgot'>Forgot :(</div>");
 
-          // Success button behavior:
-            // - Increment orbit and update timestamp
-            // -
-          $(".remembered").on('click', function(){
-            foundCard.orbit += 1
-            foundCard.notifiedAt = Date.now();
-            console.log(`Remembered! Orbit for card ${foundCard.id} increased to ${foundCard.orbit}, date changed to ${foundCard.notifiedAt}`)
-            $(".remembered").remove();
-            $(".forgot").remove();
-            //TODO: AJAX: Write card to database
-            //TODO: Update card's entry in var `cards` (if persisted in database...?)
-            notifications.shift();
+              // - TODO: Write updated data to database
+              function notificationFinish(){
+                card.notifiedAt = Date.now();
+                card.notifyFlag = false;
+                $(".remembered").remove();
+                $(".forgot").remove();
+                $(".notification_display").html("");
+                //TODO: AJAX: Write card to database
+                //TODO: Update card's entry in var `cards` (if persisted in database...?)
+                notifications.shift();
+                $.post('/cards/update', card, function(response){
+                  // Basically if I'm parsing the response properly,
+                  // this should return stuff.
+                  // This isn't important at the moment, but if we want to edit cards
+                  // and show the edits later, we'll probably want to do that here.
+                  return console.log("Derp" + response);
+                }, 'json');
+                displayNotification();
+              };
+
+
+              // "Remembered" and "Forgot" are identical,
+              // except for their effect on card Orbit.
+              $(".remembered").on('click', function(){
+                card.orbit += 1
+                notificationFinish();
+              });
+
+              $(".forgot").on('click', function(foundCard){
+                card.orbit = 1
+                notificationFinish();
+              });
+            }
           });
-          $(".forgot").on('click', function(foundCard){
-            foundCard.orbit = 1
-            foundCard.notifiedAt = Date.now();
-            console.log(`Forgot! Orbit for card ${foundCard.id} reset to ${foundCard.orbit}, date changed to ${foundCard.notifiedAt}`)
-            $(".remembered").remove();
-            $(".forgot").remove();
-            //TODO: AJAX: Write card to database
-            //TODO: Update card's entry in var `cards` (if persisted in database...?)
-            notifications.shift();
-          });
-        }
-      });
+      }
+      displayNotification();
     })
 
     var cards = [];
@@ -52,8 +65,10 @@ $(document).ready(function(){
       cardFormatted.content_html = card.content_html;
       cardFormatted.deck_id = card.deck_id;
       cardFormatted.orbit = card.orbit;
-      cardFormatted.notifiedAt = Date.parse(card.created_at);
+      cardFormatted.notifiedAt = card.notified_at;
       cardFormatted.r = Math.floor((Math.random() * 5) + 5);
+      cardFormatted.notifyFlag = false;
+      cardFormatted.rendered = false;
       // Randomizes dot color for each card; Play with that if you want, or just make it one solid color.
       cardFormatted.colorRed = Math.floor(Math.random() * (150-100)) + 100
       cardFormatted.colorGreen = Math.floor(Math.random() * (100-20)) + 20
@@ -145,27 +160,44 @@ $(document).ready(function(){
       r: 5
     }];
     function modifyCard(card) {
-      var orbit = orbits[card.orbit];
-      var endTime = orbit.time + card.notifiedAt;
+      if (card.orbit > 8) {
+        var orbit = 1;
+      } else {
+        var orbit = orbits[card.orbit];
+      };
+      var notifiedAt = parseInt(card.notifiedAt);
+      var endTime = orbit.time + notifiedAt;
       var now = (new Date()).getTime();
-      var delta = now - card.notifiedAt;
-      var total = endTime - card.notifiedAt;
+      var delta = now - notifiedAt;
+      var total = endTime - notifiedAt;
       // TODO Calculate x and y
       var percent = delta / total;
       var angle = 360 * percent;
       angle = angle * (Math.PI / 180);
       var x = Math.cos(angle) * orbit.radius;
       var y = Math.sin(angle) * orbit.radius;
-      card.x = x + xOffset;
-      card.y = y + yOffset;
+      if (now < endTime || card.rendered == false) {
+        card.x = x + xOffset;
+        card.y = y + yOffset;
+        card.rendered = true;
+      } else {
+        if (card.notifyFlag == false) {
+          notifyMe("Take a look through your memoscope");
+          card.notifyFlag = true;
+        }
+    };
 
       // Check for notification
       if(now >= endTime) {
+      var x = Math.cos(0) * orbit.radius;
+      var y = Math.sin(0) * orbit.radius;
+      card.x = x + xOffset;
+      card.y = y + yOffset;
         if (notifications.indexOf(card.id) == -1) {
           notifications.push(card.id);
         }
-        console.log(notifications[0]);
         //TODO: Do something with set notifications to render notifications, increment a number.
+        //NOTE: I don't remember what this TODO is referring to.
       }
       notification_count = notifications.length;
     }
@@ -185,7 +217,7 @@ $(document).ready(function(){
       ctx.strokeStyle = "rgb(50,50,50)";
       ctx.beginPath();
       ctx.moveTo(xOffset, yOffset);
-      ctx.lineTo(0, yOffset);
+      ctx.lineTo(yOffset*2, yOffset);
       ctx.stroke();
       for (var orbit in orbits) {
         ctx.beginPath();
@@ -206,11 +238,34 @@ $(document).ready(function(){
 
     }
 
-    (function update(notifications) {
+    (function update() {
       move();
       draw();
       $(".notification_count").text(Math.floor(notification_count));
       requestAnimationFrame(update);
     }());
+
+    function notifyMe(message) {
+    	if (!("Notification" in window)) {
+    		alert("This browser does not support desktop notification");
+    	}else if (Notification.permission === "granted") {
+    		generateNotification(message);
+    	}else if (Notification.permission !== 'denied') {
+    		Notification.requestPermission(function (permission) {
+    			if (permission === "granted") {
+    				generateNotification(message);
+    			}
+    		});
+    	}
+    };
+
+    function generateNotification(message) {
+    	var options = {
+    		body: message,
+    		icon: "http://www.marismith.com/wp-content/uploads/2013/07/One-Thing-Remember-Shutterstock.jpg",
+    	}
+    	var n = new Notification('Memoscope', options);
+    	setTimeout(n.close.bind(n), 10000);
+    }
   });
 });

@@ -1,13 +1,5 @@
-DROP DATABASE memoscope;
-CREATE DATABASE memoscope;
-psql memoscope < './migrations/20160615142700_create_base_tables.sql';
-```
-
-## SEEDERS
-Run seed files from ./seeders
-
-Example:
-```
+psql postgres < 'drop-create-db.sql'
+psql memoscope < './migrations/20160618140100_add_notified_at_to_cards.sql'
+psql memoscope < './seeders/deck.sql';
 psql memoscope < './seeders/user.sql';
-```
-silota.com
+psql memoscope < './seeders/card.sql';

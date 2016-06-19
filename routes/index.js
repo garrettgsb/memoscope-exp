@@ -74,15 +74,8 @@ router.get('/cards/all', function(req, res){
 });
 
 router.get('/viz', function(req, res){
-  queryParams('SELECT * FROM cards;', [],
-    function(err, myCards){
-      console.log('session ID: ', req.session.user_id);
-      myCards.rows.forEach(function(card) {
-        console.log(card);
-      })
       // console.log(myCards);
-      res.render('viz', {username: req.session.username, cards: myCards.rows});
-    });
+      res.render('viz');
 });
 
 router.get('/cards/new', function(req,res){
@@ -103,6 +96,14 @@ router.post('/cards/create', function(req,res){
                 if (err) { console.log(err) };
                 router.get('/');
               });
+});
+
+router.post('/cards/update', function(req,res){
+  console.log(req.body);
+  queryParams('UPDATE cards SET orbit=$1, notified_at=$2 WHERE id=$3', [req.body.orbit, req.body.notifiedAt, req.body.id], function(err, response){
+      if (err) { console.log(err) };
+      res.send("Hi!");
+  });
 });
 // router.get('/cards/:id', function(req, res){
 //   queryParams('SELECT * FROM cards WHERE id = $1',
