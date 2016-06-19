@@ -19,7 +19,7 @@ CREATE TABLE cards (
   deck_id INTEGER NOT NULL,
   content_html TEXT NOT NULL,
   orbit INTEGER,
-  notify_at TIMESTAMP WITHOUT TIME ZONE,
+  notified_at BIGINT,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   modified_at TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );

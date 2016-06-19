@@ -20,7 +20,8 @@ Run newest migration from ./migrations
 Example:
 
 ```
-psql memoscope < './migrations/20160615142700_create_base_tables.sql';
+psql memoscope < './migrations/20160615142700_create_base_tables.sql'
+psql memoscope < './migrations/20160618140100_add_notified_at_to_cards.sql'
 ```
 
 ## SEEDERS

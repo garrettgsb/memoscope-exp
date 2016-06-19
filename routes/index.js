@@ -74,15 +74,8 @@ router.get('/cards/all', function(req, res){
 });
 
 router.get('/viz', function(req, res){
-  queryParams('SELECT * FROM cards;', [],
-    function(err, myCards){
-      console.log('session ID: ', req.session.user_id);
-      myCards.rows.forEach(function(card) {
-        console.log(card);
-      })
       // console.log(myCards);
-      res.render('viz', {username: req.session.username, cards: myCards.rows});
-    });
+      res.render('viz');
 });
 
 router.get('/cards/new', function(req,res){
@@ -97,12 +90,20 @@ router.post('/cards/create', function(req,res){
   content_html = req.body.content_html;
   deck_id = 1;
 
-  queryParams('INSERT INTO cards (deck_id, content_html, orbit, notify_at, created_at, modified_at) VALUES ($1, $2, 0, current_timestamp, current_timestamp, current_timestamp)',
+  queryParams('INSERT INTO cards (deck_id, content_html, orbit, notified_at, created_at, modified_at) VALUES ($1, $2, 0, null, current_timestamp, current_timestamp)',
               [deck_id, req.body.content_html],
               function(err, redirect){
                 if (err) { console.log(err) };
                 router.get('/');
               });
+});
+
+router.post('/cards/update', function(req,res){
+  console.log(req.body);
+  queryParams('UPDATE cards SET orbit=$1, notified_at=$2 WHERE id=$3', [req.body.orbit, req.body.notifiedAt, req.body.id], function(err, response){
+      if (err) { console.log(err) };
+      res.send("Hi!");
+  });
 });
 // router.get('/cards/:id', function(req, res){
 //   queryParams('SELECT * FROM cards WHERE id = $1',
