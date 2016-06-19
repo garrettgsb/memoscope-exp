@@ -1,4 +1,18 @@
 $(document).ready(function(){
+
+  var canvas = document.getElementById('visualization');
+  
+  var closeSideBar = document.getElementById('closeSideBar');
+  var openSideBar = document.getElementById('openSideBar');
+
+  openSideBar.onclick = function() { 
+    $(".sidenav").width(window.innerWidth/4);
+  };
+
+  closeSideBar.onclick = function() { 
+    $(".sidenav").width(0);
+  };
+
   $.getJSON("/cards/all", function(cardData){
     console.log("Visualization script initialized.");
     var oldCards = [];
@@ -11,8 +25,9 @@ $(document).ready(function(){
       oldCards.push(cardFormatted);
     })
     console.log(cardData);
-    var canvas = document.getElementById('visualization');
+    
     window.addEventListener('resize', resizeCanvas, false);
+    
 
     function resizeCanvas() {
       
@@ -66,6 +81,10 @@ $(document).ready(function(){
         notifiedAt: 1466197800701,
         r: 14
       }, {
+        orbit: 2,
+        notifiedAt: 1466197805701,
+        r: 14
+      }, {
         orbit: 3,
         notifiedAt: 1466197442401,
         r: 13
@@ -102,8 +121,8 @@ $(document).ready(function(){
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.beginPath();
-        ctx.font = "3.125em serif";
-        ctx.fillText("Memoscope", xOffset - (canvas.width/9),yOffset - (canvas.height/2.5));
+        ctx.font = "4.5em Apple Chancery";
+        ctx.fillText("memoscope", xOffset - (canvas.width/9),yOffset - (canvas.height/2.4));
         for (var orbit in orbits) {      
           var b = orbits[orbit].radius;
           var a = 2 * b;
@@ -133,9 +152,9 @@ $(document).ready(function(){
                   ctx.strokeStyle = '#700D9E';
           }
           ctx.stroke();
-          ctx.font = "1.5em serif";
+          ctx.font = "1.25em Herculanum";
           ctx.fillText(orbit_time, xOffset + (a / 3), (yOffset +  b ));
-          ctx.font = "1.5em serif";
+          ctx.font = "1.25em Herculanum";
           ctx.fillText(orbit_time, xOffset - (a / 3), (yOffset -  b ));
         }
         cards.forEach(function (card) {
@@ -149,21 +168,16 @@ $(document).ready(function(){
           ctx.shadowColor = "white";
           ctx.shadowOffsetX = (card.r / 3) ;
           ctx.shadowOffsetY = (card.r / 3) ;
-          ctx.shadowBlur = 40;              
+          ctx.shadowBlur = card.r * 2;              
           ctx.arc(card.x - (card.r / 2.5), card.y - (card.r / 2.5) , (card.r/3), 0, 2 * Math.PI, true);
           ctx.fill();
         });
         ctx.beginPath();
-        ctx.fillStyle = "rgb(216,232,70)";
-        ctx.shadowBlur = 20;
+        ctx.fillStyle = "rgb(253,184,19)";
         ctx.arc(sun.x, sun.y, sun.r, 0, 2 * Math.PI, true);
         ctx.fill();
         ctx.beginPath();
-        ctx.fillStyle = "rgb(255,255,255)";
-        ctx.shadowColor = "white";
-        ctx.shadowOffsetX = (sun.r / 3) ;
-        ctx.shadowOffsetY = (sun.r / 3) ;
-        ctx.shadowBlur = 20;              
+        ctx.fillStyle = "rgb(255,255,255)";              
         ctx.arc(sun.x - (sun.r / 2.5), sun.y - (sun.r / 2.5) , (sun.r/3), 0, 2 * Math.PI, true);
         ctx.fill();
       }
