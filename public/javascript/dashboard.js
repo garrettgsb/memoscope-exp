@@ -1,3 +1,17 @@
+//NOTE - HOW TO USE:
+
+// Whatever has the class `notification_count` will
+// receive an updating number based on pending notifications.
+
+// The content_html for the current notification will render in
+// whatever has the class `notification_display`, along with a
+// "Remember" and "Forgot" button.
+
+// Currently, the notification renders when you click
+// the `notification_count` object, but you can add
+// click handlers by calling displayNotification()
+// inside of their callback function.
+
 $(document).ready(function(){
 
   var canvas = document.getElementById('visualization');
