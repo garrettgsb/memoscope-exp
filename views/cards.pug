@@ -15,9 +15,11 @@ block content
 			hr.divider
 			.columns
 				each card, i in cards
-					if i % 3 === 0
-						.columns
 					include card-no-flip.pug
+				//- include card-no-flip.pug
+				//- include card-no-flip.pug
+			//- .columns
+			//- 	include card-no-flip.pug
 		section#section2.section.content
 			h1 Section 2
 			hr.divider
