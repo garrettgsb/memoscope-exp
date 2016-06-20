@@ -1,0 +1,48 @@
+block content
+	div(style="height: 80px;")
+	.box
+		.tabs.is-fullwidth.is-boxed
+			ul
+			.tab.render-light
+				p Render Mode
+			.tab.edit-light.editable
+				p Edit Mode
+			.tab.highlight-light
+				p Highlight Mode
+		header.is-fullwidth
+			p.control.has-addons.has-addons-centered
+				span.select
+					select
+						option (No Deck)
+						option Poem Quotes
+						option Another Deck
+				input.input#add-deck-name(type='text', placeholder='Or Enter Deck Name')
+				a.button.is-primary#add-new-deck
+					| Add
+
+
+
+		.card.center.card-expand.editable
+			.card-content
+				.content.editable
+					br
+					p.editable.render-mode#card-content “ O Romeo, Romeo! wherefore art thou Romeo? ~William Shakespeare”
+
+			svg.highlight-bar.is-pulled-right(height="30" width="106")
+				circle.highlighter-red(cx="12" cy="12" r="12")
+				circle.highlighter-blue(cx="40" cy="12" r="12")
+				circle.highlighter-green(cx="68" cy="12" r="12")
+				circle.highlighter-yellow(cx="94" cy="12" r="12")
+	.tile.is-ancestor.is-vertical
+		.tile.is-parent.center
+			.tile.is-child.box
+
+		.tile.is-parent.center
+			.tile.is-child.box#submit-button
+				a.button.is-success
+					span.icon
+						i.fa.fa-check
+					span Save
+
+block scripts
+	script(src="/javascript/garrettscript/card-new.js")

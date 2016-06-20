@@ -18,6 +18,7 @@ $(document).ready(function(){
 
   var closeSideBar = document.getElementById('closeSideBar');
   var openSideBar = document.getElementById('openSideBar');
+  $('#newCardWindow').toggleClass('hidden');
 
 
   openSideBar.onclick = function() {
@@ -27,6 +28,10 @@ $(document).ready(function(){
   closeSideBar.onclick = function() {
     $(".sidenav").width('0%');
   };
+
+  $('#sidebarAdd').on('click', function(){
+    $("#newCardWindow").toggleClass('hidden')
+  });
 
   $.getJSON("/cards/all", function(cardData){
     console.log("Visualization script initialized.");
