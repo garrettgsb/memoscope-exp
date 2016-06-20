@@ -44,7 +44,7 @@ router.get('/cards', function(req, res){
 });
 
 router.get('/cards/new', function(req,res){
-  res.render('cards-new', { title: "New Card" });
+  res.render('card-new', { title: "New Card" });
 });
 
 router.post('/cards/new', function(req,res){
