@@ -19,6 +19,7 @@ $(document).ready(function(){
   var closeSideBar = document.getElementById('closeSideBar');
   var openSideBar = document.getElementById('openSideBar');
 
+
   openSideBar.onclick = function() {
     $(".sidenav").width('30%');
   };
@@ -118,8 +119,10 @@ $(document).ready(function(){
       var xOffset = canvas.width / 2;
       var yOffset = canvas.height / 2;
 
+      var logo = new Image();
+      logo.src = '/images/logo-white.png';
 
-      var orbits = {
+        var orbits = {
         1: {
           radius: 60,
           time: 10 * 1000
@@ -227,9 +230,7 @@ $(document).ready(function(){
 
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.beginPath();
-        ctx.font = "4.5em Apple Chancery";
-        ctx.fillText("memoscope", xOffset - (canvas.width/9),yOffset - (canvas.height/2.4));
+        ctx.drawImage(logo,0.8 * xOffset,0,xOffset/2.5,yOffset/5);
         for (var orbit in orbits) {
           var b = orbits[orbit].radius;
           var a = 2 * b;
@@ -290,6 +291,7 @@ $(document).ready(function(){
       }
 
       (function update() {
+
         move();
         draw();
         $(".notification_count").text(Math.floor(notification_count));
