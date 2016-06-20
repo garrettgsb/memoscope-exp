@@ -92,13 +92,14 @@ $(document).ready(function(){
       cardFormatted.deck_id = card.deck_id;
       cardFormatted.orbit = card.orbit || 1;
       cardFormatted.notifiedAt = card.notified_at || Date.now();
-      cardFormatted.r = card.content_html.length;
+      cardFormatted.r = (0.04 * Math.sqrt(500 * card.content_html.length)) + 5;
       cardFormatted.notifyFlag = false;
       cardFormatted.rendered = false;
       // Randomizes dot color for each card; Play with that if you want, or just make it one solid color.
-      cardFormatted.colorRed = Math.floor(Math.random() * (150-100)) + 100
-      cardFormatted.colorGreen = Math.floor(Math.random() * (100-20)) + 20
-      cardFormatted.colorBlue = Math.floor(Math.random() * (255-100)) + 100
+      randomRed = Math.floor(Math.random() * (150-100)) + 100
+      randomGreen = Math.floor(Math.random() * (100-20)) + 20
+      randomBlue = Math.floor(Math.random() * (255-100)) + 100
+      randomColor = "rgb("+randomRed+","+randomGreen+","+randomBlue+")"
       cards.push(cardFormatted);
     });
 
@@ -116,6 +117,7 @@ $(document).ready(function(){
 
       var xOffset = canvas.width / 2;
       var yOffset = canvas.height / 2;
+
 
       var orbits = {
         1: {
@@ -202,8 +204,8 @@ $(document).ready(function(){
           }
         }
       if(now >= endTime) {
-      var x = Math.cos(0) * orbit.radius;
-      var y = Math.sin(0) * orbit.radius;
+      var x = 2 * orbit.radius;
+      var y = 0;
       card.x = x + xOffset;
       card.y = y + yOffset;
       // console.log(card);
