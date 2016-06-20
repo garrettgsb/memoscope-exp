@@ -61,16 +61,16 @@ th, td {
   .sidenav a {font-size: 18px;}
 }
 
-#container {
+#containerCanvas {
   position: relative;
 }
-#container canvas, #overlay {
+#containerCanvas canvas, #overlayCanvas {
   position: absolute;
 }
 canvas {
   border: 1px solid black;
 }
 
-#overlay {
+#overlayCanvas {
     font: "Apple Chancery";
 }
