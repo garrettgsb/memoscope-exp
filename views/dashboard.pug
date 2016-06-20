@@ -9,10 +9,11 @@ block content
 				a#sidebarNotif(href='#') Notifications
 				a#sidebarAdd(href='#') New Card
 				a#sidebarManage(href='#') Manage Cards
+				a.button.is-info
+					span.notification_count 0
+					span &nbsp | Notifications
+				.box.notification_display	
 			span#openSideBar(style='font-size:2em;cursor:pointer') ☰ MENU
 
 block scripts
 	script(src="/javascript/dashboard.js")
-
-
-

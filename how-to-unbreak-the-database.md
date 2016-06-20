@@ -30,4 +30,6 @@ Run seed files from ./seeders
 Example:
 ```
 psql memoscope < './seeders/user.sql';
+psql memoscope < './seeders/card.sql';
+psql memoscope < './seeders/deck.sql';
 ```
