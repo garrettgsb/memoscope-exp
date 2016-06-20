@@ -70,3 +70,7 @@ th, td {
 canvas {
   border: 1px solid black;
 }
+
+#overlay {
+    font: "Apple Chancery";
+}
