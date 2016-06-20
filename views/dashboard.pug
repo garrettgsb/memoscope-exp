@@ -5,15 +5,16 @@ block content
 		canvas#visualization(style="background: url('http://www.suprime.it/wp-content/uploads/2016/05/WDF_717817_00000.jpg');")
 		#overlay
 			.sidenav
-				a.closebtn#closeSideBar ☰ 
+				a.closebtn#closeSideBar ☰
+				a.button.is-info
+					span.notification_count 0
+					span &nbsp | Notifications
 				a(href='#') Create Cards
 				a(href='#') Manage Cards
 				a(href='#') Manage Decks
 				a(href='#') Manage Profile
+				.box.notification_display
 			span#openSideBar(style='font-size:2em;cursor:pointer') ☰ MENU
 
 block scripts
 	script(src="/javascript/dashboard.js")
-
-
-

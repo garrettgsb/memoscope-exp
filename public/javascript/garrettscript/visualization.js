@@ -172,7 +172,6 @@ $(document).ready(function(){
       var now = (new Date()).getTime();
       var delta = now - notifiedAt;
       var total = endTime - notifiedAt;
-      // TODO Calculate x and y
       var percent = delta / total;
       var angle = 360 * percent;
       angle = angle * (Math.PI / 180);
