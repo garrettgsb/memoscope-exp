@@ -68,7 +68,7 @@ $(document).ready(function(){
       cardFormatted.deck_id = card.deck_id;
       cardFormatted.orbit = card.orbit;
       cardFormatted.notifiedAt = card.notified_at || Date.now();
-      cardFormatted.r = Math.floor((Math.random() * 5) + 5);
+      cardFormatted.r = card.content_html.length
       cardFormatted.notifyFlag = false;
       cardFormatted.rendered = false;
       // Randomizes dot color for each card; Play with that if you want, or just make it one solid color.

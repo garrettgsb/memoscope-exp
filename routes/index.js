@@ -84,19 +84,46 @@ router.get('/cards/new', function(req,res){
 
 router.post('/cards/create', function(req,res){
   // Put a new card into the database
-  console.log(req.body.content_html);
-  console.log(req.body.deck);
-  console.log(req.body.user_id); // User ID currently hard coded to 1
+  // User ID currently hard coded to 1 in 'card-new.js'
+  var deck_id;
   content_html = req.body.content_html;
-  deck_id = 1;
+  deck_name = req.body.deck;
+  console.log(`Selecting ${deck_name} from db`)
+  queryParams('SELECT * FROM decks WHERE name = $1', [deck_name], function(err,result){
+      if (result.rows[0]) {
+      console.log(`Result ID: ${result.rows[0].id}`);
+      console.log(`Result Name: ${result.rows[0].name}`);
+      deck_id = result.rows[0].id;
+      console.log("Calling createCard from 'if' block");
+      createCard(deck_id, content_html);
+      } else {
+      console.log("Nah mate, there's no deck there.");
+      queryParams('INSERT INTO decks (user_id, name, created_at, modified_at) VALUES ($1, $2, current_timestamp, current_timestamp);',
+                  [1, deck_name], function(err, callback){
+                    queryParams('SELECT * FROM decks WHERE name=$1', [deck_name],function(err,result){
+                      console.log(`Result of insert query:`);
+                      console.log(result);
+                      deck_id = result.rows[0].id
+                      console.log("Calling createCard from else block");
+                      createCard(deck_id, content_html);
+                    });
+                  }); // Query insert decks
+      } // Else
+  })
 
-  queryParams('INSERT INTO cards (deck_id, content_html, orbit, notified_at, created_at, modified_at) VALUES ($1, $2, 0, null, current_timestamp, current_timestamp)',
-              [deck_id, req.body.content_html],
-              function(err, redirect){
-                if (err) { console.log(err) };
-                router.get('/');
-              });
-});
+
+  function createCard(deck_id, content_html){
+    console.log(`Inside of createCard... Deck ID: ${deck_id}`); // TODO: Replace with retrieved/created value
+    queryParams('INSERT INTO cards (deck_id, content_html, orbit, notified_at, created_at, modified_at) VALUES ($1, $2, 0, null, current_timestamp, current_timestamp)',
+    [deck_id, req.body.content_html],
+    function(err, redirect){
+      //if (err) { console.log(err) };
+      router.get('/');
+    }); // Query insert cards
+  } // createCard()
+
+
+}); // Router post
 
 router.post('/cards/update', function(req,res){
   console.log(req.body);
