@@ -15,11 +15,14 @@
 $(document).ready(function(){
   var canvas = document.getElementById('visualization');
 
+
+  //TODO: Refactor this whole thing. It's not very DRY.
   $('.menu-item').each(function(i,e){
     $(e).on('click', function(event){
 
       // Links logic:
       $('.menu-item a').removeClass('active-nav-link');
+      $('.menu-item a').addClass('inactive-nav-link');
 
       // Modal logic:
       event.preventDefault();
@@ -29,7 +32,7 @@ $(document).ready(function(){
         toggleOff = true;
       }
 
-      // Hide any visible modals
+      // Clear any other previously active stuff
       $('.modal').removeClass('shown');
       $('.overlay').removeClass('shown');
       $('body').removeClass('modal-open');
@@ -38,8 +41,13 @@ $(document).ready(function(){
       // (i.e. If it's visible, leave it off)
       if (toggleOff == false) {
         $('a', this).addClass('active-nav-link');
+        $('a', this).removeClass('inactive-nav-link');
         $(modalId).addClass('shown');
-        $('.overlay').addClass('shown');
+        $('.overlay').addClass('shown').on('click', function(){
+          $(".shown").removeClass('shown');
+          $('.menu-item a').removeClass('active-nav-link inactive-nav-link')
+          $('body').removeClass('modal-open');
+        });
         $('body').addClass('modal-open');
       }
     });

@@ -86,30 +86,31 @@
 }
 
 .highlighter-red {
-  fill: var(--highlighter-red);
   background-color: var(--highlighter-red);
+  color: black;
+  fill: var(--highlighter-red);
+  padding: 10px;
 }
 
 .highlighter-red-hidden {
   color: var(--highlighter-red);
 }
-.highlighter-yellow-hidden {
-  color: var(--highlighter-yellow);
-}
-
-
 
 .highlighter-blue {
-  fill: var(--highlighter-blue);
   background-color: var(--highlighter-blue);
+  color: white;
+  fill: var(--highlighter-blue);
+  padding: 10px;
 }
 .highlighter-blue-hidden {
   color: var(--highlighter-blue);
 }
 
 .highlighter-green {
-  fill: var(--highlighter-green);
   background-color: var(--highlighter-green);
+  color: black;
+  fill: var(--highlighter-green);
+  padding: 10px;
 }
 .highlighter-green-hidden {
   color: var(--highlighter-green);
@@ -117,8 +118,13 @@
 
 
 .highlighter-yellow {
-  fill: var(--highlighter-yellow);
   background-color: var(--highlighter-yellow);
+  color: black;
+  fill: var(--highlighter-yellow);
+  padding: 10px;
+}
+.highlighter-yellow-hidden {
+  color: var(--highlighter-yellow);
 }
 
 .red-mark {
@@ -141,6 +147,13 @@
 
 #newCard {
 
+}
+
+#notificationContent {
+    position: absolute;
+    top: 30%;
+    font-size: 2em;
+    font-weight: 300;
 }
 
 #notifications {
@@ -219,6 +232,10 @@ body {
   background: rgba(255,255,255,0.9);
   color: black;
   opacity: 1;
+}
+
+.modal-open .main-nav a.inactive-nav-link {
+  filter: blur(0.5px);
 }
 
 .modal-buttons {
