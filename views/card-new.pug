@@ -1,6 +1,6 @@
-extends layout
+//- extends layout
 
-block content
+//- block content
 	//-
 		div(style="height: 80px;")
 		.tile.is-ancestor
@@ -43,44 +43,45 @@ block content
 						span.icon
 							i.fa.fa-check
 						span Save
-	.card.is-6
-		.tabs.is-fullwidth.is-boxed
+.card.is-6.view
+	.tabs.is-fullwidth.is-boxed
+		ul
+			li#view.is-active.is-tab
+				a
+					span.icon.is-small
+						i.fa.fa-image
+					span View
+			li#edit.is-tab
+				a
+					span.icon.is-small
+						i.fa.fa-pencil
+					span Edit
+						#highlighter
+							.circle.primary-color
+							.circle.secondary-color
+							.circle.tertiary-color
+							.circle.quaternary-color
+	header.card-header
+		p.card-header-title
+			| Deck Name
+		a.card-header-icon
+			i.fa.fa-angle-down
+	.dropdownlist
+		.dropdown-content
 			ul
-				li#view.is-active.is-tab
-					a
-						span.icon.is-small
-							i.fa.fa-image
-						span View
-				li#edit.is-tab
-					a
-						span.icon.is-small
-							i.fa.fa-pencil
-						span Edit
-							#highlighter
-								.circle.primary-color
-								.circle.secondary-color
-								.circle.tertiary-color
-								.circle.quaternary-color
-		header.card-header
-			p.card-header-title
-				| Deck Name
-			a.card-header-icon
-				i.fa.fa-angle-down
-		.dropdownlist
-			.dropdown-content
-				ul
-					li Item
-					li Item
-					li Item
-					li New Deck
-		.card-content
-			.content
-				| Card content.
-		footer.card-footer
-			a.card-footer-item
-				icon.fa.fa-check
-			a.card-footer-item
-				icon.fa.fa-close
+				li Item
+				li Item
+				li Item
+				li New Deck
+	.card-content
+		.content
+			| Card content.
+	footer.card-footer
+		a.card-footer-item
+			icon.fa.fa-check
+		a.card-footer-item
+			icon.fa.fa-close
+
 
 
 

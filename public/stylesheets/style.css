@@ -266,8 +266,9 @@ html,body{
 }
 
 .card.is-6{
-	z-index: 5;
- box-shadow: 10px 10px 5px #888888;
+	text-align: left;
+	z-index: 4;
+ 	box-shadow: 10px 10px 5px #888888;
 }
 
 .card.is-6.view{
@@ -295,19 +296,20 @@ html,body{
 }
 
 .dropdownlist{
-    position: absolute;
-    display: inline-block;
-    width: 100%;
+  position: absolute;
+  display: inline-block;
+  width: 100%;
 }
 
 .dropdown-content{
-    display: none;
-    position: relative;
-    background-color: white;
-    width: 100%;
-    z-index: 400;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  display: none;
+  text-align: left;
+  position: relative;
+  background-color: white;
+  width: 100%;
+  z-index: 400;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 #overlay{
@@ -315,7 +317,7 @@ html,body{
 	height: 100%;
 	width: 100%;
 	display: none;
-	z-index: 4;
+	z-index: 5;
 	background-color: rgba(0,0,0, 0.3);
 }
 .dropdown-content ul li{
@@ -327,6 +329,9 @@ html,body{
   color: white;
 }
 
+[contenteditable="true"] {
+    background-color: lightgrey;
+}
 
 .circle{
   display: inline-block;
@@ -336,8 +341,11 @@ html,body{
   height: 15px;
   width: 15px;
 }
+.column{
+	margin: 20px;
+}
 
-#highlighter{
+.highlighter{
   padding-left: 5px;
   padding-right: 5px;
   display:none;
