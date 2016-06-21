@@ -89,7 +89,7 @@
   background-color: var(--highlighter-red);
   color: black;
   fill: var(--highlighter-red);
-  padding: 10px;
+  padding: 5px 0px;
 }
 
 .highlighter-red-hidden {
@@ -100,7 +100,7 @@
   background-color: var(--highlighter-blue);
   color: white;
   fill: var(--highlighter-blue);
-  padding: 10px;
+  padding: 5px 0px;
 }
 .highlighter-blue-hidden {
   color: var(--highlighter-blue);
@@ -110,7 +110,7 @@
   background-color: var(--highlighter-green);
   color: black;
   fill: var(--highlighter-green);
-  padding: 10px;
+  padding: 5px 0px;
 }
 .highlighter-green-hidden {
   color: var(--highlighter-green);
@@ -121,7 +121,7 @@
   background-color: var(--highlighter-yellow);
   color: black;
   fill: var(--highlighter-yellow);
-  padding: 10px;
+  padding: 10px 0px;
 }
 .highlighter-yellow-hidden {
   color: var(--highlighter-yellow);
@@ -148,7 +148,7 @@
 #cardHighlight {
     position: relative;
     top: 30%;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: 300;
     padding-bottom: 40px;
 }
@@ -156,7 +156,7 @@
 #cardFinish {
     position: relative;
     top: 10%;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: 300;
     padding-bottom: 20px;
 }
@@ -168,7 +168,7 @@
 #notificationContent {
     position: absolute;
     top: 30%;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: 300;
 }
 
@@ -199,7 +199,7 @@ body {
 .cardContent {
     position: absolute;
     top: 30%;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: 300;
 }
 

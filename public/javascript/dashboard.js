@@ -129,6 +129,20 @@ $(document).ready(function(){
     $("#new-card-finish").addClass('active-tab');
   });
 
+  $(".activate-card").on('click', function(){
+    console.log("Strictly decorative.")
+    if ($(".activate-card h1 span").hasClass('is-success') == true) {
+      $(".activate-card h1 span")
+        .removeClass('is-success')
+        .addClass('is-danger')
+        .text("Not right now.")
+    } else {
+      $(".activate-card h1 span")
+      .removeClass('is-danger')
+      .addClass('is-success')
+      .text("Yes please!")
+    }
+  })
 
 //--------------------------------------------
 // NOTE: HIGHLIGHTER ALGO DO NOT TOUCH
@@ -333,6 +347,7 @@ $(document).ready(function(){
     //TODO: Tie in notification_count with representation of number of pending notifications
 
     cardData.forEach(function(card){
+      console.log(card)
       var cardFormatted = {};
       cardFormatted.id = card.id;
       cardFormatted.content_html = card.content_html;
@@ -500,11 +515,21 @@ $(document).ready(function(){
         ctx.fill();
       }
 
+      var fps = 30;
+      var fpsNow;
+      var fpsThen = Date.now();
+      var fpsInterval = 1000/fps;
+      var fpsDelta;
       (function update() {
-        move();
-        draw();
-        $(".notification_count").text(Math.floor(notification_count));
+        fpsNow = Date.now();
+        fpsDelta = fpsNow - fpsThen;
+        if (fpsDelta > fpsInterval) {
+          move();
+          draw();
+          $(".notification_count").text(Math.floor(notification_count));
+        }
         requestAnimationFrame(update);
+
       }());
     }
 
