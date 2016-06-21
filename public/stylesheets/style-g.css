@@ -121,19 +121,7 @@
   background-color: var(--highlighter-yellow)
 }
 
-/* Dashboard */
-
-.dash-stretch {
-  height: 300px;
-}
-
-.dash-content {
-  position: fixed;
-}
-
-.dash-hidden {
-  display: none;
-}
+/* Dashboard Styles */
 
 #newCard {
 
@@ -141,4 +129,91 @@
 
 #notifications {
 
+}
+
+#manage-cards {
+
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.main-nav {
+  left: 0;
+  list-style: none;
+  margin: 0;
+  min-width: 200px;
+  padding: 0;
+  position: fixed;
+  top: 80px;
+  z-index: 3;
+}
+
+.main-nav a {
+  border: 1px solid white;
+  display: block;
+  padding: 15px;
+  color: white;
+  font-size: 1.5em;
+
+}
+
+.main-nav li {
+  margin: 40px;
+}
+
+
+.modal {
+  bottom: 0;
+  display: hidden;
+  left: 240px;
+  padding: 20px;
+  position: fixed;
+  top: 100px;
+  z-index: 4;
+}
+
+.modal-container {
+  background: rgba(255,255,255,.6);
+  padding: 20px;
+}
+
+/* Added to the body tag when a modal is open */
+.modal-open .main-nav a {
+  opacity: 0.5;
+}
+
+.modal-open .main-nav a.active-nav-link {
+  background: white;
+  color: black;
+  opacity: 1;
+}
+
+.overlay {
+  background: rgba(0,0,0,.75);
+  bottom: 0;
+  display: none;
+  left: 0;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.shown {
+  display: block;
+  opacity: 1;
+}
+
+.visualization {
+  background: url(http://pic.putaojiayuan.com/uploadfile/tuku/SeCaiBeiJing/12190521074117.jpg) 50% 50%;
+  background-size: cover;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
 }

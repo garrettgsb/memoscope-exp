@@ -208,7 +208,7 @@ function sendErOff() {
 // written to handle that.
 $(".edit-light").on('click', function(){
   console.log("clicked!")
-  editMode($("h5").text());
+  editMode($("#card-content").text());
   return $("textarea").on('blur', function(){
     $(".highlight-bar").css("display", "none")
     renderMode($("textarea").val());

@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Document</title>
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+    a {
+      color: white;
+      text-decoration: none;
+    }
+    textarea {
+      width: 100%;
+    }
+    .main-nav {
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 200px;
+      z-index: 3;
+    }
+    .main-nav a {
+      border: 1px solid white;
+      display: block;
+      padding: 15px;
+    }
+    .modal-open .main-nav a {
+      opacity: .5;
+    }
+    .modal-open .main-nav a.active-nav-link {
+      background: white;
+      color: black;
+      opacity: 1;
+    }
+    .main-nav li {
+      margin: 20px;
+    }
+    .main-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .modal {
+      bottom: 0;
+      display: none;
+      left: 200px;
+      opacity: 0;
+      overflow: auto;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 4;
+    }
+    .modal-container {
+      background: rgba(255,255,255,.6);
+      padding: 20px;
+    }
+    .overlay {
+      background: rgba(0,0,0,.75);
+      bottom: 0;
+      display: none;
+      left: 0;
+      opacity: 0;
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 2;
+    }
+    .shown {
+      display: block;
+      opacity: 1;
+    }
+    .visualization {
+      background: url(http://www.unoosa.org/res/timeline/index_html/space-2.jpg) 50% 50%;
+      background-size: cover;
+      bottom: 0;
+      left: 0;
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+<nav class="main-nav">
+  <ul>
+    <li><a href="#notifications">Notifications</a></li>
+    <li><a href="#new-card">New Card</a></li>
+    <li><a href="#manage-cards">Manage Cards</a></li>
+  </ul>
+</nav>
+<main class="visualization"></main>
+<section id="notifications" class="modal">
+  <div class="modal-container">
+    <h1>Notifications</h1>
+    <ol>
+      <li>Something</li>
+      <li>Something</li>
+      <li>Something</li>
+    </ol>
+  </div>
+</section>
+<section id="new-card" class="modal">
+  <div class="modal-container">
+    <h1>New Card</h1>
+    <form action="/cards" method="post">
+      <p>
+        <label>Content</label>
+        <textarea name="content" rows="10" cols="100"></textarea>
+      </p>
+      <p>
+        <button>Create Card</button>
+      </p>
+    </form>
+  </div>
+</section>
+<section id="manage-cards" class="modal"></section>
+<div class="overlay"></div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var overlay = document.querySelector('.overlay');
+    function removeClassFromEls(className) {
+      Array.from(document.querySelectorAll('.' + className)).forEach(function (el) {
+        el.classList.remove(className);
+      });
+    }
+
+    function closeModal() {
+      removeClassFromEls('shown');
+      removeClassFromEls('active-nav-link');
+      removeClassFromEls('modal-open');
+    }
+    overlay.addEventListener('click', closeModal);
+    Array.from(document.querySelectorAll('.modal')).forEach(function (modal) {
+      modal.addEventListener('click', closeModal);
+    });
+    Array.from(document.querySelectorAll('.modal-container')).forEach(function (modal) {
+      modal.addEventListener('click', function (event) {
+        event.stopPropagation();
+      });
+    });
+    Array.from(document.querySelectorAll('.main-nav a')).forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        closeModal();
+        document.body.classList.add('modal-open');
+        overlay.classList.add('shown');
+        event.target.classList.add('active-nav-link');
+        var href = event.target.href;
+        var hash = href.substr(href.indexOf('#'));
+        document.querySelector(hash).classList.add('shown');
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -16,12 +16,6 @@ const pg = require('pg');
 
 // e.g.: If you want to type "localhost:3000/users/"
 const routes = require('./routes/index');
-const users = require('./routes/users');
-const dashboard = require('./routes/dashboard');
-const cards = require('./routes/cards');
-const notification = require('./routes/notification');
-const decks = require('./routes/decks');
-
 const app = express();
 //tryint to see what the fuck is wrong with the server:
 // app.listen(3000, function() {
@@ -52,12 +46,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //ADD ROUTES HERE IF YOU WANT
 app.use('/', routes);
-app.use('/users', users);
-app.use('/dashboard', dashboard);
-app.use('/cards', cards);
-app.use('/notification', notification);
-app.use('/decks', decks);
-
 
 
 
