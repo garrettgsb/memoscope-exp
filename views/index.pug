@@ -1,21 +1,24 @@
-extends layout
+extends layout-index
 
 block content
-  div(class="aquarium" id="aquarium")
-    div(class="g-aquarium-overlay g-aquarium-login")
-      form(action="/dashboard" class="control")
-        p(class="control has-icon")
-          input(type="text" class="input" placeholder="Username...")
-          i(class="fa fa-space-shuttle")
-        p(class="control has-icon")
-          input(type="text" class="input" placeholder="Password...")
-          i(class="fa fa-lock")
-        br
-        input(class="button is-primary is-medium" type="submit" value="Log In" style="margin:4px 0px;")
-    div(class="g-aquarium-overlay g-aquarium-label")
-      div(class="content")
-        h3(class="g-home-tagline") Take a look through my
-        h1(class="g-home-memoscope") #{username}
+
+	div(class="logoContent" style="width:40%;")
+			img(src="/images/logo-white.png" style="margin-left: 70%;")
+	div(class="aquarium" id="aquarium")
+		div(class="g-aquarium-overlay g-aquarium-login")
+			form(action="/dashboard" class="control" style="text-align: none;")
+				p(class="control has-icon")
+					input(type="text" class="input" placeholder="Username...")
+					i(class="fa fa-space-shuttle")
+				p(class="control has-icon")
+					input(type="password" class="input" placeholder="Password...")
+					i(class="fa fa-lock")
+				br
+				input(class="button is-primary is-medium" type="submit" value="Log In" style="margin:5% 40%;")
+		div(class="g-aquarium-overlay g-aquarium-label" )
+			div(class="content" style="margin:5% 0%;")
+				h3(class="g-home-tagline") Need an Account? 
+					a Sign up here
 
 block scripts
-  script(src="/javascript/garrettscript/bubble_generator.js")
+	script(src="/javascript/garrettscript/bubble_generator.js")

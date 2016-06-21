@@ -228,6 +228,7 @@ html,body{
 }
 
 #container{
+	background-color: black;
 	position:relative;
 	height:auto !important;
 	min-height:100%;
