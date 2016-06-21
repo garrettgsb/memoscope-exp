@@ -121,7 +121,7 @@
   background-color: var(--highlighter-yellow);
   color: black;
   fill: var(--highlighter-yellow);
-  padding: 10px 0px;
+  padding: 5px 0px;
 }
 .highlighter-yellow-hidden {
   color: var(--highlighter-yellow);

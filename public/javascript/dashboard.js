@@ -76,7 +76,7 @@ $(document).ready(function(){
     $(".highlighter-yellow").off('mousedown')
   }
 
-  $("#edit-card-link").on('click', function(){
+  $(".edit-card-link").on('click', function(){
     removeClickers();
     $("#new-card-finish").removeClass('active-tab');
     $("#new-card-highlight").removeClass('active-tab');
@@ -84,7 +84,7 @@ $(document).ready(function(){
 
   });
 
-  $("#highlight-card-link").on('click', function(e){
+  $(".highlight-card-link").on('click', function(e){
     rangeSet = [];
     $("#new-card-edit").removeClass('active-tab');
     $("#new-card-finish").removeClass('active-tab');
@@ -120,9 +120,8 @@ $(document).ready(function(){
     });
   });
 
-  $("#finish-card-link").on('click', function(){
+  $(".finish-card-link").on('click', function(){
     removeClickers();
-    console.log(inputText);
     $("#cardFinish").html(inputText);
     $("#new-card-edit").removeClass('active-tab');
     $("#new-card-highlight").removeClass('active-tab');
@@ -291,19 +290,6 @@ $(document).ready(function(){
               toggleColor('green');
               toggleColor('yellow');
 
-              // $(".highlight-bar").each(function(i,e){
-              //   $(e).on('click', function() {
-              //     console.log(this)
-              //     if ($(e).hasClass(`highlighter-red`)) {
-              //       $("#notificationContent span").each(function(x,y){
-              //         if ($(y).hasClass(`highlighter-red`)) {
-              //           $(y).toggleClass(`highlighter-red-hidden`);
-              //         }
-              //       });
-              //     }
-              //   });
-              // }); // .highlight-bar
-
               // - TODO: Write updated data to database
               function notificationFinish(){
                 card.notifiedAt = Date.now();
@@ -347,7 +333,6 @@ $(document).ready(function(){
     //TODO: Tie in notification_count with representation of number of pending notifications
 
     cardData.forEach(function(card){
-      console.log(card)
       var cardFormatted = {};
       cardFormatted.id = card.id;
       cardFormatted.content_html = card.content_html;
@@ -515,20 +500,12 @@ $(document).ready(function(){
         ctx.fill();
       }
 
-      var fps = 30;
-      var fpsNow;
-      var fpsThen = Date.now();
-      var fpsInterval = 1000/fps;
-      var fpsDelta;
       (function update() {
-        fpsNow = Date.now();
-        fpsDelta = fpsNow - fpsThen;
-        if (fpsDelta > fpsInterval) {
           move();
           draw();
           $(".notification_count").text(Math.floor(notification_count));
-        }
-        requestAnimationFrame(update);
+        // }
+        setTimeout(update, 40);
 
       }());
     }
