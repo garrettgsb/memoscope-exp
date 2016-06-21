@@ -54,12 +54,24 @@ router.get('/users', function (req, res) {
 });
 
 // CARD ROUTES
+
+//All my cards
 router.get('/cards', function(req, res){
   queryParams('SELECT * FROM cards INNER JOIN decks on cards.deck_id=decks.id WHERE decks.user_id = $1', [req.session.user_id],
     function(err, myCards){
       console.log('session ID: ', req.session.user_id);
-      console.log(myCards);
-      res.render('cards', {username: req.session.username, cards: myCards.rows});
+      console.log('my cards: ', myCards);
+      var active = [];
+      var inactive = [];
+      myCards.rows.forEach(function(e){
+        if(e.orbit > 0){
+          active.push(e);
+        }else if(e.orbit == 0){
+          inactive.push(e);
+        }
+      });
+      console.log(active);
+      res.render('cards', {username: req.session.username, active: active, inactive: inactive});
     });
 });
 
@@ -132,12 +144,15 @@ router.post('/cards/update', function(req,res){
       res.send("Hi!");
   });
 });
-// router.get('/cards/:id', function(req, res){
-//   queryParams('SELECT * FROM cards WHERE id = $1',
-//              [req.params.id], function(err, myCard){
-//              res.send({card: myCard});
-//    })
-// });
+
+//Cards by ID
+router.get('/cards/:id', function(req,res){
+  queryParams('SELECT * FROM cards WHERE id =$1',
+    [req.params.id], function(err,myCard){
+      console.log("myCard: ", myCard)
+    res.render('card', {title: 'Card', card: myCard.rows[0]})
+    });
+});
 
 router.get('/cards/:id', function(req,res){
   queryParams('SELECT * FROM cards WHERE id =$1',
@@ -176,13 +191,14 @@ router.post('/decks/new', function(req, res){
 //               }
 // });
 
-// router.get('/decks/:id', function(req,res){
-//     queryParams('SELECT * FROM decks WHERE id =$1',
-//     [req.params.id], function(err,myDeck){
-//       console.log("myDeck: ", myDeck)
-//     res.render('deck', {title: 'deck', card: myDeck})
-//     });
-// });
+//Decks by ID
+router.get('/decks/:id', function(req,res){
+    queryParams('SELECT * FROM cards FULL OUTER JOIN decks on cards.deck_id=decks.id WHERE decks.id = $1',
+    [req.params.id], function(err,myCards){
+      console.log("myCards: ", myCards)
+    res.render('deck', {title: 'deck', cards: myCards.rows})
+    });
+});
 
 router.get('/dashboard', function(req,res){
     queryParams('SELECT * FROM cards',

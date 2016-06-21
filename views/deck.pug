@@ -4,8 +4,9 @@ block content
 	.hero.has-text-centered
 		.hero-head
 			.container
-				h1.title= deck.name
-				h2.subtitle= deck.description
+				h1.title= cards[0].name
+				h2.subtitle= cards[0].description
 	hr.divider
+	.columns
 		each card in cards
-			include card.pug
+			include card-no-flip.pug
