@@ -12,6 +12,14 @@
 // click handlers by calling displayNotification()
 // inside of their callback function.
 
+var inputText;
+var selection;
+var cc_element;
+var cc_text;
+var rangeSet;
+var answer;
+
+
 $(document).ready(function(){
   var canvas = document.getElementById('visualization');
 
@@ -61,25 +69,148 @@ $(document).ready(function(){
   //  NEW CARD CONTROLS
   //----------------
 
+  function removeClickers(){
+    $(".highlighter-red").off('mousedown')
+    $(".highlighter-blue").off('mousedown')
+    $(".highlighter-green").off('mousedown')
+    $(".highlighter-yellow").off('mousedown')
+  }
+
   $("#edit-card-link").on('click', function(){
+    removeClickers();
+    $("#new-card-finish").removeClass('active-tab');
     $("#new-card-highlight").removeClass('active-tab');
     $("#new-card-edit").addClass('active-tab');
+
   });
 
-  $("#highlight-card-link").on('click', function(){
+  $("#highlight-card-link").on('click', function(e){
+    rangeSet = [];
     $("#new-card-edit").removeClass('active-tab');
+    $("#new-card-finish").removeClass('active-tab');
     $("#new-card-highlight").addClass('active-tab');
-
     // NOTE: This line interpolates HTML into the user's input text.
     // If the highlighter starts bugging out, this could be a good
     // place to start troubleshooting.
-    var inputText = $("#newCard").val().replace(/\n/g, "<br />")
-    $("#cardContent").html(inputText);
+    inputText = $("#newCard").val().replace(/\n/g, "<br />")
+    $("#cardHighlight").html(inputText);
+
+    selection = window.getSelection();
+    cc_element = $("#cardHighlight");
+    cc_text = cc_element.text();
+    rangeSet = [[0, cc_text.length, null]]; // overwrite old highlight rules, if any
+    answer = [];
+
+    // Event handlers for SVG clickers
+    $(".highlighter-red").on('mousedown', function() {
+      updateHighlight("highlighter-red");
+      inputText = $("#newCard").val().replace(`chunk`, "");
+    });
+    $(".highlighter-blue").on('mousedown', function() {
+      updateHighlight("highlighter-blue");
+      inputText = $("#newCard").val().replace(`chunk`, "");
+    });
+    $(".highlighter-green").on('mousedown', function() {
+      updateHighlight("highlighter-green");
+      inputText = $("#newCard").val().replace(`chunk`, "");
+    });
+    $(".highlighter-yellow").on('mousedown', function() {
+      updateHighlight("highlighter-yellow");
+      inputText = $("#newCard").val().replace(`chunk`, "");
+    });
   });
 
-  function highlightMode(){
+  $("#finish-card-link").on('click', function(){
+    removeClickers();
+    $("#cardFinish").html(inputText);
+    $("#new-card-edit").removeClass('active-tab');
+    $("#new-card-highlight").removeClass('active-tab');
+    $("#new-card-finish").addClass('active-tab');
+  });
 
+
+//--------------------------------------------
+// NOTE: HIGHLIGHTER ALGO DO NOT TOUCH
+//--------------------------------------------
+  function updateHighlight(color){
+    // assume that we have the variable "selection" from some previous step
+    //  (selection is from 'selection = window.getSelection()')
+    // (color is from what button was clicked)
+    function updateRangeSet(rangeSet, new_left, new_right, new_color){
+      var answer = [];
+      var pushedNew = false;
+      rangeSet.forEach(function(old_range, idx){
+        [old_left, old_right, old_color] = old_range;  // fancy destructuring, might not work in old browsers
+        if (old_right < new_left || new_right < old_left){ // no overlap:  OONN or NNOO
+          answer.push(old_range);
+        } else if (new_left < old_left && old_right < new_right) { // old range is enveloped: N O O N
+          // do nothing.  thank you, come again.
+        } else if (new_left < old_left) { // must be N O N O
+          if (!pushedNew){
+            answer.push([new_left, new_right, new_color]);
+            pushedNew = true;
+          }
+          answer.push([new_right, old_right, old_color]);
+        } else { // must be ONNO or ONON
+          if (old_right < new_right){ // must be ONON
+            answer.push([old_left, new_left, old_color]);
+            if (!pushedNew){
+              answer.push([new_left, new_right, new_color]);
+              pushedNew = true;
+            }
+          } else { // at long ast, must be ONNO
+            answer.push([old_left, new_left, old_color]);
+            if (!pushedNew){
+              answer.push([new_left, new_right, new_color]);
+              pushedNew = true;
+            }
+            answer.push([new_right, old_right, old_color]);
+          }
+        }
+      }) // end forEach
+      return answer;
+    }
+
+    function getTrueOffset(parentish, child_node, child_offset){
+      if (parentish.childNodes.length == 1 && parentish.childNodes[0] == child_node){
+        return child_offset;
+      } else {
+        var foundIt = false;
+        var preceeding = Array.from(parentish.childNodes).reduce(function(previousValue, currentValue, currentIndex){
+          if (foundIt){
+            return previousValue;
+          } else if (currentValue == child_node.parentNode) {
+            foundIt = true;
+            return previousValue;
+          } else {
+            var currLen = $(currentValue).text().length;
+
+            return previousValue + currLen;
+          }
+        }, 0);
+
+        return preceeding + child_offset;
+      }
+    }
+
+    var trueAnchorOffset = getTrueOffset(cc_element[0], selection.anchorNode, selection.anchorOffset);
+    var trueFocusOffset = getTrueOffset(cc_element[0], selection.focusNode, selection.focusOffset);
+    var left = Math.min(trueAnchorOffset, trueFocusOffset);
+    var right = Math.max(trueAnchorOffset, trueFocusOffset);
+
+    rangeSet = updateRangeSet(rangeSet, left, right, color);  // look, our color parameter gets used!
+
+    // This is where we render our highlit text.
+    cc_element.html(rangeSet.map(function(range){
+      var text_fragment = cc_text.substr(range[0], range[1]-range[0]);
+      var newclass = range[2] || "";
+      return "<span class='chunk " + newclass + "'>" + text_fragment + "</span>";
+    }).join(''));
   }
+//--------------------------------------------
+// NOTE: END HIGHLIGHTER ALGO YOU CAN TOUCH AGAIN
+//--------------------------------------------
+
 
 
   //----------------

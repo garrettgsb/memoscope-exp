@@ -28,15 +28,18 @@ block content
 						a(href="#new-card-edit") Edit
 					li#highlight-card-link
 						a(href="#new-card-highlight") Highlight
+					li#finish-card-link
+						a(href="#new-card-finish") Finish
 
 			#new-card-edit.new-card-tab.active-tab
 				h1 Click "Highlight" when you've finished entering your text.
 				form
 						textarea#newCard.edit-mode(name="content" rows="10" cols="100")
+
 			#new-card-highlight.new-card-tab
 				div
-					p#cardContent Write some text, yo!
-				div(class="modal-buttons")
+					p#cardHighlight Don't forget to write some text.
+				div(class="modal-buttons" style="position: absolute; bottom: 0;")
 				div(style="position: relative")
 					div(style="bottom: 0; left: 0;")
 						svg(class="highlight-bar" height="30" width="106")
@@ -45,6 +48,33 @@ block content
 							circle(class="highlighter-green" cx="68" cy="12" r="12")
 							circle(class="highlighter-yellow" cx="94" cy="12" r="12")
 						div(class="button is-success is-pulled-right") Create Card!
+
+			#new-card-finish.new-card-tab
+				.tile.is-ancestor
+					.tile.is-parent.is-12
+						p#cardFinish Don't forget to write some text.
+					.tile.is-parent.is-vertical.is-6
+						.tile.is-child
+							div(style="width: 200px; height: 200px; color: red")
+					.tile.is-parent.is-vertical
+						.tile.is-child
+							p.control.has-addons.has-addons-centered
+								span.select
+									select
+										option (No Deck)
+										option Poem Quotes
+										option Another Deck
+								input.input#add-deck-name(type='text', placeholder='Or Enter Deck Name')
+								a.button.is-primary#add-new-deck
+									| Add
+					.tile.is-parent.center
+						.tile.is-child.box#submit-button
+							a.button.is-success
+								span.icon
+									i.fa.fa-check
+								span Save
+
+
 
 
 	section#new-card-placeholder.modal

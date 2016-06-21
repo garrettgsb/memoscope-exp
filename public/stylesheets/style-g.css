@@ -145,6 +145,22 @@
 
 /* Dashboard Styles */
 
+#cardHighlight {
+    position: relative;
+    top: 30%;
+    font-size: 2em;
+    font-weight: 300;
+    padding-bottom: 40px;
+}
+
+#cardFinish {
+    position: relative;
+    top: 10%;
+    font-size: 2em;
+    font-weight: 300;
+    padding-bottom: 20px;
+}
+
 #newCard {
 
 }
@@ -169,6 +185,10 @@
 }
 
 #new-card-highlight.active-tab {
+  display: block;
+}
+
+#new-card-finish.active-tab {
   display: block;
 }
 
@@ -349,6 +369,10 @@ body {
   opacity: 1;
 }
 
+textarea {
+  border: none;
+  border-style: none;
+}
 .visualization {
   background: url(http://pic.putaojiayuan.com/uploadfile/tuku/SeCaiBeiJing/12190521074117.jpg) 50% 50%;
   background-size: cover;

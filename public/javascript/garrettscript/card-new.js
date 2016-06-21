@@ -46,6 +46,11 @@ function highlightMode(){
       selection = window.getSelection();
     }
   });
+  var selection = window.getSelection();
+  var cc_element = $("#cardContent");
+  var cc_text = cc_element.text();
+  var rangeSet = [[0, cc_text.length, null]]; // overwrite old highlight rules, if any
+  var answer = [];
 
   $(".highlight-bar").css("display", "inline");
 
@@ -66,6 +71,7 @@ function highlightMode(){
   $(".highlighter-yellow").on('mousedown', function(){
     updateHighlight("highlighter-yellow");
   });
+
 
   function updateHighlight(color){
     // assume that we have the variable "selection" from some previous step
