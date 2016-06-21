@@ -16,23 +16,38 @@ $(document).ready(function(){
 
   var canvas = document.getElementById('visualization');
 
-  var closeSideBar = document.getElementById('closeSideBar');
-  var openSideBar = document.getElementById('openSideBar');
-  $('#newCardWindow').toggleClass('hidden');
+  $('.menu-item').each(function(i,e){
+    $(e).on('click', function(event){
 
+      // Links logic:
+      $('.menu-item a').removeClass('active-nav-link');
 
-  openSideBar.onclick = function() {
-    $(".sidenav").width('30%');
-  };
+      // Modal logic:
+      event.preventDefault();
+      var toggleOff = false;
+      var modalId = $('a', this).attr('href');
+      if($(modalId).is('.shown')) {
+        toggleOff = true;
+      }
 
-  closeSideBar.onclick = function() {
-    $(".sidenav").width('0%');
-  };
+      // Hide any visible modals
+      $('.modal').removeClass('shown');
+      $('.overlay').removeClass('shown');
+      $('body').removeClass('modal-open');
 
-  $('#sidebarAdd').on('click', function(){
-    $("#newCardWindow").toggleClass('hidden')
+      // Only show the target modal if it's not already visible
+      // (i.e. If it's visible, leave it off)
+      if (toggleOff == false) {
+        $('a', this).addClass('active-nav-link');
+        $(modalId).addClass('shown');
+        $('.overlay').addClass('shown');
+        $('body').addClass('modal-open');
+      }
+    });
   });
 
+  // All timer/visualization/notification related code
+  // should be placed inside of this getJSON request.
   $.getJSON("/cards/all", function(cardData){
     console.log("Visualization script initialized.");
 

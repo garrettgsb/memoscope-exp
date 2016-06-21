@@ -2,29 +2,16 @@ doctype html
 head
 	meta(charset='UTF-8')
 	title= title
-	link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css', rel='stylesheet', integrity='sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1', crossorigin='anonymous')
-	link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.0.28/css/bulma.css', type='text/css')
-	link(rel="stylesheet", type="text/css", href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css")
+	block stylesheets
+	link(href='/stylesheets/font-awesome.min.css', rel='stylesheet', integrity='sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1', crossorigin='anonymous')
+	link(rel='stylesheet', href='/stylesheets/bulma.min.css', type='text/css')
 	link(rel='stylesheet', href='/stylesheets/style.css')
 
 	link(rel='stylesheet', href='/stylesheets/style-g.css')
 	link(rel='stylesheet', href='/stylesheets/style-j.css')
 	link(rel='stylesheet', href='/stylesheets/style-s.css')
 body(bgcolor="#E6E6FA")
-	#container
-		//- #header
-		//-   include logo.pug
-		#content
-			block content
-		//- #footer
-		//-   include sidebar.pug
-script(src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js', type='text/javascript')
-script(type="text/javascript", src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js")
-script(src="/javascript/sectionnav.js")
-script(src="/javascript/slider.js")
-script(src="/javascript/nav.js")
-script(src='/javascript/progressbar.js')
-script(src="/javascript/deck-new.js")
+	block content
+script(src='/javascript/jquery-1.7.min.js', type='text/javascript')
 script(src='/javascript/main.js', text='text/javascript')
-
 block scripts

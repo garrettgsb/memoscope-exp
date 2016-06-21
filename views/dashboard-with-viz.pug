@@ -1,14 +1,13 @@
 extends layout-dashboard
 
 block content
-	.overlay
 	nav.main-nav
 		ul
-			li.menu-item
+			li
 				a(href="#notifications") NOTIFICATIONS
-			li.menu-item
+			li
 				a(href="#new-card") NEW CARD
-			li.menu-item
+			li
 				a(href="#manage-cards") MANAGE CARDS
 
 	section#notifications.modal
@@ -31,11 +30,13 @@ block content
 		include cards-new-modified.pug
 
 	section#manage-cards.modal
-		.modal-container
-			h1 Here's where my cards get managed.
+		h1 Here's where my cards get managed.
+
+		.overlay
+
 
 	main.visualization
-		img(src='http://www.suprime.it/wp-content/uploads/2016/05/WDF_717817_00000.jpg')
+		canvas#visualization(style="background: url('http://www.suprime.it/wp-content/uploads/2016/05/WDF_717817_00000.jpg');")
 
 
 
