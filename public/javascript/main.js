@@ -41,16 +41,17 @@ $(function(){
             $(this).parents('.tabs').siblings('.card-content').children().attr('contenteditable', 'true');
             console.log("this: ", $(this), " parents.find: ", $(this).parents('.tabs').next('.card-content .content'));
             $(this).closest('.card.is-6').css( "z-index", 6);
-            $('.highlighter').css({display: "inline-block"});
+            // $(this).parent().children('.highlighter').css({display: "inline-block"});
         }else{
             $('#overlay').hide();
             $(this).closest('.card.is-6').css( "z-index", 3);
             $('.card-content .content').attr('contenteditable', 'false');
-            $('.highlighter').css({display: "none"});
+            // $('.highlighter').css({display: "none"});
         }
     });
 
     $('.card-header').on('click', function(e){
+        $(this).focus();
         console.log("this: ", $(this), " parent: ", $(this).parent().find('.dropdownlist .dropdown-content'));
         $(this).parent().find('.dropdownlist .dropdown-content')
         .toggleClass('show');
@@ -58,7 +59,7 @@ $(function(){
 
     $('.dropdown-content li').on('click', function(){
         $('.dropdown-content').removeClass('show');
-        $(this).parent('card-header-title').html($(this).html());
+        console.log('dropdown title: ', $(this).parent('.dropdownlist').siblings('.card-header .card-header-title').html($(this).html()));
     });
 
 

@@ -4,69 +4,71 @@ $(document).ready(function(){
   var editBox = "<textarea class='edit-mode' rows='6' cols='80'>";
   var redLight
 
-  function editMode(text) {
-    // TODO: cleanup bad event handlers from other modes (e.g. highlight mode handlers)
-    console.log(text)
-    $(".highlight-bar").css("display", "none")
-    $(".edit-light").addClass('is-danger');
-    $(".render-light").removeClass('is-primary');
-    $(".highlight-light").removeClass('is-primary');
-    $("h5").after(editBox);
-    $("textarea").text(text);
-    $(".render-mode").css('display', 'none');
-    $("textarea").focus();
-  }
+  // function editMode(text) {
+  //   // TODO: cleanup bad event handlers from other modes (e.g. highlight mode handlers)
+  //   console.log(text)
+  //   $(".highlight-bar").css("display", "none")
+  //   $(".edit-light").addClass('is-danger');
+  //   $(".render-light").removeClass('is-primary');
+  //   $(".highlight-light").removeClass('is-primary');
+  //   $("h5").after(editBox);
+  //   $("textarea").text(text);
+  //   $(".render-mode").css('display', 'none');
+  //   $("textarea").focus();
+  // }
 
-  function renderMode(text){
-    // TODO: cleanup bad event handlers from other modes
-    console.log(text);
-    $(".highlight-bar").css("display", "none")
-    $(".render-light").addClass('is-primary');
-    $(".edit-light").removeClass('is-danger');
-    $(".highlight-light").removeClass('is-primary');
-    $("h5").text(text).css('display', 'inline-block');
-    $(".edit-mode").remove();
-  }
+  // function renderMode(text){
+  //   // TODO: cleanup bad event handlers from other modes
+  //   console.log(text);
+  //   $(".highlight-bar").css("display", "none")
+  //   $(".render-light").addClass('is-primary');
+  //   $(".edit-light").removeClass('is-danger');
+  //   $(".highlight-light").removeClass('is-primary');
+  //   $("h5").text(text).css('display', 'inline-block');
+  //   $(".edit-mode").remove();
+  // }
 
 
   // When the user clicks on the "highlighter" button
-function highlightMode(){
+function highlightMode(ele){
   // TODO: cleanup bad event handlers from other modes
   console.log(`Entering Highlight Mode: ${window.getSelection().toString()}`);
+  console.log('ele cc_element: ', ele.find(".card-content"));
   var selection = window.getSelection();
-  var cc_element = $("#card-content");
+  var cc_element = ele.find(".card-content");
   var cc_text = cc_element.text();
   var rangeSet = [[0, cc_text.length, null]]; // overwrite old highlight rules, if any
 
-  $("#card-content").on('mouseup', function(e) {
-    if(e.target == $("#card-content")) {
+  $(".card-content").on('mouseup', function(e) {
+    if(e.target == $(".card-content")) {
       console.log(`Mouseup highlighted ${selection}`)
       // console.log(e.target);
       selection = window.getSelection();
     }
   });
 
-  $(".highlight-bar").css("display", "inline");
+  // $(".highlight-bar").css("display", "inline");
 
 
   //TODO: This OBVIOUSLY needs refactoring.
-  $(".highlighter-red").on('mousedown', function(){
+  $(".circle.primary-color").on('mousedown', function(){
     updateHighlight("highlighter-red");
   });
 
-  $(".highlighter-blue").on('mousedown', function(){
+  $(".circle.secondary-color").on('mousedown', function(){
     updateHighlight("highlighter-blue");
   });
 
-  $(".highlighter-green").on('mousedown', function(){
+  $(".circle.tertiary-color").on('mousedown', function(){
     updateHighlight("highlighter-green");
   });
 
-  $(".highlighter-yellow").on('mousedown', function(){
+  $(".circle.quaternary-color").on('mousedown', function(){
     updateHighlight("highlighter-yellow");
   });
 
   function updateHighlight(color){
+    console.log(color);
     // assume that we have the variable "selection" from some previous step
     //  (selection is from 'selection = window.getSelection()')
     // (color is from what button was clicked)
@@ -160,7 +162,7 @@ function highlightMode(){
 // Highlighter click action
 function highlightText(color){
 
-  var fullText = $("#card-content").text();
+  var fullText = $(".card-content").text();
   // var fullText = window.getSelection().anchorNode.data;
     // Index start/end of selected area
   var start = window.getSelection().anchorOffset;
@@ -179,11 +181,11 @@ function highlightText(color){
 function sendErOff() {
   //TODO: When multiple users are a thing,
   //      include UserId in the JSON.
-  var cardContent = $("#card-content").html();
-  var deck = $("select").val();
+  var cardContent = $(".card-content").html();
+  var deck = $(".card-header-title").text();
   var returnVal = JSON.stringify({
     content: cardContent,
-    deck: deck,
+    deck_name: deck,
     userId: 1
   });
   $.ajax({
@@ -205,22 +207,14 @@ function sendErOff() {
 // card and content area interferes with
 // click+drag, so more code would need to be
 // written to handle that.
-$(".edit-light").on('click', function(){
-  console.log("clicked!")
-  editMode($("h5").text());
-  return $("textarea").on('blur', function(){
-    $(".highlight-bar").css("display", "none")
-    renderMode($("textarea").val());
-  });
-})
 
 // User clicks the 'Highlight' button
-$(".highlight-light").on('click', function(){
+$(".edit").on('click', function(){
   console.log("Clicked highlight button");
-  highlightMode()
+  highlightMode($(this));
 });
 
-$("#submit-button").on('click', function(){
+$(".fa-check").on('click', function(){
   return sendErOff();
 })
 

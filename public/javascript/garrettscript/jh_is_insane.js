@@ -1,5 +1,5 @@
 
-var cc_element = $("#card-content");
+var cc_element = $(".card-content");
 var cc_text = cc_element.text();
 
 var pre = cc_text.substr(0, left);
