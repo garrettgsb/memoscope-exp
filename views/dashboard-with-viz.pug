@@ -1,0 +1,46 @@
+extends layout-dashboard
+
+block content
+	nav.main-nav
+		ul
+			li
+				a(href="#notifications") NOTIFICATIONS
+			li
+				a(href="#new-card") NEW CARD
+			li
+				a(href="#manage-cards") MANAGE CARDS
+
+	section#notifications.modal
+		.modal-container
+			h1 Notifications
+			ol
+				li Probably a notification
+				li Probably a notification
+				li Probably a notification
+
+	section#new-card-placeholder.modal
+		form
+			p
+				label Content
+				textarea(name="content" rows="10" cols="100")
+			p
+				button Create Card
+
+	section#new-card.modal
+		include cards-new-modified.pug
+
+	section#manage-cards.modal
+		h1 Here's where my cards get managed.
+
+		.overlay
+
+
+	main.visualization
+		canvas#visualization(style="background: url('http://www.suprime.it/wp-content/uploads/2016/05/WDF_717817_00000.jpg');")
+
+
+
+
+block scripts
+	script(src="/javascript/dashboard.js")
+	script(src="/javascript/garrettscript/card-new.js")
