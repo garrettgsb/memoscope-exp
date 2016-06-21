@@ -14,21 +14,42 @@
 
 $(document).ready(function(){
 
+    var overlay = document.querySelector('.overlay');
+    function removeClassFromEls(className) {
+      Array.from(document.querySelectorAll('.' + className)).forEach(function (el) {
+        el.classList.remove(className);
+      });
+    }
+    function closeModal() {
+      removeClassFromEls('shown');
+      removeClassFromEls('active-nav-link');
+      removeClassFromEls('modal-open');
+    }
+    overlay.addEventListener('click', closeModal);
+    Array.from(document.querySelectorAll('.modal')).forEach(function (modal) {
+      modal.addEventListener('click', closeModal);
+    });
+    Array.from(document.querySelectorAll('.modal-container')).forEach(function (modal) {
+      modal.addEventListener('click', function (event) {
+        event.stopPropagation();
+      });
+    });
+    Array.from(document.querySelectorAll('.main-nav a')).forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        closeModal();
+        document.body.classList.add('modal-open');
+        overlay.classList.add('shown');
+        event.target.classList.add('active-nav-link');
+        var href = event.target.href;
+        var hash = href.substr(href.indexOf('#'));
+        document.querySelector(hash).classList.add('shown');
+      });
+    });
+
   var canvas = document.getElementById('visualization');
 
-  var closeSideBar = document.getElementById('closeSideBar');
-  var openSideBar = document.getElementById('openSideBar');
-
   
-  
-  openSideBar.onclick = function() { 
-    $(".sidenav").width('30%');
-  };
-
-  closeSideBar.onclick = function() { 
-    $(".sidenav").width('0%');
-  };
-
   $.getJSON("/cards/all", function(cardData){
     console.log("Visualization script initialized.");
 
@@ -97,18 +118,10 @@ $(document).ready(function(){
       cardFormatted.r = (0.04 * Math.sqrt(500 * card.content_html.length)) + 5;
       cardFormatted.notifyFlag = false;
       cardFormatted.rendered = false;
-      // Randomizes dot color for each card; Play with that if you want, or just make it one solid color.
-      randomRed = Math.floor(Math.random() * (150-100)) + 100
-      randomGreen = Math.floor(Math.random() * (100-20)) + 20
-      randomBlue = Math.floor(Math.random() * (255-100)) + 100
-      randomColor = "rgb("+randomRed+","+randomGreen+","+randomBlue+")"
       cards.push(cardFormatted);
     });
 
-    console.log(cards);
-
     window.addEventListener('resize', resizeCanvas, false);
-
 
     function resizeCanvas() {
 
@@ -122,8 +135,7 @@ $(document).ready(function(){
 
       var logo = new Image();
       logo.src = '/images/logo-white.png';
-      
-      
+
       var orbits = {
         1: {
           radius: 60,
@@ -132,22 +144,22 @@ $(document).ready(function(){
 
         2: {
           radius: 90,
-          time: 30 * 1000
+          time: 2 * 60 * 1000
         },
 
         3: {
           radius: 120,
-          time: 2 * 60 * 1000
+          time: 60 * 60 * 1000
         },
 
         4: {
           radius: 150,
-          time: 10 * 60 * 1000
+          time: 24 * 60 * 60 * 1000
         },
 
         5: {
           radius: 180,
-          time: 60 * 60 * 1000
+          time: 7 * 24 * 60 * 60 * 1000
         }
       };
 
@@ -157,31 +169,6 @@ $(document).ready(function(){
         r: 20
       };
 
-      var cardsOld = [{
-        orbit: 1,
-        notifiedAt: 1466197895701,
-        r: 15
-      }, {
-        orbit: 2,
-        notifiedAt: 1466197800701,
-        r: 14
-      }, {
-        orbit: 2,
-        notifiedAt: 1466197805701,
-        r: 14
-      }, {
-        orbit: 3,
-        notifiedAt: 1466197442401,
-        r: 13
-      }, {
-        orbit: 4,
-        notifiedAt: 1466197898701,
-        r: 12
-      }, {
-        orbit: 5,
-        notifiedAt: 1466197897701,
-        r: 11
-      }];
       function modifyCard(card) {
         if (card.orbit > 5) {
           var orbit = 1;
@@ -213,7 +200,6 @@ $(document).ready(function(){
       var y = 0;
       card.x = x + xOffset;
       card.y = y + yOffset;
-      // console.log(card);
         if (notifications.indexOf(card.id) == -1) {
           notifications.push(card.id);
         }
@@ -232,44 +218,42 @@ $(document).ready(function(){
 
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(logo,0.8 * xOffset,0,xOffset/2.5,yOffset/5);
+        // ctx.drawImage(logo,0.75 * xOffset,0,xOffset/2,yOffset/4.5);
+        ctx.font = "4.5em sans-serif";
+        ctx.fillText('memoscope', 0.75 * xOffset,0.16 * yOffset);
         for (var orbit in orbits) {
           var b = orbits[orbit].radius;
           var a = 2 * b;
           ctx.beginPath();
           ctx.ellipse(xOffset, yOffset, a, b , 0 , 0, 2 * Math.PI);
-          var time = orbits[orbit].time / 1000;
+          var time = orbits[orbit].time / 10000;
           var orbit_time;
           switch(time) {
-              case 10:
+              case 1:
                   orbit_time = "10 sec";
-                  ctx.strokeStyle = '#1A0D9E';
                   break;
-              case 30:
-                  orbit_time = "30 sec";
-                  ctx.strokeStyle = '#3B0D9E';
-                  break;
-              case 120:
+              case 12:
                   orbit_time = "2 min";
-                  ctx.strokeStyle = '#4F0D9E';
                   break;
-              case 600:
-                  orbit_time = "10 min";
-                  ctx.strokeStyle = '#5E0D9E';
+              case 360:
+                  orbit_time = "1 hour";
+                  break;
+              case 8640:
+                  orbit_time = "1 day";
                   break;
               default:
-                  orbit_time = "1 hour";
-                  ctx.strokeStyle = '#700D9E';
+                  orbit_time = "7 days";
           }
+          ctx.strokeStyle = '#EDB200';
           ctx.stroke();
-          ctx.font = "1.25em Herculanum";
+          ctx.font = "1.25em sans-serif";
           ctx.fillText(orbit_time, xOffset + (a / 3), (yOffset +  b ));
-          ctx.font = "1.25em Herculanum";
+          ctx.font = "1.25em sans-serif";
           ctx.fillText(orbit_time, xOffset - (a / 3), (yOffset -  b ));
         }
         cards.forEach(function (card) {
           ctx.beginPath();
-          ctx.fillStyle = "rgb(69,113,181)";
+          ctx.fillStyle = "rgb(4,204,36)";
           ctx.shadowColor = "black";
           ctx.arc(card.x, card.y, card.r, 0, 2 * Math.PI, true);
           ctx.fill();
@@ -293,7 +277,6 @@ $(document).ready(function(){
       }
 
       (function update() {
-        
         move();
         draw();
         $(".notification_count").text(Math.floor(notification_count));
