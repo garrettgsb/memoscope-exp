@@ -8,29 +8,21 @@ block content
 				nav.section1.nav-circle.primary-color
 			a(href="#section2")
 				nav.section2.nav-circle.secondary-color.unselected
-			a(href="#section3")
-				nav.section3.nav-circle.tertiary-color.unselected
 		section#section1.section.content
-			h1 Section 1
+			h1 Active
 			hr.divider
 			.columns
-				each card, i in cards
-					if i % 3 === 0
-						.columns
+				each card, i in active
+					//- if i % 3 == 0
+					//- 	.columns
+					//- 		include card-no-flip.pug
+					//- else
 					include card-no-flip.pug
 		section#section2.section.content
-			h1 Section 2
+			h1 Inactive
 			hr.divider
 			.columns
-				each card, i in cards
-					//- if i % 3 === 0
-					//- 	.columns
-					include card-no-flip.pug
-		section#section3.section.content
-			h1 Section 3
-			hr.divider
-			.columns
-				each card, i in cards
+				each card, i in inactive
 					//- if i % 3 === 0
 					//- 	.columns
 					include card-no-flip.pug
