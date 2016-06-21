@@ -22,55 +22,82 @@ th, td {
 		text-align: left;
 }
 */
-.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #33034F;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
+/*body {
+  font-family: sans-serif;
 }
-
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s
+a {
+  color: white;
+  text-decoration: none;
 }
-
-.sidenav a:hover, .offcanvas a:focus{
-    color: #f1f1f1;
+textarea {
+  width: 100%;
 }
-
-.closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px !important;
-    margin-left: 50px;
+.main-nav {
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 200px;
+  z-index: 3;
 }
-
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+.main-nav a {
+  border: 1px solid white;
+  display: block;
+  padding: 15px;
 }
-
-#containerCanvas {
-  position: relative;
+.modal-open .main-nav a {
+  opacity: .5;
 }
-#containerCanvas canvas, #overlayCanvas {
-  position: absolute;
+.modal-open .main-nav a.active-nav-link {
+  background: white;
+  color: black;
+  opacity: 1;
 }
-canvas {
-  border: 1px solid black;
+.main-nav li {
+  margin: 20px;
 }
-
-#overlayCanvas {
-    font: "Apple Chancery";
+.main-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
+.modal {
+  bottom: 0;
+  display: none;
+  left: 200px;
+  opacity: 0;
+  overflow: auto;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 4;
+}
+.modal-container {
+  background: rgba(255,255,255,.9);
+  padding: 20px;
+}
+.overlay {
+  background: rgba(0,0,0,.75);
+  bottom: 0;
+  display: none;
+  left: 0;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+.shown {
+  display: block;
+  opacity: 1;
+}
+.visualization {
+  background: url(http://pic.putaojiayuan.com/uploadfile/tuku/SeCaiBeiJing/12190521074117.jpg) 50% 50%;
+  background-size: cover;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}*/
