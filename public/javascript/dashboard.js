@@ -19,10 +19,17 @@ var cc_text;
 var rangeSet;
 var answer;
 
-
 $(document).ready(function(){
   var canvas = document.getElementById('visualization');
 
+//----------------
+//  TOGGLE TO MAIN MENU 
+//----------------
+  function defaultScreen(){
+    //rendering default ashboard with no effects.
+    $('body').removeClass('modal-open');
+    $(".shown").removeClass('shown');
+  };
 
 
 //----------------
@@ -31,36 +38,45 @@ $(document).ready(function(){
   //TODO: Refactor this whole thing. It's not very DRY.
   $('.menu-item').each(function(i,e){
     $(e).on('click', function(event){
+      
+      //Check to see if user clicked on notifications menue when there was no notifications
+      var checkMenuItem = $(this).text().includes("NOTIFICATION");
+      var checkNotificationEmpty = $(this).text().includes("0"); 
+      
+      //If notificaios are emoty it is menu doesn't pop up
+      if (checkMenuItem && checkNotificationEmpty ){
+        defaultScreen(); 
+      } else {
+        // Links logic:
+        $('.menu-item a').removeClass('active-nav-link');
+        $('.menu-item a').addClass('inactive-nav-link');
 
-      // Links logic:
-      $('.menu-item a').removeClass('active-nav-link');
-      $('.menu-item a').addClass('inactive-nav-link');
+        // Modal logic:
+        event.preventDefault();
+        var toggleOff = false;
+        var modalId = $('a', this).attr('href');
+        if($(modalId).is('.shown')) {
+          toggleOff = true;
+        }
 
-      // Modal logic:
-      event.preventDefault();
-      var toggleOff = false;
-      var modalId = $('a', this).attr('href');
-      if($(modalId).is('.shown')) {
-        toggleOff = true;
-      }
+        // Clear any other previously active stuff
+        $('.modal').removeClass('shown');
+        $('.overlay').removeClass('shown');
+        $('body').removeClass('modal-open');
 
-      // Clear any other previously active stuff
-      $('.modal').removeClass('shown');
-      $('.overlay').removeClass('shown');
-      $('body').removeClass('modal-open');
-
-      // Only show the target modal if it's not already visible
-      // (i.e. If it's visible, leave it off)
-      if (toggleOff == false) {
-        $('a', this).addClass('active-nav-link');
-        $('a', this).removeClass('inactive-nav-link');
-        $(modalId).addClass('shown');
-        $('.overlay').addClass('shown').on('click', function(){
-          $(".shown").removeClass('shown');
-          $('.menu-item a').removeClass('active-nav-link inactive-nav-link')
-          $('body').removeClass('modal-open');
-        });
-        $('body').addClass('modal-open');
+        // Only show the target modal if it's not already visible
+        // (i.e. If it's visible, leave it off)
+        if (toggleOff == false) {
+          $('a', this).addClass('active-nav-link');
+          $('a', this).removeClass('inactive-nav-link');
+          $(modalId).addClass('shown');
+          $('.overlay').addClass('shown').on('click', function(){
+            $(".shown").removeClass('shown');
+            $('.menu-item a').removeClass('active-nav-link inactive-nav-link')
+            $('body').removeClass('modal-open');
+          });
+          $('body').addClass('modal-open');
+        }
       }
     });
   });
@@ -307,8 +323,14 @@ $(document).ready(function(){
                   // and show the edits later, we'll probably want to do that here.
                   return console.log("Derp" + response);
                 }, 'json');
-                displayNotification();
+                if (notifications.length == 0) {
+                  defaultScreen();
+                } else {
+                  displayNotification();
+                }
+
               };
+
 
 
               // "Remembered" and "Forgot" are identical,
