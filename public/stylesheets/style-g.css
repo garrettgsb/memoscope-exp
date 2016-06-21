@@ -154,13 +154,19 @@ body {
   border: 1px solid white;
   display: block;
   padding: 15px;
-  color: white;
+  color: rgba(255,255,255,0.9);
   font-size: 1.5em;
 
 }
 
 .main-nav li {
   margin: 40px;
+}
+
+.main-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 
@@ -170,12 +176,13 @@ body {
   left: 240px;
   padding: 20px;
   position: fixed;
+  right: 60px;
   top: 100px;
   z-index: 4;
 }
 
 .modal-container {
-  background: rgba(255,255,255,.6);
+  background: rgba(255,255,255,.9);
   min-height: 265px;
   padding: 20px;
 }
@@ -186,7 +193,7 @@ body {
 }
 
 .modal-open .main-nav a.active-nav-link {
-  background: white;
+  background: rgba(255,255,255,0.9);
   color: black;
   opacity: 1;
 }
