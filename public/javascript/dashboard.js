@@ -104,24 +104,25 @@ $(document).ready(function(){
     // Event handlers for SVG clickers
     $(".highlighter-red").on('mousedown', function() {
       updateHighlight("highlighter-red");
-      inputText = $("#newCard").val().replace(`chunk`, "");
+      inputText = $("#cardHighlight").html();
     });
     $(".highlighter-blue").on('mousedown', function() {
       updateHighlight("highlighter-blue");
-      inputText = $("#newCard").val().replace(`chunk`, "");
+      inputText = $("#cardHighlight").html();
     });
     $(".highlighter-green").on('mousedown', function() {
       updateHighlight("highlighter-green");
-      inputText = $("#newCard").val().replace(`chunk`, "");
+      inputText = $("#cardHighlight").html();
     });
     $(".highlighter-yellow").on('mousedown', function() {
       updateHighlight("highlighter-yellow");
-      inputText = $("#newCard").val().replace(`chunk`, "");
+      inputText = $("#cardHighlight").html();
     });
   });
 
   $("#finish-card-link").on('click', function(){
     removeClickers();
+    console.log(inputText);
     $("#cardFinish").html(inputText);
     $("#new-card-edit").removeClass('active-tab');
     $("#new-card-highlight").removeClass('active-tab');

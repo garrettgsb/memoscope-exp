@@ -51,30 +51,27 @@ block content
 
 			#new-card-finish.new-card-tab
 				.tile.is-ancestor
-					.tile.is-parent.is-12
-						p#cardFinish Don't forget to write some text.
-					.tile.is-parent.is-vertical.is-6
-						.tile.is-child
-							div(style="width: 200px; height: 200px; color: red")
+					.tile.is-parent
+						.tile.is-child.content
+							p#cardFinish Don't forget to write some text.
 					.tile.is-parent.is-vertical
-						.tile.is-child
-							p.control.has-addons.has-addons-centered
-								span.select
-									select
+						.tile.is-child.is-12
+							p.control.has-addons.has-addons-centered(style='display: block;')
+								span.select(style="width: 45%")
+									select(style="width: 100%")
 										option (No Deck)
 										option Poem Quotes
 										option Another Deck
-								input.input#add-deck-name(type='text', placeholder='Or Enter Deck Name')
-								a.button.is-primary#add-new-deck
+								input.input#add-deck-name(type='text', placeholder='Or Enter Deck Name' style="width: 45%")
+								a.button.is-primary#add-new-deck(style="width: 10%")
 									| Add
-					.tile.is-parent.center
+						.tile.is-child.box
+							h1 Activate Now?
 						.tile.is-child.box#submit-button
 							a.button.is-success
 								span.icon
 									i.fa.fa-check
 								span Save
-
-
 
 
 	section#new-card-placeholder.modal
