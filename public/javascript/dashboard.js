@@ -377,9 +377,7 @@ $(document).ready(function(){
 
       var xOffset = canvas.width / 2;
       var yOffset = canvas.height / 2;
-
-      var logo = new Image();
-      logo.src = '/images/logo-white.png';
+      var yOffsetDesired = canvas.height -  (yOffset / 2);
 
       var orbits = {
         1: {
@@ -428,11 +426,11 @@ $(document).ready(function(){
         var percent = delta / total;
         var angle = 360 * percent;
         angle = angle * (Math.PI / 180);
-        var x = (2 * orbit.radius * Math.cos(angle))/Math.sqrt((4 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
-        var y = (2 * orbit.radius * Math.sin(angle))/Math.sqrt((4 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
+        var x = (2.5 * orbit.radius * Math.cos(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
+        var y = (2.5 * orbit.radius * Math.sin(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
         if (now < endTime || card.rendered == false) {
         card.x = x + xOffset;
-        card.y = y + yOffset;
+        card.y = y + yOffsetDesired;
         card.rendered = true;
         } else {
           if (card.notifyFlag == false) {
@@ -441,10 +439,10 @@ $(document).ready(function(){
           }
         }
       if(now >= endTime) {
-      var x = 2 * orbit.radius;
+      var x = 2.5 * orbit.radius;
       var y = 0;
       card.x = x + xOffset;
-      card.y = y + yOffset;
+      card.y = y + yOffsetDesired;
         if (notifications.indexOf(card.id) == -1) {
           notifications.push(card.id);
         }
@@ -463,43 +461,42 @@ $(document).ready(function(){
 
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // ctx.drawImage(logo,0.75 * xOffset,0,xOffset/2,yOffset/4.5);
-        ctx.font = "4.5em sans-serif";
-        ctx.fillText('memoscope', 0.75 * xOffset,0.16 * yOffset);
+        ctx.font = "3.5em sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText('MEMOSCOPE',xOffset, 0.125 * yOffset);
         for (var orbit in orbits) {
           var b = orbits[orbit].radius;
-          var a = 2 * b;
+          var a = 2.5 * b;
           ctx.beginPath();
-          ctx.ellipse(xOffset, yOffset, a, b , 0 , 0, 2 * Math.PI);
+          ctx.ellipse(xOffset, yOffsetDesired, a, b , 0 , 0, 2 * Math.PI);
           var time = orbits[orbit].time / 10000;
           var orbit_time;
           switch(time) {
               case 1:
-                  orbit_time = "10 sec";
+                  orbit_time = "10 SEC";
                   break;
               case 12:
-                  orbit_time = "2 min";
+                  orbit_time = "2 MIN";
                   break;
               case 360:
-                  orbit_time = "1 hour";
+                  orbit_time = "1 HOUR";
                   break;
               case 8640:
-                  orbit_time = "1 day";
+                  orbit_time = "1 DAY";
                   break;
               default:
-                  orbit_time = "7 days";
+                  orbit_time = "7 DAYS";
           }
-          ctx.strokeStyle = '#EDB200';
+          ctx.strokeStyle = '#E5CCFF';
           ctx.stroke();
-          ctx.font = "1.25em sans-serif";
-          ctx.fillText(orbit_time, xOffset + (a / 3), (yOffset +  b ));
-          ctx.font = "1.25em sans-serif";
-          ctx.fillText(orbit_time, xOffset - (a / 3), (yOffset -  b ));
+          ctx.font = "1.125em sans-serif";
+          ctx.fillStyle = 'white';
+          ctx.fillText(orbit_time, xOffset + (a * 0.500) , yOffsetDesired + (0.866 * b) );
         }
         cards.forEach(function (card) {
           ctx.beginPath();
-          ctx.fillStyle = "rgb(4,204,36)";
-          ctx.shadowColor = "black";
+          ctx.fillStyle = "rgb(0,0,255)";
+          ctx.shadowColor = "white";
           ctx.arc(card.x, card.y, card.r, 0, 2 * Math.PI, true);
           ctx.fill();
           ctx.beginPath();
@@ -507,17 +504,17 @@ $(document).ready(function(){
           ctx.shadowColor = "white";
           ctx.shadowOffsetX = (card.r / 3) ;
           ctx.shadowOffsetY = (card.r / 3) ;
-          ctx.shadowBlur = card.r * 2;
+          ctx.shadowBlur = 1.25 * card.r;
           ctx.arc(card.x - (card.r / 2.5), card.y - (card.r / 2.5) , (card.r/3), 0, 2 * Math.PI, true);
           ctx.fill();
         });
         ctx.beginPath();
         ctx.fillStyle = "rgb(253,184,19)";
-        ctx.arc(sun.x, sun.y, sun.r, 0, 2 * Math.PI, true);
+        ctx.arc(xOffset, yOffsetDesired, sun.r, 0, 2 * Math.PI, true);
         ctx.fill();
         ctx.beginPath();
         ctx.fillStyle = "rgb(255,255,255)";
-        ctx.arc(sun.x - (sun.r / 2.5), sun.y - (sun.r / 2.5) , (sun.r/3), 0, 2 * Math.PI, true);
+        ctx.arc(xOffset- (sun.r / 2.5), yOffsetDesired - (sun.r / 2.5) , (sun.r/3), 0, 2 * Math.PI, true);
         ctx.fill();
       }
 
