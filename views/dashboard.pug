@@ -18,17 +18,38 @@ block content
 			h1 Notifications
 			.notification_display
 				p No notifications!
+
+
 	section#new-card.modal
 		.modal-container
-			form
-				p
-					label Content
-					textarea(name="content" rows="10" cols="100")
-				p
-					button Create Card
+			.header
+				ul.new-card-bar
+					li#edit-card-link
+						a(href="#new-card-edit") Edit
+					li#highlight-card-link
+						a(href="#new-card-highlight") Highlight
+
+			#new-card-edit.new-card-tab.active-tab
+				h1 Click "Highlight" when you've finished entering your text.
+				form
+						textarea#newCard.edit-mode(name="content" rows="10" cols="100")
+			#new-card-highlight.new-card-tab
+				div
+					p#cardContent Write some text, yo!
+				div(class="modal-buttons")
+				div(style="position: relative")
+					div(style="bottom: 0; left: 0;")
+						svg(class="highlight-bar" height="30" width="106")
+							circle(class="highlighter-red" cx="12" cy="12" r="12")
+							circle(class="highlighter-blue" cx="40" cy="12" r="12")
+							circle(class="highlighter-green" cx="68" cy="12" r="12")
+							circle(class="highlighter-yellow" cx="94" cy="12" r="12")
+						div(class="button is-success is-pulled-right") Create Card!
+
 
 	section#new-card-placeholder.modal
 		include cards-new-modified.pug
+
 
 	section#manage-cards.modal
 		.modal-container

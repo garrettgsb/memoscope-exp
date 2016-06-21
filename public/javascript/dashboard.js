@@ -16,6 +16,10 @@ $(document).ready(function(){
   var canvas = document.getElementById('visualization');
 
 
+
+//----------------
+//  MENU ITEM CONTROLS
+//----------------
   //TODO: Refactor this whole thing. It's not very DRY.
   $('.menu-item').each(function(i,e){
     $(e).on('click', function(event){
@@ -53,8 +57,37 @@ $(document).ready(function(){
     });
   });
 
-  // All timer/visualization/notification related code
-  // should be placed inside of this getJSON request.
+  //----------------
+  //  NEW CARD CONTROLS
+  //----------------
+
+  $("#edit-card-link").on('click', function(){
+    $("#new-card-highlight").removeClass('active-tab');
+    $("#new-card-edit").addClass('active-tab');
+  });
+
+  $("#highlight-card-link").on('click', function(){
+    $("#new-card-edit").removeClass('active-tab');
+    $("#new-card-highlight").addClass('active-tab');
+
+    // NOTE: This line interpolates HTML into the user's input text.
+    // If the highlighter starts bugging out, this could be a good
+    // place to start troubleshooting.
+    var inputText = $("#newCard").val().replace(/\n/g, "<br />")
+    $("#cardContent").html(inputText);
+  });
+
+  function highlightMode(){
+
+  }
+
+
+  //----------------
+  //  TIMER/VISUALIZATION/NOTIFICATION CONTROLS
+  //----------------
+    // All timer/visualization/notification related code
+    // should be placed inside of this getJSON request.
+    // They're pretty tangled up in there.
   $.getJSON("/cards/all", function(cardData){
     console.log("Visualization script initialized.");
 
@@ -71,7 +104,7 @@ $(document).ready(function(){
               $(".notification_display")
                 .html("<p id='notificationContent'>" + foundCard.content_html + "</p>")
                 .after(`<div class="modal-buttons"><div style="position: relative">
-                  <div style="position: abolute; bottom: 0; left: 0;">
+                  <div style="position: absolute; bottom: 0; left: 0;">
                   <svg class="highlight-bar" height="30" width="106">
                     <circle class="highlighter-red" cx="12" cy="12" r="12"></circle>
                     <circle class="highlighter-blue" cx="40" cy="12" r="12"></circle>
