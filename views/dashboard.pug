@@ -5,7 +5,9 @@ block content
 	nav.main-nav
 		ul
 			li.menu-item
-				a(href="#notifications") NOTIFICATIONS
+				a.notificationButton(href="#notifications")
+					span.tag.is-danger.notification_count 0
+					span &nbsp NOTIFICATIONS
 			li.menu-item
 				a(href="#new-card") NEW CARD
 			li.menu-item
@@ -14,11 +16,8 @@ block content
 	section#notifications.modal
 		.modal-container
 			h1 Notifications
-			ol
-				li Probably a notification
-				li Probably a notification
-				li Probably a notification
-
+			.notification_display
+				p No notifications!
 	section#new-card.modal
 		.modal-container
 			form
@@ -36,7 +35,7 @@ block content
 			h1 Here's where my cards get managed.
 
 	main.visualization
-		//- canvas#visualization
+		canvas#visualization
 
 
 

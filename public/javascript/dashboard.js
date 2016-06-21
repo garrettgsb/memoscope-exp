@@ -53,21 +53,75 @@ $(document).ready(function(){
     var notifications = [];
     var notification_count = 0;
 
-    $(".notification_count").on('click', function(){
+    $('.notificationButton').on('click', function(){
       function displayNotification(){
         var foundCard;
           cards.forEach(function(card){
             if (card.id == notifications[0]) {
               foundCard = card;
               // Render card text/HTML and create buttons
-              $(".notification_display").html("<p>" + foundCard.content_html + "</p>").prepend("<div class='button is-success remembered'>Remembered!</div>").prepend("<div class='button is-danger forgot'>Forgot :(</div>");
+              $(".notification_display")
+                .html("<p id='notificationContent'>" + foundCard.content_html + "</p>")
+                .after(`<div class="modal-buttons"><div style="position: relative">
+                  <div style="position: abolute; bottom: 0; left: 0;">
+                  <svg class="highlight-bar" height="30" width="106">
+                    <circle class="highlighter-red" cx="12" cy="12" r="12"></circle>
+                    <circle class="highlighter-blue" cx="40" cy="12" r="12"></circle>
+                    <circle class="highlighter-green" cx="68" cy="12" r="12"></circle>
+                    <circle class="highlighter-yellow" cx="94" cy="12" r="12"></circle>
+                  </svg>
+                  </div>
+                  <div class='button is-success is-pulled-right remembered'>Remembered!</div>
+                  <div class='button is-danger is-pulled-right forgot'>Forgot.</div>
+                  </div></div>
+                  `);
+
+              function hideColor(color){
+              // NOTE: This makes the highlighted words disappear.
+                $("#notificationContent span").each(function(i,e){
+                  if ($(e).hasClass(`highlighter-${color}`)) {
+                    $(e).addClass(`highlighter-${color}-hidden`);
+                  }
+                });
+              };
+
+              hideColor('red');
+              hideColor('blue');
+              hideColor('green');
+              hideColor('yellow');
+
+              function toggleColor(color){
+                $(`.highlighter-${color}`).on('click', function(){
+                  $("#notificationContent span").each(function(i,e){
+                    if ($(e).hasClass(`highlighter-${color}`)) {
+                      $(e).toggleClass(`highlighter-${color}-hidden`);
+                    }
+                  });
+                })
+              }
+              toggleColor('red');
+              toggleColor('blue');
+              toggleColor('green');
+              toggleColor('yellow');
+
+              // $(".highlight-bar").each(function(i,e){
+              //   $(e).on('click', function() {
+              //     console.log(this)
+              //     if ($(e).hasClass(`highlighter-red`)) {
+              //       $("#notificationContent span").each(function(x,y){
+              //         if ($(y).hasClass(`highlighter-red`)) {
+              //           $(y).toggleClass(`highlighter-red-hidden`);
+              //         }
+              //       });
+              //     }
+              //   });
+              // }); // .highlight-bar
 
               // - TODO: Write updated data to database
               function notificationFinish(){
                 card.notifiedAt = Date.now();
                 card.notifyFlag = false;
-                $(".remembered").remove();
-                $(".forgot").remove();
+                $(".modal-buttons").remove();
                 $(".notification_display").html("");
                 //TODO: AJAX: Write card to database
                 //TODO: Update card's entry in var `cards` (if persisted in database...?)
