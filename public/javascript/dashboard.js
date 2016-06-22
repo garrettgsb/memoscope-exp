@@ -48,7 +48,7 @@ function getCards() {
       cards.push(cardFormatted);
     });
     console.log("Fetched cards. Array should be full.");
-    console.log(cards)
+    console.log(cards);
   });
 }
 
@@ -169,6 +169,7 @@ $(document).ready(function(){
     });
   });
 
+  console.log("I WILL NOW ADD A HANDLER TO FINISH CARD LINK");
   $(".finish-card-link").on('click', function(){
     removeClickers();
     $("#cardFinish").html(inputText);
@@ -177,7 +178,7 @@ $(document).ready(function(){
     $("#new-card-finish").addClass('active-tab');
 
     // POST NEW CARD TO DATABASE
-    function sendErOff() {
+    function sendNewCard() {
       //TODO: When multiple users are a thing,
       //      include UserId in the JSON.
       console.log("Sending off.");
@@ -193,28 +194,33 @@ $(document).ready(function(){
         data: returnVal,
         url: '/cards/create',
         contentType: 'application/json',
-        dataType: 'json'
+        dataType: 'json',
+        success: function(data){
+          console.log("sendNewCard AJAX reports success");
+        },
+        error: function(jqXHR, errTxt, errObj){
+          console.log("sendNewCard AJAX reports ERROR ERROR ERROR WILL ROBINSON ERRRROOOORRRRRR: " + errTxt);
+        }
       });
       console.log(returnVal);
     }
 
     $("#submit-button").on('click', function(){
       console.log("Clicked submit button");
-      sendErOff();
-      getCards();
-      console.log(cards);
-      defaultScreen();
+      sendNewCard();
+      // getCards();
+      // defaultScreen();
     });
   });
 
   $("#add-new-deck").on('click', function(){
     if ($("#add-deck-name").val()) {
-    console.log(`Clicked with ${$("#add-deck-name")}`);
-    var newDeckName = $("#add-deck-name").val();
-    console.log(newDeckName);
-    $("select").append(`<option>${newDeckName}</option>`);
-    $("select").val(newDeckName);
-  };
+      console.log(`Clicked with ${$("#add-deck-name")}`);
+      var newDeckName = $("#add-deck-name").val();
+      console.log(newDeckName);
+      $("select").append(`<option>${newDeckName}</option>`);
+      $("select").val(newDeckName);
+    };
   })
 
   $(".activate-card").on('click', function(){

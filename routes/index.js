@@ -78,37 +78,45 @@ router.get('/cards/new', function(req,res){
 });
 
 router.post('/cards/create', function(req,res){
+  console.log("now beginning code for POST /cards/create")
   // Put a new card into the database
   // User ID currently hard coded to 1 in 'card-new.js'
   var deck_id;
   content_html = req.body.content_html;
   deck_name = req.body.deck;
   queryParams('SELECT * FROM decks WHERE name = $1', [deck_name], function(err,result){
-      if (result.rows[0]) {
+    if (err) {
+      console.log("DB error during deck search: ", err);
+    }
+    if (result.rows[0]) {
       deck_id = result.rows[0].id;
+      console.log("Calling create card with old deck");
+      console.log(deck_id, content_html);
       createCard(deck_id, content_html);
-      } else {
+    } else {
       queryParams('INSERT INTO decks (user_id, name, created_at, modified_at) VALUES ($1, $2, current_timestamp, current_timestamp);',
-                  [1, deck_name], function(err, callback){
-                    queryParams('SELECT * FROM decks WHERE name=$1', [deck_name],function(err,result){
-                      deck_id = result.rows[0].id
-                      createCard(deck_id, content_html);
-                    });
-                  }); // Query insert decks
-      } // Else
+                [1, deck_name], function(err, callback){
+        if (err) {console.log("DB error putting card into deck: ", err);}
+        queryParams('SELECT * FROM decks WHERE name=$1', [deck_name],function(err,result){
+          console.log("DB error searching for NEWLY CREATED deck: ", err);
+          deck_id = result.rows[0].id
+          console.log("Calling create card with new deck");
+          createCard(deck_id, content_html);
+        });
+      }); // Query insert decks
+    } // Else
   })
 
 
   function createCard(deck_id, content_html){
     queryParams('INSERT INTO cards (deck_id, content_html, orbit, notified_at, created_at, modified_at) VALUES ($1, $2, 0, null, current_timestamp, current_timestamp)',
-    [deck_id, req.body.content_html],
-    function(err, redirect){
-      //if (err) { console.log(err) };
-      router.get('/');
+      [deck_id, req.body.content_html],
+      function(err, result){
+        if (err) {console.log("DB ERROR in createCard: " + err) };
+        console.log("createCard database call is now finished.");
+        res.send({'happy':'maybe'});  // how's that for frickin' useless
     }); // Query insert cards
   } // createCard()
-
-
 }); // Router post
 
 router.post('/cards/update', function(req,res){
