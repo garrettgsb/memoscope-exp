@@ -409,7 +409,7 @@ $(document).ready(function(){
       var sun = {
         x: xOffset,
         y: yOffset,
-        r: 20
+        r: 30
       };
 
       function modifyCard(card) {
@@ -428,6 +428,8 @@ $(document).ready(function(){
         angle = angle * (Math.PI / 180);
         var x = (2.5 * orbit.radius * Math.cos(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
         var y = (2.5 * orbit.radius * Math.sin(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
+        x = 2.5 * orbit.radius * Math.cos(angle);
+        y = orbit.radius * Math.sin(angle);
         if (now < endTime || card.rendered == false) {
         card.x = x + xOffset;
         card.y = y + yOffsetDesired;
@@ -522,7 +524,8 @@ $(document).ready(function(){
         move();
         draw();
         $(".notification_count").text(Math.floor(notification_count));
-        requestAnimationFrame(update);
+        setTimeout(update,60);
+        // requestAnimationFrame(update);
       }());
     }
 
