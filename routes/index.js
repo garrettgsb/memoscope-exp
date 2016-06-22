@@ -16,6 +16,8 @@ app.use(session({secret: "stringofwords",
     saveUninitialized: true
     }));
 
+var myDecks;
+var myCards;
 
 function queryParams(sql, params, cb) {
   pg.connect(connectionString, function(err, db, done) {
@@ -191,6 +193,13 @@ router.post('/decks/new', function(req, res){
 //               }
 // });
 
+router.get('/decks', function(req, res){
+  queryParams('SELECT * FROM decks', [], function(err, decks){
+    console.log('decks: ', decks);
+    res.render('decks', {decks: decks.rows, username: req.session.username});
+  });
+});
+
 //Decks by ID
 router.get('/decks/:id', function(req,res){
     queryParams('SELECT * FROM cards FULL OUTER JOIN decks on cards.deck_id=decks.id WHERE decks.id = $1',
@@ -201,11 +210,15 @@ router.get('/decks/:id', function(req,res){
 });
 
 router.get('/dashboard', function(req,res){
-    queryParams('SELECT * FROM cards',
-    [], function(err,myCards){
-      console.log("myCards: ", myCards.rows)
-    res.render('dashboard', {title: 'dashboard', cards: myCards.rows})
+    queryParams('SELECT * FROM decks WHERE decks.user_id = $1', [req.session.user_id], function(err, decks){
+      myDecks = decks;
     });
+    // console.log('decks: ', myDecks.rows);
+    queryParams('SELECT * FROM cards', [], function(err, cards){
+      console.log("myCards: ", cards.rows);
+      myCards = cards;
+    });
+    res.render('dashboard', {title: 'dashboard', cards: myCards, decks: myDecks})
 
 });
 // router.get('/user/decks', function(req, res){

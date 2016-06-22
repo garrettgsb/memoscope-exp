@@ -78,12 +78,12 @@ block content
 
 
 	section#new-card-placeholder.modal
-		include cards-new-modified.pug
+		//-include cards-new-modified.pug
 
 
 	section#manage-cards.modal
 		.modal-container
-			h1 Here's where my cards get managed.
+			include decks.pug
 
 	main.visualization
 		canvas#visualization
@@ -92,4 +92,6 @@ block content
 
 
 block scripts
+	script(src='/javascript/jquery-1.7.min.js', type='text/javascript')
+	script(src='/javascript/main.js', text='text/javascript')
 	script(src="/javascript/dashboard.js")

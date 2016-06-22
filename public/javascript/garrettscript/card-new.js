@@ -1,7 +1,7 @@
 $(document).ready(function(){
   console.log(`Loaded card-new.js`);
 
-  var editBox = "<textarea class='edit-mode' style="word-break: break-word;", rows='6' cols='80'></textarea>";
+  // var editBox = "<textarea class='edit-mode' style="word-break: break-word;", rows='6' cols='80'></textarea>";
   var redLight
 
   function editMode(text) {
