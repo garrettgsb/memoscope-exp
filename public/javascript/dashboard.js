@@ -19,7 +19,6 @@ var cc_text;
 var rangeSet;
 var answer;
 
-
 $(document).ready(function(){
   var canvas = document.getElementById('visualization');
 
@@ -126,7 +125,47 @@ $(document).ready(function(){
     $("#new-card-edit").removeClass('active-tab');
     $("#new-card-highlight").removeClass('active-tab');
     $("#new-card-finish").addClass('active-tab');
+
+    // POST NEW CARD TO DATABASE
+    function sendErOff() {
+      //TODO: When multiple users are a thing,
+      //      include UserId in the JSON.
+      var cardContent = $("#cardFinish").html();
+      var deck = $("select").val();
+      var returnVal = JSON.stringify({
+        content_html: cardContent,
+        deck: deck,
+        user_id: 1 //TODO: Replace with actual session ID... Or delete, depending on how we implement it.
+      });
+      $.ajax({
+        type: 'post',
+        data: returnVal,
+        url: '/cards/create',
+        contentType: 'application/json',
+        dataType: 'json'
+      });
+      console.log(returnVal);
+    }
+
+    function submitAnimation(){
+      console.log("Imagine something real cool happened here.");
+    }
+
+    $("#submit-button").on('click', function(){
+      submitAnimation();
+      sendErOff()
+    });
   });
+
+  $("#add-new-deck").on('click', function(){
+    if ($("#add-deck-name").val()) {
+    console.log(`Clicked with ${$("#add-deck-name")}`);
+    var newDeckName = $("#add-deck-name").val();
+    console.log(newDeckName);
+    $("select").append(`<option>${newDeckName}</option>`);
+    $("select").val(newDeckName);
+  };
+  })
 
   $(".activate-card").on('click', function(){
     console.log("Strictly decorative.")
@@ -505,8 +544,7 @@ $(document).ready(function(){
           draw();
           $(".notification_count").text(Math.floor(notification_count));
         // }
-        setTimeout(update, 40);
-
+        setTimeout(update, 500);
       }());
     }
 

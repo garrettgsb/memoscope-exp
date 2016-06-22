@@ -192,6 +192,19 @@
   display: block;
 }
 
+#submit-area {
+
+}
+
+#submit-area.submitted {
+
+}
+
+#submit-button {
+  margin-left: 10%;
+  width: 80%;
+}
+
 body {
   font-family: sans-serif;
 }
@@ -247,8 +260,10 @@ body {
 
 
 .modal {
-  bottom: 0;
+  bottom: auto;
   display: hidden;
+  max-height: 100%;
+  overflow: hidden;
   left: 260px;
   padding: 20px;
   position: fixed;
@@ -260,6 +275,8 @@ body {
 .modal-container {
   background: rgba(255,255,255,.9);
   min-height: 265px;
+  height: 100%;
+  overflow-y: scroll;
   padding: 20px;
   position: relative;
 2}
