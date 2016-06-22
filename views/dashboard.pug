@@ -6,8 +6,8 @@ block content
 		ul
 			li.menu-item
 				a.notificationButton(href="#notifications")
-					span.tag.is-danger.notification_count 0
-					span &nbsp NOTIFICATIONS
+					span.tag.is-danger.notification_count(style="width:10%;") 0
+					span(style="width:90%;") &nbsp NOTIFICATIONS
 			li.menu-item
 				a(href="#new-card") NEW CARD
 			li.menu-item
@@ -48,7 +48,7 @@ block content
 							circle(class="highlighter-blue" cx="40" cy="12" r="12")
 							circle(class="highlighter-green" cx="68" cy="12" r="12")
 							circle(class="highlighter-yellow" cx="94" cy="12" r="12")
-						div(class="button is-success is-pulled-right") Finishing Touches
+						div.finish-card-link(class="button is-success is-pulled-right") Finishing Touches
 
 			#new-card-finish.new-card-tab
 				.tile.is-ancestor

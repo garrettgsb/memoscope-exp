@@ -18,9 +18,29 @@ var cc_element;
 var cc_text;
 var rangeSet;
 var answer;
+var cards = [];
 
 $(document).ready(function(){
   var canvas = document.getElementById('visualization');
+
+  function getCards() {
+    $.getJSON("/cards/all", function(cardData){
+      cards = []
+      cardData.forEach(function(card){
+        var cardFormatted = {};
+        cardFormatted.id = card.id;
+        cardFormatted.content_html = card.content_html;
+        cardFormatted.deck_id = card.deck_id;
+        cardFormatted.orbit = card.orbit || 1;
+        cardFormatted.notifiedAt = card.notified_at || Date.now();
+        cardFormatted.r = (0.04 * Math.sqrt(500 * card.content_html.length)) + 5;
+        cardFormatted.notifyFlag = false;
+        cardFormatted.rendered = false;
+        cards.push(cardFormatted);
+      });
+      console.log(cards);
+    });
+  }
 
 //----------------
 //  TOGGLE TO MAIN MENU
@@ -164,13 +184,13 @@ $(document).ready(function(){
       console.log(returnVal);
     }
 
-    function submitAnimation(){
-      console.log("Imagine something real cool happened here.");
-    }
-
     $("#submit-button").on('click', function(){
-      submitAnimation();
-      sendErOff()
+      $("#submit-button").addClass("submitted");
+      $("#submit-area").addClass("submitted");
+      $("#new-card").addClass("submitted");
+      sendErOff();
+      getCards();
+      defaultScreen();
     });
   });
 
@@ -390,7 +410,7 @@ $(document).ready(function(){
       }
       displayNotification();
     })
-    var cards = [];
+
     //TODO: Tie in notifications (IDs) with pop-up content
     //TODO: Tie in notification_count with representation of number of pending notifications
 
@@ -433,17 +453,17 @@ $(document).ready(function(){
 
         3: {
           radius: 120,
-          time: 60 * 60 * 1000
+          time: 60 * 10 * 1000
         },
 
         4: {
           radius: 150,
-          time: 24 * 60 * 60 * 1000
+          time: 60 * 30 * 1000
         },
 
         5: {
           radius: 180,
-          time: 7 * 24 * 60 * 60 * 1000
+          time: 2 * 60 * 60 * 1000
         }
       };
 
@@ -522,13 +542,13 @@ $(document).ready(function(){
                   orbit_time = "2 MIN";
                   break;
               case 360:
-                  orbit_time = "1 HOUR";
+                  orbit_time = "10 MIN";
                   break;
               case 8640:
-                  orbit_time = "1 DAY";
+                  orbit_time = "30 MIN";
                   break;
               default:
-                  orbit_time = "7 DAYS";
+                  orbit_time = "";
           }
           ctx.strokeStyle = '#E5CCFF';
           ctx.stroke();
