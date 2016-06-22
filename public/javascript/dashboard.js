@@ -23,7 +23,7 @@ $(document).ready(function(){
   var canvas = document.getElementById('visualization');
 
 //----------------
-//  TOGGLE TO MAIN MENU 
+//  TOGGLE TO MAIN MENU
 //----------------
   function defaultScreen(){
     //rendering default ashboard with no effects.
@@ -38,14 +38,14 @@ $(document).ready(function(){
   //TODO: Refactor this whole thing. It's not very DRY.
   $('.menu-item').each(function(i,e){
     $(e).on('click', function(event){
-      
+
       //Check to see if user clicked on notifications menue when there was no notifications
       var checkMenuItem = $(this).text().includes("NOTIFICATION");
-      var checkNotificationEmpty = $(this).text().includes("0"); 
-      
+      var checkNotificationEmpty = $(this).text().includes("0");
+
       //If notificaios are emoty it is menu doesn't pop up
       if (checkMenuItem && checkNotificationEmpty ){
-        defaultScreen(); 
+        defaultScreen();
       } else {
         // Links logic:
         $('.menu-item a').removeClass('active-nav-link');
@@ -450,7 +450,7 @@ $(document).ready(function(){
       var sun = {
         x: xOffset,
         y: yOffset,
-        r: 20
+        r: 30
       };
 
       function modifyCard(card) {
@@ -469,6 +469,8 @@ $(document).ready(function(){
         angle = angle * (Math.PI / 180);
         var x = (2.5 * orbit.radius * Math.cos(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
         var y = (2.5 * orbit.radius * Math.sin(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
+        x = 2.5 * orbit.radius * Math.cos(angle);
+        y = orbit.radius * Math.sin(angle);
         if (now < endTime || card.rendered == false) {
         card.x = x + xOffset;
         card.y = y + yOffsetDesired;
