@@ -33,8 +33,7 @@ function manageCards(cards) {
 function getCards() {
   cards.length = 0;
   $.getJSON("/cards/all", function(cardData){
-    console.log("Fetching cards.");
-    console.log(cards)
+    console.log("Fetching cards. Array should be empty.");
     console.log(cards);
     cardData.forEach(function(card){
       var cardFormatted = {};
@@ -48,7 +47,8 @@ function getCards() {
       cardFormatted.rendered = false;
       cards.push(cardFormatted);
     });
-    console.log("Fetched cards.");
+    console.log("Fetched cards. Array should be full.");
+    console.log(cards)
   });
 }
 
@@ -180,6 +180,7 @@ $(document).ready(function(){
     function sendErOff() {
       //TODO: When multiple users are a thing,
       //      include UserId in the JSON.
+      console.log("Sending off.");
       var cardContent = $("#cardFinish").html();
       var deck = $("select").val();
       var returnVal = JSON.stringify({
@@ -198,6 +199,7 @@ $(document).ready(function(){
     }
 
     $("#submit-button").on('click', function(){
+      console.log("Clicked submit button");
       sendErOff();
       getCards();
       console.log(cards);
