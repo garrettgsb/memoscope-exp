@@ -16,6 +16,8 @@ app.use(session({secret: "stringofwords",
     saveUninitialized: true
     }));
 
+var loadDecks;
+var loadCards;
 
 function queryParams(sql, params, cb) {
   pg.connect(connectionString, function(err, db, done) {
@@ -179,11 +181,16 @@ router.post('/decks/new', function(req, res){
 // });
 
 router.get('/dashboard', function(req,res){
-    queryParams('SELECT * FROM cards',
-    [], function(err,myCards){
-      console.log("myCards: ", myCards.rows)
-    res.render('dashboard', {title: 'dashboard', cards: myCards.rows})
+    queryParams('SELECT * FROM decks WHERE decks.user_id = $1', [req.session.user_id], function(err, decks){
+      loadDecks = decks;
     });
+    queryParams('SELECT * FROM cards',
+    [], function(err,cards){
+      loadCards = cards;
+    });
+    console.log('loadDecks: ', loadDecks);
+    console.log('loadCards: ', loadCards);
+    res.render('dashboard', {title: 'dashboard', cards: loadCards.rows, decks: loadDecks.rows})
 
 });
 // router.get('/user/decks', function(req, res){
@@ -219,6 +226,52 @@ router.get('/login/as/:id', function(req, res){
     req.session.username = user.rows[0].username;
     res.render('index', {title: "Index", username: req.session.username});
   });
+});
+
+
+//Decks by ID
+router.get('/decks/:id', function(req,res){
+    queryParams('SELECT * FROM cards FULL OUTER JOIN decks on cards.deck_id=decks.id WHERE decks.id = $1',
+    [req.params.id], function(err,myCards){
+      console.log("myCards: ", myCards)
+    res.render('deck', {title: 'deck', cards: myCards.rows})
+    });
+});
+//decks
+router.get('/decks', function(req, res){
+  queryParams('SELECT * FROM decks', [], function(err, decks){
+    console.log('decks: ', decks);
+    res.render('decks', {decks: decks.rows, username: req.session.username});
+  });
+});
+
+//Cards by ID
+router.get('/cards/:id', function(req,res){
+  queryParams('SELECT * FROM cards WHERE id =$1',
+    [req.params.id], function(err,myCard){
+      console.log("myCard: ", myCard)
+    res.render('card', {title: 'Card', card: myCard.rows[0]})
+    });
+});
+
+//All my cards
+router.get('/cards', function(req, res){
+  queryParams('SELECT * FROM cards INNER JOIN decks on cards.deck_id=decks.id WHERE decks.user_id = $1', [req.session.user_id],
+    function(err, myCards){
+      console.log('session ID: ', req.session.user_id);
+      console.log('my cards: ', myCards);
+      var active = [];
+      var inactive = [];
+      myCards.rows.forEach(function(e){
+        if(e.orbit > 0){
+          active.push(e);
+        }else if(e.orbit == 0){
+          inactive.push(e);
+        }
+      });
+      console.log(active);
+      res.render('cards', {username: req.session.username, active: active, inactive: inactive});
+    });
 });
 
 /* GET home page. */

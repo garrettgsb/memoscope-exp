@@ -11,7 +11,7 @@ block content
 			li.menu-item
 				a(href="#new-card") NEW CARD
 			li.menu-item
-				a(href="#manage-cards") MANAGE CARDS
+				a(href="#manage-cards")= decks[0].name
 
 	section#notifications.modal
 		.modal-container
@@ -78,7 +78,7 @@ block content
 
 	section#manage-cards.modal
 		.modal-container
-			h1 Here's where my cards get managed.
+			include decks.pug
 
 	main.visualization
 		canvas#visualization
