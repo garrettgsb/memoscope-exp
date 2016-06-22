@@ -89,7 +89,7 @@
   background-color: var(--highlighter-red);
   color: black;
   fill: var(--highlighter-red);
-  padding: 10px;
+  padding: 5px 0px;
 }
 
 .highlighter-red-hidden {
@@ -100,7 +100,7 @@
   background-color: var(--highlighter-blue);
   color: white;
   fill: var(--highlighter-blue);
-  padding: 10px;
+  padding: 5px 0px;
 }
 .highlighter-blue-hidden {
   color: var(--highlighter-blue);
@@ -110,7 +110,7 @@
   background-color: var(--highlighter-green);
   color: black;
   fill: var(--highlighter-green);
-  padding: 10px;
+  padding: 5px 0px;
 }
 .highlighter-green-hidden {
   color: var(--highlighter-green);
@@ -121,7 +121,7 @@
   background-color: var(--highlighter-yellow);
   color: black;
   fill: var(--highlighter-yellow);
-  padding: 10px;
+  padding: 5px 0px;
 }
 .highlighter-yellow-hidden {
   color: var(--highlighter-yellow);
@@ -148,7 +148,7 @@
 #cardHighlight {
     position: relative;
     top: 30%;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: 300;
     padding-bottom: 40px;
 }
@@ -156,7 +156,7 @@
 #cardFinish {
     position: relative;
     top: 10%;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: 300;
     padding-bottom: 20px;
 }
@@ -168,7 +168,7 @@
 #notificationContent {
     position: absolute;
     top: 30%;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: 300;
 }
 
@@ -192,6 +192,19 @@
   display: block;
 }
 
+#submit-area {
+
+}
+
+#submit-area.submitted {
+
+}
+
+#submit-button {
+  margin-left: 10%;
+  width: 80%;
+}
+
 body {
   font-family: sans-serif;
 }
@@ -199,7 +212,7 @@ body {
 .cardContent {
     position: absolute;
     top: 30%;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: 300;
 }
 
@@ -247,8 +260,10 @@ body {
 
 
 .modal {
-  bottom: 0;
+  bottom: auto;
   display: hidden;
+  max-height: 100%;
+  overflow: hidden;
   left: 260px;
   padding: 20px;
   position: fixed;
@@ -260,6 +275,8 @@ body {
 .modal-container {
   background: rgba(255,255,255,.9);
   min-height: 265px;
+  height: 100%;
+  overflow-y: scroll;
   padding: 20px;
   position: relative;
 2}

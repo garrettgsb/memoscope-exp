@@ -92,7 +92,7 @@ $(document).ready(function(){
     $(".highlighter-yellow").off('mousedown')
   }
 
-  $("#edit-card-link").on('click', function(){
+  $(".edit-card-link").on('click', function(){
     removeClickers();
     $("#new-card-finish").removeClass('active-tab');
     $("#new-card-highlight").removeClass('active-tab');
@@ -100,7 +100,7 @@ $(document).ready(function(){
 
   });
 
-  $("#highlight-card-link").on('click', function(e){
+  $(".highlight-card-link").on('click', function(e){
     rangeSet = [];
     $("#new-card-edit").removeClass('active-tab');
     $("#new-card-finish").removeClass('active-tab');
@@ -120,30 +120,84 @@ $(document).ready(function(){
     // Event handlers for SVG clickers
     $(".highlighter-red").on('mousedown', function() {
       updateHighlight("highlighter-red");
-      inputText = $("#newCard").val().replace(`chunk`, "");
+      inputText = $("#cardHighlight").html();
     });
     $(".highlighter-blue").on('mousedown', function() {
       updateHighlight("highlighter-blue");
-      inputText = $("#newCard").val().replace(`chunk`, "");
+      inputText = $("#cardHighlight").html();
     });
     $(".highlighter-green").on('mousedown', function() {
       updateHighlight("highlighter-green");
-      inputText = $("#newCard").val().replace(`chunk`, "");
+      inputText = $("#cardHighlight").html();
     });
     $(".highlighter-yellow").on('mousedown', function() {
       updateHighlight("highlighter-yellow");
-      inputText = $("#newCard").val().replace(`chunk`, "");
+      inputText = $("#cardHighlight").html();
     });
   });
 
-  $("#finish-card-link").on('click', function(){
+  $(".finish-card-link").on('click', function(){
     removeClickers();
     $("#cardFinish").html(inputText);
     $("#new-card-edit").removeClass('active-tab');
     $("#new-card-highlight").removeClass('active-tab');
     $("#new-card-finish").addClass('active-tab');
+
+    // POST NEW CARD TO DATABASE
+    function sendErOff() {
+      //TODO: When multiple users are a thing,
+      //      include UserId in the JSON.
+      var cardContent = $("#cardFinish").html();
+      var deck = $("select").val();
+      var returnVal = JSON.stringify({
+        content_html: cardContent,
+        deck: deck,
+        user_id: 1 //TODO: Replace with actual session ID... Or delete, depending on how we implement it.
+      });
+      $.ajax({
+        type: 'post',
+        data: returnVal,
+        url: '/cards/create',
+        contentType: 'application/json',
+        dataType: 'json'
+      });
+      console.log(returnVal);
+    }
+
+    function submitAnimation(){
+      console.log("Imagine something real cool happened here.");
+    }
+
+    $("#submit-button").on('click', function(){
+      submitAnimation();
+      sendErOff()
+    });
   });
 
+  $("#add-new-deck").on('click', function(){
+    if ($("#add-deck-name").val()) {
+    console.log(`Clicked with ${$("#add-deck-name")}`);
+    var newDeckName = $("#add-deck-name").val();
+    console.log(newDeckName);
+    $("select").append(`<option>${newDeckName}</option>`);
+    $("select").val(newDeckName);
+  };
+  })
+
+  $(".activate-card").on('click', function(){
+    console.log("Strictly decorative.")
+    if ($(".activate-card h1 span").hasClass('is-success') == true) {
+      $(".activate-card h1 span")
+        .removeClass('is-success')
+        .addClass('is-danger')
+        .text("Not right now.")
+    } else {
+      $(".activate-card h1 span")
+      .removeClass('is-danger')
+      .addClass('is-success')
+      .text("Yes please!")
+    }
+  })
 
 //--------------------------------------------
 // NOTE: HIGHLIGHTER ALGO DO NOT TOUCH
@@ -291,19 +345,6 @@ $(document).ready(function(){
               toggleColor('blue');
               toggleColor('green');
               toggleColor('yellow');
-
-              // $(".highlight-bar").each(function(i,e){
-              //   $(e).on('click', function() {
-              //     console.log(this)
-              //     if ($(e).hasClass(`highlighter-red`)) {
-              //       $("#notificationContent span").each(function(x,y){
-              //         if ($(y).hasClass(`highlighter-red`)) {
-              //           $(y).toggleClass(`highlighter-red-hidden`);
-              //         }
-              //       });
-              //     }
-              //   });
-              // }); // .highlight-bar
 
               // - TODO: Write updated data to database
               function notificationFinish(){
@@ -519,10 +560,11 @@ $(document).ready(function(){
       }
 
       (function update() {
-        move();
-        draw();
-        $(".notification_count").text(Math.floor(notification_count));
-        requestAnimationFrame(update);
+          move();
+          draw();
+          $(".notification_count").text(Math.floor(notification_count));
+        // }
+        setTimeout(update, 500);
       }());
     }
 

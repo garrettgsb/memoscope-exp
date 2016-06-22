@@ -24,17 +24,18 @@ block content
 		.modal-container
 			.header
 				ul.new-card-bar
-					li#edit-card-link
+					li.edit-card-link
 						a(href="#new-card-edit") Edit
-					li#highlight-card-link
+					li.highlight-card-link
 						a(href="#new-card-highlight") Highlight
-					li#finish-card-link
+					li.finish-card-link
 						a(href="#new-card-finish") Finish
 
 			#new-card-edit.new-card-tab.active-tab
 				h1 Click "Highlight" when you've finished entering your text.
 				form
 						textarea#newCard.edit-mode(name="content" rows="10" cols="100")
+				div.highlight-card-link(class="button is-success is-pulled-right") Now let's highlight it
 
 			#new-card-highlight.new-card-tab
 				div
@@ -47,39 +48,33 @@ block content
 							circle(class="highlighter-blue" cx="40" cy="12" r="12")
 							circle(class="highlighter-green" cx="68" cy="12" r="12")
 							circle(class="highlighter-yellow" cx="94" cy="12" r="12")
-						div(class="button is-success is-pulled-right") Create Card!
+						div(class="button is-success is-pulled-right") Finishing Touches
 
 			#new-card-finish.new-card-tab
 				.tile.is-ancestor
-					.tile.is-parent.is-12
-						p#cardFinish Don't forget to write some text.
-					.tile.is-parent.is-vertical.is-6
-						.tile.is-child
-							div(style="width: 200px; height: 200px; color: red")
+					.tile.is-parent
+						.tile.is-child.content
+							p#cardFinish Don't forget to write some text.
 					.tile.is-parent.is-vertical
-						.tile.is-child
-							p.control.has-addons.has-addons-centered
-								span.select
-									select
+						.tile.is-child.is-12
+							p.control.box.has-addons.has-addons-centered(style='display: block;')
+								label(style="display: block") Select a deck
+								span.select(style="width: 45%")
+									select#deckDropdown(style="width: 100%")
 										option (No Deck)
 										option Poem Quotes
 										option Another Deck
-								input.input#add-deck-name(type='text', placeholder='Or Enter Deck Name')
-								a.button.is-primary#add-new-deck
+								input.input#add-deck-name(type='text', placeholder='Or make a new one...' style="width: 45%")
+								a.button.is-primary#add-new-deck(style="width: 10%")
 									| Add
-					.tile.is-parent.center
-						.tile.is-child.box#submit-button
-							a.button.is-success
+						.tile.is-child.box.activate-card
+							h1 Would you like to activate the card now?
+								span.tag.large.is-success.is-pulled-right Yes please!
+						.tile.is-child.box#submit-area
+							a.button.is-success.is-large#submit-button
 								span.icon
 									i.fa.fa-check
 								span Save
-
-
-
-
-	section#new-card-placeholder.modal
-		include cards-new-modified.pug
-
 
 	section#manage-cards.modal
 		.modal-container
