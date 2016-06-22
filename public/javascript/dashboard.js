@@ -20,27 +20,40 @@ var rangeSet;
 var answer;
 var cards = [];
 
+function manageCards(cards) {
+  $(cards).each(function(i, card){
+    console.log(card.id)
+    // Append card to .manage-cards class, I guess.
+    // Give it a class .card-manage, I guess.
+    // Probably add some buttons to the end of that guy
+    // $(".manage-cards")
+  })
+}
+
+function getCards() {
+  cards.length = 0;
+  $.getJSON("/cards/all", function(cardData){
+    console.log("Fetching cards.");
+    console.log(cards)
+    console.log(cards);
+    cardData.forEach(function(card){
+      var cardFormatted = {};
+      cardFormatted.id = card.id;
+      cardFormatted.content_html = card.content_html;
+      cardFormatted.deck_id = card.deck_id;
+      cardFormatted.orbit = card.orbit || 1;
+      cardFormatted.notifiedAt = card.notified_at || Date.now();
+      cardFormatted.r = (0.04 * Math.sqrt(500 * card.content_html.length)) + 5;
+      cardFormatted.notifyFlag = false;
+      cardFormatted.rendered = false;
+      cards.push(cardFormatted);
+    });
+    console.log("Fetched cards.");
+  });
+}
+
 $(document).ready(function(){
   var canvas = document.getElementById('visualization');
-
-  function getCards() {
-    $.getJSON("/cards/all", function(cardData){
-      cards = []
-      cardData.forEach(function(card){
-        var cardFormatted = {};
-        cardFormatted.id = card.id;
-        cardFormatted.content_html = card.content_html;
-        cardFormatted.deck_id = card.deck_id;
-        cardFormatted.orbit = card.orbit || 1;
-        cardFormatted.notifiedAt = card.notified_at || Date.now();
-        cardFormatted.r = (0.04 * Math.sqrt(500 * card.content_html.length)) + 5;
-        cardFormatted.notifyFlag = false;
-        cardFormatted.rendered = false;
-        cards.push(cardFormatted);
-      });
-      console.log(cards);
-    });
-  }
 
 //----------------
 //  TOGGLE TO MAIN MENU
@@ -185,11 +198,9 @@ $(document).ready(function(){
     }
 
     $("#submit-button").on('click', function(){
-      $("#submit-button").addClass("submitted");
-      $("#submit-area").addClass("submitted");
-      $("#new-card").addClass("submitted");
       sendErOff();
       getCards();
+      console.log(cards);
       defaultScreen();
     });
   });
