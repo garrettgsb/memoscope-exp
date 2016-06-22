@@ -420,6 +420,9 @@ $(document).ready(function(){
       var yOffset = canvas.height / 2;
       var yOffsetDesired = canvas.height -  (yOffset / 2);
 
+      var logo = new Image();
+      logo.src = 'images/logo-white.png';
+
       var orbits = {
         1: {
           radius: 60,
@@ -504,9 +507,11 @@ $(document).ready(function(){
 
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.font = "3.5em sans-serif";
-        ctx.textAlign = "center";
-        ctx.fillText('MEMOSCOPE',xOffset, 0.125 * yOffset);
+        // ctx.font = "3.5em sans-serif";
+        // ctx.textAlign = "center";
+        // ctx.fillText('MEMOSCOPE',xOffset, 0.125 * yOffset);
+        ctx.drawImage(logo,xOffset - (canvas.width/8),0.1* yOffset,canvas.width/4,canvas.width/20);
+        // ctx.drawImage(logo,0,0,300,300);
         for (var orbit in orbits) {
           var b = orbits[orbit].radius;
           var a = 2.5 * b;
