@@ -166,8 +166,8 @@
 }
 
 #notificationContent {
-    position: absolute;
-    top: 30%;
+/*    position: absolute;
+    top: 30%;*/
     font-size: 3em;
     font-weight: 300;
 }
@@ -222,11 +222,11 @@ body {
   margin-bottom: 10px;
   right: 0;
 }
-.highlight-bar {
+/*.highlight-bar {
   left: 0;
   margin-left: 10px;
   position: absolute;
-}
+}*/
 
 .main-nav {
   left: 0;
@@ -275,6 +275,7 @@ body {
 .modal-container {
   background: rgba(255,255,255,.9);
   min-height: 265px;
+  max-height: 75vh;
   height: 100%;
   overflow-y: scroll;
   padding: 20px;
@@ -297,13 +298,13 @@ body {
 }
 
 .modal-buttons {
-  position: absolute;
-  bottom: 0;
+  /*position: absolute;*/
+/*  bottom: 0;
   display: inline-block;
   padding-bottom: 10px;
   padding-right: 10px;
   right: 0;
-  width: 100%;
+  width: 100%;*/
 }
 
 .modal-buttons .forgot {
@@ -401,3 +402,36 @@ textarea {
   right: 0;
   z-index: 1;
 }
+.column{
+  display: inline-block;
+}
+.card-footer{
+  top: 79%;
+  background-color: white;
+      position: absolute;
+    width: 100%;
+}
+.card{
+  overflow: scroll;
+  height: 200px;
+}
+
+.card-content{
+  overflow: scroll;
+  /*max-height: 150px;*/
+}
+.modal-wrapper{
+  /* position: relative; */
+  position: absolute;
+  top: 100%;
+}
+.highlighter-wrapper{
+  width: 100%;
+  background-color: white;
+  position: fixed; 
+  bottom: 0; 
+  left: 0;
+ }
+ #notificationContent{
+   padding-bottom: 30px;
+ }

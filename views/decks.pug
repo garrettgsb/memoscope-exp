@@ -1,53 +1,53 @@
 block content
-	.anchor-nav
-			a(href="#section1")
-				nav.section1.nav-circle.primary-color
-			a(href="#section2")
-				nav.section2.nav-circle.secondary-color.unselected
-			a(href="#section3")
-				nav.section3.nav-circle.tertiary-color.unselected
-	section#section1.hero.has-text-centered
-		.hero-head
-			.container
-				h1.title
-					| my decks
-				h2.subtitle
-					| ready to learn?
-		.hero-body
-			hr.divider
-			.container.is-fluid
-				.tile.is-ancestor.is-12
-					each deck, i in decks
-						//- if i % 3 === 0
-						//- 	.tile.is-ancestor.is-12
-						include deck-template.pug
-	section#section2.hero.has-text-centered
-		.hero-head
-			.container
-				h1.title
-					| recommended decks
-				h2.subtitle
-					| you might be interested in these
-		.hero-body
-			hr.divider
-			.container.is-fluid
-				.tile.is-ancestor.is-12
-					each deck, i in decks
-						//- if i % 3 === 0
-						//- 	.tile.is-ancestor.is-12
-						include deck-template.pug
-	section#section3.hero.has-text-centered
-		.hero-head
-			.container
-				h1.title
-					| popular decks
-				h2.subtitle
-					| there's a reason these are popular
-		.hero-body
-			hr.divider
-			.container.is-fluid
-				.tile.is-ancestor.is-12
-					each deck, i in decks
-						//- if i % 3 === 0
-						//- 	.tile.is-ancestor.is-12
-						include deck-template.pug
+	//- .anchor-nav
+	//- 		a(href="#section1")
+	//- 			nav.section1.nav-circle.primary-color
+	//- 		a(href="#section2")
+	//- 			nav.section2.nav-circle.secondary-color.unselected
+	//- 		a(href="#section3")
+	//- 			nav.section3.nav-circle.tertiary-color.unselected
+	//- section#section1.hero.has-text-centered
+	//- .hero-head
+	//- 	.container
+	//- 		h1.title
+	//- 			| my decks
+	//- 		h2.subtitle
+	//- 			| ready to learn?
+	.hero-body
+		hr.divider
+		.container.is-fluid
+			.tile.is-ancestor.is-12
+				each deck, i in decks
+					//- if i % 3 === 0
+					//- 	.tile.is-ancestor.is-12
+					include deck-template.pug
+	//- section#section2.hero.has-text-centered
+	//- 	.hero-head
+	//- 		.container
+	//- 			h1.title
+	//- 				| recommended decks
+	//- 			h2.subtitle
+	//- 				| you might be interested in these
+	//- 	.hero-body
+	//- 		hr.divider
+	//- 		.container.is-fluid
+	//- 			.tile.is-ancestor.is-12
+	//- 				each deck, i in decks
+	//- 					//- if i % 3 === 0
+	//- 					//- 	.tile.is-ancestor.is-12
+	//- 					include deck-template.pug
+	//- section#section3.hero.has-text-centered
+	//- 	.hero-head
+	//- 		.container
+	//- 			h1.title
+	//- 				| popular decks
+	//- 			h2.subtitle
+	//- 				| there's a reason these are popular
+	//- 	.hero-body
+	//- 		hr.divider
+	//- 		.container.is-fluid
+	//- 			.tile.is-ancestor.is-12
+	//- 				each deck, i in decks
+	//- 					//- if i % 3 === 0
+	//- 					//- 	.tile.is-ancestor.is-12
+	//- 					include deck-template.pug

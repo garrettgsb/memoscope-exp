@@ -11,7 +11,7 @@ block content
 			li.menu-item
 				a(href="#new-card") NEW CARD
 			li.menu-item
-				a(href="#manage-cards")= decks[0].name
+				a(href="#manage-cards") MANAGE CARDS
 
 	section#notifications.modal
 		.modal-container
@@ -78,7 +78,7 @@ block content
 
 	section#manage-cards.modal
 		.modal-container
-			include decks.pug
+			include cards-modal.pug
 
 	main.visualization
 		canvas#visualization

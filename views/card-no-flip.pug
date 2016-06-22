@@ -1,13 +1,6 @@
 .column
 	.card.is-6
-		header.card-header
-			p.card-header-title
-				| Card
-			a.card-header-icon
-				i.fa.fa-angle-down
 		.card-content
 			.content= card.content_html
 		footer.card-footer
-			a.card-footer-item Save
-			a.card-footer-item Edit
-			a.card-footer-item Delete
+			a.card-footer-item.footer-button(data-id= card.id) Remove

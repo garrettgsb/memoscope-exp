@@ -20,6 +20,62 @@ var rangeSet;
 var answer;
 
 $(document).ready(function(){
+  ////////////////////////////////////////////////////
+  //REMOVE CARD functionality
+  //these codes below are part of amnage cards and will handle card removal from the orbit and 
+  //ajax calss to delete the card from the database
+  $('.footer-button').on('click', function(e){
+    e.stopPropagation();
+    // alert($(this).getAttribute("data-id"));
+    cardId = $(this).data("id");
+
+    $.ajax({
+      type: "DELETE",
+      url: '/cards/delete/' + cardId,
+      data: cardId,
+      success: function(data){
+      }
+    });
+    deleteCard($(this).parent().parent().parent());
+  });
+
+  function deleteCard(card){
+    $(card).delay(50).fadeOut(600);
+    $(card).animate({
+      "opacity" : "0",
+      },{
+      "complete" : function() {
+        $(card).remove();
+      }
+    });
+  }
+  //////////////////////////////////////////
+  //HTML notifications
+  function generateNotification(message) {
+    var options = {
+      body: message,
+      icon: "http://www.marismith.com/wp-content/uploads/2013/07/One-Thing-Remember-Shutterstock.jpg",
+    }
+    var n = new Notification('Memoscope', options);
+    setTimeout(n.close.bind(n), 10000);
+  }
+
+
+  function notifyMe(message) {
+    if (!("Notification" in window)) {
+      alert("This browser does not support desktop notification");
+    }else if (Notification.permission === "granted") {
+      generateNotification(message);
+    }else if (Notification.permission !== 'denied') {
+      Notification.requestPermission(function (permission) {
+        if (permission === "granted") {
+          generateNotification(message);
+        }
+      });
+    }
+  };
+  ////////////////////////////////////////
+
   var canvas = document.getElementById('visualization');
 
 //----------------

@@ -111,10 +111,9 @@ router.post('/cards/create', function(req,res){
     queryParams('INSERT INTO cards (deck_id, content_html, orbit, notified_at, created_at, modified_at) VALUES ($1, $2, 0, null, current_timestamp, current_timestamp)',
     [deck_id, req.body.content_html],
     function(err, redirect){
-      console.log("Redirect:")
-      console.log(redirect);
+      console.log("Redirect: ", redirect);
       //if (err) { console.log(err) };
-      router.get('/');
+      router.get('/dashboard');
     }); // Query insert cards
   } // createCard()
 
@@ -135,17 +134,24 @@ router.post('/cards/update', function(req,res){
 //    })
 // });
 
+router.delete('/cards/delete/:id', function(req,res){
+  queryParams('DELETE FROM cards WHERE id = $1;', [req.params.id], function(err, result){
+    if(err){console.log("Oops: ", err)};
+    res.send({"deleted": result});
+  });
+});
+
 router.get('/cards/:id', function(req,res){
-  queryParams('SELECT * FROM cards WHERE id =$1',
+  queryParams('SELECT * FROM cards WHERE id =$1;',
     [req.params.id], function(err,myCard){
       console.log("myCard: ", myCard)
     res.render('card', {title: 'Card', card: myCard.rows[0]})
     });
 });
 
-router.put('/cards/:id', function(req, res){
-  // Submit edited card data
-});
+// router.put('/cards/:id', function(req, res){
+//   // Submit edited card data
+// });
 
 // DECK ROUTES
 
@@ -181,18 +187,15 @@ router.post('/decks/new', function(req, res){
 // });
 
 router.get('/dashboard', function(req,res){
-    queryParams('SELECT * FROM decks WHERE decks.user_id = $1', [req.session.user_id], function(err, decks){
-      loadDecks = decks;
+    queryParams('SELECT * FROM decks', [], function(err, decks){
+      queryParams('SELECT * FROM cards', [], function(err, cards){
+        loadDecks = decks;
+        loadCards = cards;
+        res.render('dashboard', {title: 'dashboard', cards: loadCards.rows, decks: loadDecks.rows})
+      });
     });
-    queryParams('SELECT * FROM cards',
-    [], function(err,cards){
-      loadCards = cards;
-    });
-    console.log('loadDecks: ', loadDecks);
-    console.log('loadCards: ', loadCards);
-    res.render('dashboard', {title: 'dashboard', cards: loadCards.rows, decks: loadDecks.rows})
-
 });
+
 // router.get('/user/decks', function(req, res){
 //   queryParams('SELECT * FROM decks WHERE decks.user_id = $1', [req.session.user_id],
 //     function(err, myDecks){
