@@ -33,11 +33,9 @@ function findOrCreateDeck(deck, cb){
   queryParams("SELECT * FROM decks WHERE id = $1", [deck],
     function(err, result){
       if (result.rows[0]) {
-        console.log(`Result is: ${result.rows[0].id}`);
         cb(null, result.rows[0].id)
       }
       else {
-        console.log("Not found :\\");
         cb("Not found")
         // Create card, and return that buddy's ID.
       }
@@ -57,8 +55,6 @@ router.get('/users', function (req, res) {
 router.get('/cards', function(req, res){
   queryParams('SELECT * FROM cards INNER JOIN decks on cards.deck_id=decks.id WHERE decks.user_id = $1', [req.session.user_id],
     function(err, myCards){
-      console.log('session ID: ', req.session.user_id);
-      console.log(myCards);
       res.render('cards', {username: req.session.username, cards: myCards.rows});
     });
 });
@@ -68,7 +64,6 @@ router.get('/cards', function(req, res){
 router.get('/cards/all', function(req, res){
   queryParams('SELECT * FROM cards', [],
     function(err, myCards){
-      console.log(myCards);
       res.json(myCards.rows);
     });
 });
@@ -83,6 +78,7 @@ router.get('/cards/new', function(req,res){
 });
 
 router.post('/cards/create', function(req,res){
+  console.log("now beginning code for POST /cards/create")
   // Put a new card into the database
   // User ID currently hard coded to 1 in 'card-new.js'
   var deck_id;
@@ -90,43 +86,41 @@ router.post('/cards/create', function(req,res){
   deck_name = req.body.deck;
   console.log(`Selecting ${deck_name} from db`)
   queryParams('SELECT * FROM decks WHERE name = $1', [deck_name], function(err,result){
-      if (result.rows[0]) {
-      console.log(`Result ID: ${result.rows[0].id}`);
-      console.log(`Result Name: ${result.rows[0].name}`);
+    if (err) {
+      console.log("DB error during deck search: ", err);
+    }
+    if (result.rows[0]) {
       deck_id = result.rows[0].id;
-      console.log("Calling createCard from 'if' block");
+      console.log("Calling create card with old deck");
+      console.log(deck_id, content_html);
       createCard(deck_id, content_html);
-      } else {
-      console.log("Nah mate, there's no deck there.");
+    } else {
       queryParams('INSERT INTO decks (user_id, name, created_at, modified_at) VALUES ($1, $2, current_timestamp, current_timestamp);',
-                  [1, deck_name], function(err, callback){
-                    queryParams('SELECT * FROM decks WHERE name=$1', [deck_name],function(err,result){
-                      console.log(`Result of insert query:`);
-                      console.log(result);
-                      deck_id = result.rows[0].id
-                      console.log("Calling createCard from else block");
-                      createCard(deck_id, content_html);
-                    });
-                  }); // Query insert decks
-      } // Else
+                [1, deck_name], function(err, callback){
+        if (err) {console.log("DB error putting card into deck: ", err);}
+        queryParams('SELECT * FROM decks WHERE name=$1', [deck_name],function(err,result){
+          console.log("DB error searching for NEWLY CREATED deck: ", err);
+          deck_id = result.rows[0].id
+          console.log("Calling create card with new deck");
+          createCard(deck_id, content_html);
+        });
+      }); // Query insert decks
+    } // Else
   })
 
 
   function createCard(deck_id, content_html){
-    console.log(`Inside of createCard... Deck ID: ${deck_id}`); // TODO: Replace with retrieved/created value
     queryParams('INSERT INTO cards (deck_id, content_html, orbit, notified_at, created_at, modified_at) VALUES ($1, $2, 0, null, current_timestamp, current_timestamp)',
-    [deck_id, req.body.content_html],
-    function(err, redirect){
-      //if (err) { console.log(err) };
-      router.get('/');
+      [deck_id, req.body.content_html],
+      function(err, result){
+        if (err) {console.log("DB ERROR in createCard: " + err) };
+        console.log("createCard database call is now finished.");
+        res.send({'happy':'maybe'});  // how's that for frickin' useless
     }); // Query insert cards
   } // createCard()
-
-
 }); // Router post
 
 router.post('/cards/update', function(req,res){
-  console.log(req.body);
   queryParams('UPDATE cards SET orbit=$1, notified_at=$2 WHERE id=$3', [req.body.orbit, req.body.notifiedAt, req.body.id], function(err, response){
       if (err) { console.log(err) };
       res.send("Hi!");
@@ -142,7 +136,6 @@ router.post('/cards/update', function(req,res){
 router.get('/cards/:id', function(req,res){
   queryParams('SELECT * FROM cards WHERE id =$1',
     [req.params.id], function(err,myCard){
-      console.log("myCard: ", myCard)
     res.render('card', {title: 'Card', card: myCard.rows[0]})
     });
 });
@@ -187,7 +180,6 @@ router.post('/decks/new', function(req, res){
 router.get('/dashboard', function(req,res){
     queryParams('SELECT * FROM cards',
     [], function(err,myCards){
-      console.log("myCards: ", myCards.rows)
     res.render('dashboard', {title: 'dashboard', cards: myCards.rows})
     });
 
@@ -206,7 +198,6 @@ router.get('/users/new', function (req, res) {
 router.get('/users/:id', function (req, res) {
   queryParams('SELECT * FROM users WHERE id = $1;', [req.params.id], function (err, users) {
     if (err) return res.send(500);
-    console.log('users: ', users);
     res.send(users);
   })
 });
@@ -220,7 +211,6 @@ router.post('/users', function (req, res) {
 });
 router.get('/login/as/:id', function(req, res){
   queryParams('SELECT * FROM users WHERE id = $1', [req.params.id], function(err, user){
-    console.log('user rows: ', user.rows[0].username);
     req.session.user_id = user.rows[0].id;
     req.session.username = user.rows[0].username;
     res.render('index', {title: "Index", username: req.session.username});
@@ -229,7 +219,6 @@ router.get('/login/as/:id', function(req, res){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log("username", req.session.username)
   res.render('index', { title: 'Memoscope', username: req.session.username });
 });
 

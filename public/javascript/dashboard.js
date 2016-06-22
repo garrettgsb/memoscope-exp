@@ -18,6 +18,39 @@ var cc_element;
 var cc_text;
 var rangeSet;
 var answer;
+var cards = [];
+
+function manageCards(cards) {
+  $(cards).each(function(i, card){
+    console.log(card.id)
+    // Append card to .manage-cards class, I guess.
+    // Give it a class .card-manage, I guess.
+    // Probably add some buttons to the end of that guy
+    // $(".manage-cards")
+  })
+}
+
+function getCards() {
+  cards.length = 0;
+  $.getJSON("/cards/all", function(cardData){
+    console.log("Fetching cards. Array should be empty.");
+    console.log(cards);
+    cardData.forEach(function(card){
+      var cardFormatted = {};
+      cardFormatted.id = card.id;
+      cardFormatted.content_html = card.content_html;
+      cardFormatted.deck_id = card.deck_id;
+      cardFormatted.orbit = card.orbit || 1;
+      cardFormatted.notifiedAt = card.notified_at || Date.now();
+      cardFormatted.r = (0.04 * Math.sqrt(500 * card.content_html.length)) + 5;
+      cardFormatted.notifyFlag = false;
+      cardFormatted.rendered = false;
+      cards.push(cardFormatted);
+    });
+    console.log("Fetched cards. Array should be full.");
+    console.log(cards);
+  });
+}
 
 $(document).ready(function(){
   var canvas = document.getElementById('visualization');
@@ -136,6 +169,7 @@ $(document).ready(function(){
     });
   });
 
+  console.log("I WILL NOW ADD A HANDLER TO FINISH CARD LINK");
   $(".finish-card-link").on('click', function(){
     removeClickers();
     $("#cardFinish").html(inputText);
@@ -144,9 +178,10 @@ $(document).ready(function(){
     $("#new-card-finish").addClass('active-tab');
 
     // POST NEW CARD TO DATABASE
-    function sendErOff() {
+    function sendNewCard() {
       //TODO: When multiple users are a thing,
       //      include UserId in the JSON.
+      console.log("Sending off.");
       var cardContent = $("#cardFinish").html();
       var deck = $("select").val();
       var returnVal = JSON.stringify({
@@ -159,29 +194,33 @@ $(document).ready(function(){
         data: returnVal,
         url: '/cards/create',
         contentType: 'application/json',
-        dataType: 'json'
+        dataType: 'json',
+        success: function(data){
+          console.log("sendNewCard AJAX reports success");
+        },
+        error: function(jqXHR, errTxt, errObj){
+          console.log("sendNewCard AJAX reports ERROR ERROR ERROR WILL ROBINSON ERRRROOOORRRRRR: " + errTxt);
+        }
       });
       console.log(returnVal);
     }
 
-    function submitAnimation(){
-      console.log("Imagine something real cool happened here.");
-    }
-
     $("#submit-button").on('click', function(){
-      submitAnimation();
-      sendErOff()
+      console.log("Clicked submit button");
+      sendNewCard();
+      // getCards();
+      // defaultScreen();
     });
   });
 
   $("#add-new-deck").on('click', function(){
     if ($("#add-deck-name").val()) {
-    console.log(`Clicked with ${$("#add-deck-name")}`);
-    var newDeckName = $("#add-deck-name").val();
-    console.log(newDeckName);
-    $("select").append(`<option>${newDeckName}</option>`);
-    $("select").val(newDeckName);
-  };
+      console.log(`Clicked with ${$("#add-deck-name")}`);
+      var newDeckName = $("#add-deck-name").val();
+      console.log(newDeckName);
+      $("select").append(`<option>${newDeckName}</option>`);
+      $("select").val(newDeckName);
+    };
   })
 
   $(".activate-card").on('click', function(){
@@ -390,7 +429,7 @@ $(document).ready(function(){
       }
       displayNotification();
     })
-    var cards = [];
+
     //TODO: Tie in notifications (IDs) with pop-up content
     //TODO: Tie in notification_count with representation of number of pending notifications
 
@@ -436,17 +475,17 @@ $(document).ready(function(){
 
         3: {
           radius: 120,
-          time: 60 * 60 * 1000
+          time: 60 * 10 * 1000
         },
 
         4: {
           radius: 150,
-          time: 24 * 60 * 60 * 1000
+          time: 60 * 30 * 1000
         },
 
         5: {
           radius: 180,
-          time: 7 * 24 * 60 * 60 * 1000
+          time: 2 * 60 * 60 * 1000
         }
       };
 
@@ -527,13 +566,13 @@ $(document).ready(function(){
                   orbit_time = "2 MIN";
                   break;
               case 360:
-                  orbit_time = "1 HOUR";
+                  orbit_time = "10 MIN";
                   break;
               case 8640:
-                  orbit_time = "1 DAY";
+                  orbit_time = "30 MIN";
                   break;
               default:
-                  orbit_time = "7 DAYS";
+                  orbit_time = "";
           }
           ctx.strokeStyle = '#E5CCFF';
           ctx.stroke();

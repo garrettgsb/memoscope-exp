@@ -180,6 +180,14 @@
 
 }
 
+#new-card {
+  transition: opacity 2s ease-in-out;
+}
+
+#new-card.submitted {
+  opacity: 0;
+}
+
 #new-card-edit.active-tab {
   display: block;
 }
@@ -193,16 +201,30 @@
 }
 
 #submit-area {
-
+  transition: opacity 2s ease-in-out;
 }
 
 #submit-area.submitted {
-
+  opacity: 0;
 }
 
 #submit-button {
   margin-left: 10%;
   width: 80%;
+  transition: scale 1s ease-in-out;
+  visibility: visible;
+}
+
+#submit-button.submitted {
+  margin-left: 10%;
+  opacity: 1
+  transform: scale(2,2)
+  visibility: visible;
+  width: 80%;
+}
+
+.modal-container.submitted {
+
 }
 
 body {
@@ -279,7 +301,8 @@ body {
   overflow-y: scroll;
   padding: 20px;
   position: relative;
-2}
+  transition: opacity 2s ease-in-out;
+  }
 
 /* Added to the body tag when a modal is open */
 .modal-open .main-nav a {
@@ -384,6 +407,10 @@ body {
 .shown {
   display: block;
   opacity: 1;
+}
+
+.submitted {
+  opacity: 0;
 }
 
 textarea {
