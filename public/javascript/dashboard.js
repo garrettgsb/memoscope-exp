@@ -25,8 +25,6 @@ var notifications = [];
 
 
 
-
-
 $(document).ready(function(){
   renderHtmlForManagementCards();
   ////////////////////////////////////////////////////
@@ -365,7 +363,7 @@ $(document).ready(function(){
 function getCards() {
   cards.length = 0;
   $.getJSON("/cards/all", function(cardData){
-    console.log("Fetching cards. Array should be empty: ", cards);
+    // console.log("Fetching cards. Array should be empty: ", cards);
     cardData.forEach(function(card){
       // if (!(card.notified_at)) { console.log("gonna wipe some stuffs, " + card.notifiedAt); }
       var cardFormatted = {};
@@ -379,10 +377,43 @@ function getCards() {
       cardFormatted.rendered = false;
       cards.push(cardFormatted);
     });
-    console.log("Fetched cards. Array should be full.");
+    // console.log("Fetched cards. Array should be full.");
     console.log(cards);
+    // console.log("(and now we're totally gonna totally rewrite the management pane ha ha ha ha)");
+    rebuildAllManagementCards();
   });
 }
+
+function rebuildAllManagementCards(){
+  // console.log("rekkem");
+  var sel = $(".management-pane");
+  // console.log(sel);
+  sel.html("");
+  cards.forEach(function(card){
+    $("<div class='column'>").html(`
+      <div class="card is-6">
+        <div class="card-content">
+        <div class="content manage_card">` + card.content_html + `</div> </div>
+        <footer class="card-footer">
+          <a class="card-footer-item footer-button" data-id=` + card.id + `>Remove</a></footer></div>
+    `).appendTo(sel);
+  });
+}
+
+// <div class="card is-6"><div class="card-content"><div class="content manage_card">fishes</div></div><footer class="card-footer"><a class="card-footer-item footer-button" data-id="153">Remove</a></footer></div>
+
+/*
+`<div class="card is-6"><div class="card-content"><div class="content manage_card">`+ card.content_html + `</div></div><footer class="card-footer"><a class="card-footer-item footer-button" data-id=`+ card.id `>Remove</a></footer></div></div>`
+
+*/
+/*
+.column
+  .card.is-6
+    .card-content
+      .content.manage_card= card.content_html
+    footer.card-footer
+      a.card-footer-item.footer-button(data-id= card.id) Remove
+*/
 
 
 //----------------
