@@ -235,7 +235,7 @@ $(document).ready(function(){
     $("#submit-button").on('click', function(){
       console.log("Clicked submit button");
       sendNewCard();
-      // defaultScreen();
+      defaultScreen();
     });
   });
 
