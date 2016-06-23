@@ -19,6 +19,9 @@ var cc_text;
 var rangeSet;
 var answer;
 var cards = [];
+var notifications = [];
+var notification_count = 0;
+
 
 (function manageCards() {
   console.log('Managing cards!');
@@ -29,26 +32,7 @@ var cards = [];
   })
 })();
 
-function getCards() {
-  cards.length = 0;
-  $.getJSON("/cards/all", function(cardData){
-    console.log("Fetching cards. Array should be empty: ", cards);
-    cardData.forEach(function(card){
-      var cardFormatted = {};
-      cardFormatted.id = card.id;
-      cardFormatted.content_html = card.content_html;
-      cardFormatted.deck_id = card.deck_id;
-      cardFormatted.orbit = card.orbit || 1;
-      cardFormatted.notifiedAt = card.notified_at || Date.now();
-      cardFormatted.r = (0.04 * Math.sqrt(500 * card.content_html.length)) + 5;
-      cardFormatted.notifyFlag = false;
-      cardFormatted.rendered = false;
-      cards.push(cardFormatted);
-    });
-    console.log("Fetched cards. Array should be full.");
-    console.log(cards);
-  });
-}
+
 
 $(document).ready(function(){
   ////////////////////////////////////////////////////
@@ -98,43 +82,9 @@ $(document).ready(function(){
     });
   }
 
-  //////////////////////////////////////////
-  //HTML notifications
-  function generateNotification(message) {
-    var options = {
-      body: message,
-      icon: "http://www.marismith.com/wp-content/uploads/2013/07/One-Thing-Remember-Shutterstock.jpg",
-    }
-    var n = new Notification('Memoscope', options);
-    setTimeout(n.close.bind(n), 10000);
-  }
 
 
-  function notifyMe(message) {
-    if (!("Notification" in window)) {
-      alert("This browser does not support desktop notification");
-    }else if (Notification.permission === "granted") {
-      generateNotification(message);
-    }else if (Notification.permission !== 'denied') {
-      Notification.requestPermission(function (permission) {
-        if (permission === "granted") {
-          generateNotification(message);
-        }
-      });
-    }
-  };
-  ////////////////////////////////////////
 
-  var canvas = document.getElementById('visualization');
-
-//----------------
-//  TOGGLE TO MAIN MENU
-//----------------
-  function defaultScreen(){
-    //rendering default ashboard with no effects.
-    $('body').removeClass('modal-open');
-    $(".shown").removeClass('shown');
-  };
 
 
 //----------------
@@ -399,125 +349,24 @@ $(document).ready(function(){
 // NOTE: END HIGHLIGHTER ALGO YOU CAN TOUCH AGAIN
 //--------------------------------------------
 
-
-
   //----------------
   //  TIMER/VISUALIZATION/NOTIFICATION CONTROLS
   //----------------
-    // All timer/visualization/notification related code
-    // should be placed inside of this getJSON request.
-    // They're pretty tangled up in there.
+
+  getCards();
+
+  //TODO: Tie in notifications (IDs) with pop-up content
+  //TODO: Tie in notification_count with representation of number of pending notifications
+  console.log("Visualization script initialized.");
+  $('.notificationButton').on('click', displayNotification);
+  setUpAllRendering();
+
+});
+
+function getCards() {
+  cards.length = 0;
   $.getJSON("/cards/all", function(cardData){
-    console.log("Visualization script initialized.");
-
-    var notifications = [];
-    var notification_count = 0;
-
-    $('.notificationButton').on('click', function(){
-      function displayNotification(){
-        var foundCard;
-        cards.forEach(function(card){
-          if (card.id == notifications[0]) {
-            foundCard = card;
-            // Render card text/HTML and create buttons
-            $(".notification_display")
-              .html(`
-                 <div class="notification_display2">
-                  <div id="notificationContent">
-                  `+ foundCard.content_html +`
-                  </div>
-                  <div class="modal-buttons">
-                    <div class="modal-wrapper">
-                      <div class = "highlighter-wrapper">
-                        <svg class="highlight-bar" height="30" width="106">
-                          <circle class="highlighter-red" cx="12" cy="12" r="12"></circle>
-                          <circle class="highlighter-blue" cx="40" cy="12" r="12"></circle>
-                          <circle class="highlighter-green" cx="68" cy="12" r="12"></circle>
-                          <circle class="highlighter-yellow" cx="94" cy="12" r="12"></circle>
-                        </svg>
-                      </div>
-                    </div>
-                    <div class='button is-success is-pulled-right remembered'>Remembered!</div>
-                    <div class='button is-danger is-pulled-right forgot'>Forgot.</div>
-                  </div>
-                </div>
-              `);
-            // console.log("I'm adding some buttons now");
-            function hideColor(color){
-            // NOTE: This makes the highlighted words disappear.
-              $("#notificationContent span").each(function(i,e){
-                if ($(e).hasClass(`highlighter-${color}`)) {
-                  $(e).addClass(`highlighter-${color}-hidden`);
-                }
-              });
-            };
-
-            hideColor('red');
-            hideColor('blue');
-            hideColor('green');
-            hideColor('yellow');
-
-            function toggleColor(color){
-              $(`.highlighter-${color}`).on('click', function(){
-                $("#notificationContent span").each(function(i,e){
-                  if ($(e).hasClass(`highlighter-${color}`)) {
-                    $(e).toggleClass(`highlighter-${color}-hidden`);
-                  }
-                });
-              })
-            }
-            toggleColor('red');
-            toggleColor('blue');
-            toggleColor('green');
-            toggleColor('yellow');
-
-            // - TODO: Write updated data to database
-            function notificationFinish(){
-              card.notifiedAt = Date.now();
-              card.notifyFlag = false;
-              $(".modal-buttons").remove();
-              $(".notification_display").html("");
-              //TODO: AJAX: Write card to database
-              //TODO: Update card's entry in var `cards` (if persisted in database...?)
-              notifications.shift();
-              $.post('/cards/update', card, function(response){
-                // Basically if I'm parsing the response properly,
-                // this should return "Derp" and the response.
-                // Currently, nothing seems to return from the server...
-                // Or at least I'm not accessing it properly.
-                // This isn't important at the moment, but if we want to edit cards
-                // and show the edits later, we'll probably want to do that here.
-                return console.log("Derp" + response);
-              }, 'json');
-              if (notifications.length == 0) {
-                defaultScreen();
-              } else {
-                displayNotification();
-              }
-            };
-
-
-
-            // "Remembered" and "Forgot" are identical,
-            // except for their effect on card Orbit.
-            $(".remembered").on('click', function(){
-              card.orbit += 1
-              notificationFinish();
-            });
-
-            $(".forgot").on('click', function(foundCard){
-              card.orbit = 1
-              notificationFinish();
-            });
-          }
-        });
-      }
-      displayNotification();
-    })
-
-    //TODO: Tie in notifications (IDs) with pop-up content
-    //TODO: Tie in notification_count with representation of number of pending notifications
-
+    console.log("Fetching cards. Array should be empty: ", cards);
     cardData.forEach(function(card){
       var cardFormatted = {};
       cardFormatted.id = card.id;
@@ -530,179 +379,332 @@ $(document).ready(function(){
       cardFormatted.rendered = false;
       cards.push(cardFormatted);
     });
-
-    window.addEventListener('resize', resizeCanvas, false);
-
-    function resizeCanvas() {
-
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      var ctx = canvas.getContext('2d');
-
-      var xOffset = canvas.width / 2;
-      var yOffset = canvas.height / 2;
-      var yOffsetDesired = canvas.height -  (yOffset / 2);
-
-      var logo = new Image();
-      logo.src = 'images/logo-white.png';
-
-      var orbits = {
-        1: {
-          radius: 60,
-          time: 10 * 1000
-        },
-
-        2: {
-          radius: 90,
-          time: 2 * 60 * 1000
-        },
-
-        3: {
-          radius: 120,
-          time: 60 * 10 * 1000
-        },
-
-        4: {
-          radius: 150,
-          time: 60 * 30 * 1000
-        },
-
-        5: {
-          radius: 180,
-          time: 2 * 60 * 60 * 1000
-        }
-      };
-
-      var sun = {
-        x: xOffset,
-        y: yOffset,
-        r: 30
-      };
-
-      function modifyCard(card) {
-        if (card.orbit > 5) {
-          var orbit = 1;
-        } else {
-          var orbit = orbits[card.orbit];
-        };
-        var notifiedAt = parseInt(card.notifiedAt);
-        var endTime = orbit.time + notifiedAt;
-        var now = (new Date()).getTime();
-        var delta = now - notifiedAt;
-        var total = endTime - notifiedAt;
-        var percent = delta / total;
-        var angle = 360 * percent;
-        angle = angle * (Math.PI / 180);
-        // var x = (2.5 * orbit.radius * Math.cos(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
-        // var y = (2.5 * orbit.radius * Math.sin(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
-        var x = 2.5 * orbit.radius * Math.cos(angle);
-        var y = orbit.radius * Math.sin(angle);
-        if (now < endTime || card.rendered == false) {
-          card.x = x + xOffset;
-          card.y = y + yOffsetDesired;
-          card.rendered = true;
-        } else if (card.notifyFlag == false) {
-          notifyMe("Take a look through your memoscope");
-          card.notifyFlag = true;
-        }
-        if(now >= endTime) {
-        var x = 2.5 * orbit.radius;
-        var y = 0;
-        card.x = x + xOffset;
-        card.y = y + yOffsetDesired;
-          if (notifications.indexOf(card.id) == -1) {
-            notifications.push(card.id);
-          }
-          //TODO: Do something with set notifications to render notifications, increment a number.
-          //NOTE: I don't remember what this TODO is referring to.
-        }
-        notification_count = notifications.length;
-
-      }
-
-      function move() {
-        cards.forEach(function (card) {
-          modifyCard(card);
-        });
-      }
-
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // ctx.font = "3.5em sans-serif";
-        // ctx.textAlign = "center";
-        // ctx.fillText('MEMOSCOPE',xOffset, 0.125 * yOffset);
-        ctx.drawImage(logo,xOffset - (canvas.width/8),0.1* yOffset,canvas.width/4,canvas.width/20);
-        // ctx.drawImage(logo,0,0,300,300);
-        for (var orbit in orbits) {
-          var b = orbits[orbit].radius;
-          var a = 2.5 * b;
-          ctx.beginPath();
-          ctx.ellipse(xOffset, yOffsetDesired, a, b , 0 , 0, 2 * Math.PI);
-          var time = orbits[orbit].time / 10000;
-          var orbit_time;
-          switch(time) {
-              case 1:
-                  orbit_time = "10 SEC";
-                  break;
-              case 12:
-                  orbit_time = "2 MIN";
-                  break;
-              case 360:
-                  orbit_time = "10 MIN";
-                  break;
-              case 8640:
-                  orbit_time = "30 MIN";
-                  break;
-              default:
-                  orbit_time = "";
-          }
-          ctx.strokeStyle = '#E5CCFF';
-          ctx.stroke();
-          ctx.font = "1.125em sans-serif";
-          ctx.fillStyle = 'white';
-          ctx.fillText(orbit_time, xOffset + (a * 0.500) , yOffsetDesired + (0.866 * b) );
-        }
-        cards.forEach(function (card) {
-          ctx.beginPath();
-          ctx.fillStyle = "rgb(0,0,255)";
-          ctx.shadowColor = "white";
-          ctx.arc(card.x, card.y, card.r, 0, 2 * Math.PI, true);
-          ctx.fill();
-          ctx.beginPath();
-          ctx.fillStyle = "rgb(255,255,255)";
-          ctx.shadowColor = "white";
-          ctx.shadowOffsetX = (card.r / 3) ;
-          ctx.shadowOffsetY = (card.r / 3) ;
-          ctx.shadowBlur = 1.25 * card.r;
-          ctx.arc(card.x - (card.r / 2.5), card.y - (card.r / 2.5) , (card.r/3), 0, 2 * Math.PI, true);
-          ctx.fill();
-        });
-        ctx.beginPath();
-        ctx.fillStyle = "rgb(253,184,19)";
-        ctx.arc(xOffset, yOffsetDesired, sun.r, 0, 2 * Math.PI, true);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.fillStyle = "rgb(255,255,255)";
-        ctx.arc(xOffset- (sun.r / 2.5), yOffsetDesired - (sun.r / 2.5) , (sun.r/3), 0, 2 * Math.PI, true);
-        ctx.fill();
-      }
-
-      (function update() {
-          move();
-          draw();
-          if (notification_count < 1) {
-            $(".notification_count").addClass("is-success");
-            $(".notification_count").removeClass("is-danger");
-          } else {
-            $(".notification_count").addClass("is-danger").removeClass("is-success").text(Math.floor(notification_count));
-          }
-        // }
-        setTimeout(update, 500);
-      }());
-    }
-
-    resizeCanvas();
-
+    console.log("Fetched cards. Array should be full.");
+    console.log(cards);
   });
-});
+}
+
+
+//----------------
+//  TOGGLE TO MAIN VIEW
+//----------------
+function defaultScreen(){
+  //rendering default dashboard with no effects.
+  $('body').removeClass('modal-open');
+  $(".shown").removeClass('shown');
+};
+
+
+function toggleAllColors(){
+  function toggleColor(color){
+    $(`.highlighter-${color}`).on('click', function(){
+      $("#notificationContent span").each(function(i,e){
+        if ($(e).hasClass(`highlighter-${color}`)) {
+          $(e).toggleClass(`highlighter-${color}-hidden`);
+        }
+      });
+    })
+  }
+  toggleColor('red');
+  toggleColor('blue');
+  toggleColor('green');
+  toggleColor('yellow');
+}
+
+function hideAllColors(){
+  function hideColor(color){
+  // NOTE: This makes the highlighted words disappear.
+    $("#notificationContent span").each(function(i,e){
+      if ($(e).hasClass(`highlighter-${color}`)) {
+        $(e).addClass(`highlighter-${color}-hidden`);
+      }
+    });
+  };
+  hideColor('red');
+  hideColor('blue');
+  hideColor('green');
+  hideColor('yellow');
+}
+
+
+function setUpRememberAndForgetButtons(card, notificationsList){
+  // - TODO: Write updated data to database
+  function notificationFinish(){
+    card.notifiedAt = Date.now();
+    card.notifyFlag = false;
+    $(".modal-buttons").remove();
+    $(".notification_display").html("");
+    //TODO: AJAX: Write card to database
+    //TODO: Update card's entry in var `cards` (if persisted in database...?)
+    notificationsList.shift();
+    $.post('/cards/update', card, function(response){
+      // Basically if I'm parsing the response properly,
+      // this should return "Derp" and the response.
+      // Currently, nothing seems to return from the server...
+      // Or at least I'm not accessing it properly.
+      // This isn't important at the moment, but if we want to edit cards
+      // and show the edits later, we'll probably want to do that here.
+      return console.log("Derp" + response);
+    }, 'json');
+    if (notificationsList.length == 0) {
+      defaultScreen();
+    } else {
+      displayNotification();
+    }
+  };
+
+  // "Remembered" and "Forgot" are identical, except for their effect on card Orbit.
+  $(".remembered").on('click', function(){
+    card.orbit += 1
+    notificationFinish();
+  });
+
+  $(".forgot").on('click', function(){
+    card.orbit = 1
+    notificationFinish();
+  });
+}
+
+function displayNotification(){
+  var foundCard;
+  cards.forEach(function(card){
+    if (card.id == notifications[0]) {
+      foundCard = card;
+      // Render card text/HTML and create buttons
+      renderNotificationDisplay(foundCard);
+      hideAllColors();
+      toggleAllColors();
+      setUpRememberAndForgetButtons(card, notifications);
+    }
+  });
+}
+
+function renderNotificationDisplay(foundCard){
+  $(".notification_display")
+    .html(`
+       <div class="notification_display2">
+        <div id="notificationContent">
+        `+ foundCard.content_html +`
+        </div>
+        <div class="modal-buttons">
+          <div class="modal-wrapper">
+            <div class = "highlighter-wrapper">
+              <svg class="highlight-bar" height="30" width="106">
+                <circle class="highlighter-red" cx="12" cy="12" r="12"></circle>
+                <circle class="highlighter-blue" cx="40" cy="12" r="12"></circle>
+                <circle class="highlighter-green" cx="68" cy="12" r="12"></circle>
+                <circle class="highlighter-yellow" cx="94" cy="12" r="12"></circle>
+              </svg>
+            </div>
+          </div>
+          <div class='button is-success is-pulled-right remembered'>Remembered!</div>
+          <div class='button is-danger is-pulled-right forgot'>Forgot.</div>
+        </div>
+      </div>
+    `);
+}
+
+
+
+
+
+
+
+function setUpAllRendering() {
+
+  var canvas = document.getElementById('visualization');
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  var ctx = canvas.getContext('2d');
+
+  var xOffset = canvas.width / 2;
+  var yOffset = canvas.height / 2;
+  var yOffsetDesired = canvas.height -  (yOffset / 2);
+
+  var logo = new Image();
+  logo.src = 'images/logo-white.png';
+
+  var orbits = {
+    1: {
+      radius: 60,
+      time: 10 * 1000
+    },
+
+    2: {
+      radius: 90,
+      time: 2 * 60 * 1000
+    },
+
+    3: {
+      radius: 120,
+      time: 60 * 10 * 1000
+    },
+
+    4: {
+      radius: 150,
+      time: 60 * 30 * 1000
+    },
+
+    5: {
+      radius: 180,
+      time: 2 * 60 * 60 * 1000
+    }
+  };
+
+  var sun = {
+    x: xOffset,
+    y: yOffset,
+    r: 30
+  };
+
+  function modifyCard(card) {
+    if (card.orbit > 5) {
+      var orbit = 1;
+    } else {
+      var orbit = orbits[card.orbit];
+    };
+    var notifiedAt = parseInt(card.notifiedAt);
+    var endTime = orbit.time + notifiedAt;
+    var now = (new Date()).getTime();
+    var delta = now - notifiedAt;
+    var total = endTime - notifiedAt;
+    var percent = delta / total;
+    var angle = 360 * percent;
+    angle = angle * (Math.PI / 180);
+    // var x = (2.5 * orbit.radius * Math.cos(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
+    // var y = (2.5 * orbit.radius * Math.sin(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
+    var x = 2.5 * orbit.radius * Math.cos(angle);
+    var y = orbit.radius * Math.sin(angle);
+    if (now < endTime || card.rendered == false) {
+      card.x = x + xOffset;
+      card.y = y + yOffsetDesired;
+      card.rendered = true;
+    } else if (card.notifyFlag == false) {
+      notifyMe("Take a look through your memoscope");
+      card.notifyFlag = true;
+    }
+    if(now >= endTime) {
+      var x = 2.5 * orbit.radius;
+      var y = 0;
+      card.x = x + xOffset;
+      card.y = y + yOffsetDesired;
+      if (notifications.indexOf(card.id) == -1) {
+        notifications.push(card.id);
+      }
+      //TODO: Do something with set notifications to render notifications, increment a number.
+      //NOTE: I don't remember what this TODO is referring to.
+    }
+    notification_count = notifications.length;
+
+  }
+
+  function move() {
+    cards.forEach(function (card) {
+      modifyCard(card);
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // ctx.font = "3.5em sans-serif";
+    // ctx.textAlign = "center";
+    // ctx.fillText('MEMOSCOPE',xOffset, 0.125 * yOffset);
+    ctx.drawImage(logo,xOffset - (canvas.width/8),0.1* yOffset,canvas.width/4,canvas.width/20);
+    // ctx.drawImage(logo,0,0,300,300);
+    for (var orbit in orbits) {
+      var b = orbits[orbit].radius;
+      var a = 2.5 * b;
+      ctx.beginPath();
+      ctx.ellipse(xOffset, yOffsetDesired, a, b , 0 , 0, 2 * Math.PI);
+      var time = orbits[orbit].time / 10000;
+      var orbit_time;
+      switch(time) {
+          case 1:
+              orbit_time = "10 SEC";
+              break;
+          case 12:
+              orbit_time = "2 MIN";
+              break;
+          case 360:
+              orbit_time = "10 MIN";
+              break;
+          case 8640:
+              orbit_time = "30 MIN";
+              break;
+          default:
+              orbit_time = "";
+      }
+      ctx.strokeStyle = '#E5CCFF';
+      ctx.stroke();
+      ctx.font = "1.125em sans-serif";
+      ctx.fillStyle = 'white';
+      ctx.fillText(orbit_time, xOffset + (a * 0.500) , yOffsetDesired + (0.866 * b) );
+    }
+    cards.forEach(function (card) {
+      ctx.beginPath();
+      ctx.fillStyle = "rgb(0,0,255)";
+      ctx.shadowColor = "white";
+      ctx.arc(card.x, card.y, card.r, 0, 2 * Math.PI, true);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.fillStyle = "rgb(255,255,255)";
+      ctx.shadowColor = "white";
+      ctx.shadowOffsetX = (card.r / 3) ;
+      ctx.shadowOffsetY = (card.r / 3) ;
+      ctx.shadowBlur = 1.25 * card.r;
+      ctx.arc(card.x - (card.r / 2.5), card.y - (card.r / 2.5) , (card.r/3), 0, 2 * Math.PI, true);
+      ctx.fill();
+    });
+    ctx.beginPath();
+    ctx.fillStyle = "rgb(253,184,19)";
+    ctx.arc(xOffset, yOffsetDesired, sun.r, 0, 2 * Math.PI, true);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = "rgb(255,255,255)";
+    ctx.arc(xOffset- (sun.r / 2.5), yOffsetDesired - (sun.r / 2.5) , (sun.r/3), 0, 2 * Math.PI, true);
+    ctx.fill();
+  }
+
+  (function update() {
+      move();
+      draw();
+      if (notification_count < 1) {
+        $(".notification_count").addClass("is-success").removeClass("is-danger").text(0);
+      } else {
+        $(".notification_count").addClass("is-danger").removeClass("is-success").text(Math.floor(notification_count));
+      }
+    // }
+    setTimeout(update, 500);
+  }());
+}
+
+
+//////////////////////////////////////////
+//HTML notifications
+function generateNotification(message) {
+  var options = {
+    body: message,
+    icon: "http://www.marismith.com/wp-content/uploads/2013/07/One-Thing-Remember-Shutterstock.jpg",
+  }
+  var n = new Notification('Memoscope', options);
+  setTimeout(n.close.bind(n), 10000);
+}
+
+
+function notifyMe(message) {
+  if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+  }else if (Notification.permission === "granted") {
+    generateNotification(message);
+  }else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      if (permission === "granted") {
+        generateNotification(message);
+      }
+    });
+  }
+};
+////////////////////////////////////////
+
