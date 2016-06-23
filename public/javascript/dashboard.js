@@ -675,8 +675,7 @@ $(document).ready(function(){
           move();
           draw();
           if (notification_count < 1) {
-            $(".notification_count").addClass("is-success");
-            $(".notification_count").removeClass("is-danger");
+            $(".notification_count").addClass("is-success").removeClass("is-danger").text(0);
           } else {
             $(".notification_count").addClass("is-danger").removeClass("is-success").text(Math.floor(notification_count));
           }
