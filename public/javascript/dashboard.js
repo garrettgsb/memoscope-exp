@@ -700,7 +700,7 @@ $(document).ready(function(){
               case 43200:
                   orbit_time = "5 DAYS";
                   orbit_color = '#C199CC';
-                  break;                  
+                  break;
               case 216000:
                   orbit_time = "25 DAYS";
                   orbit_color = '#BF91CC';
@@ -708,7 +708,7 @@ $(document).ready(function(){
               case 1036800:
                   orbit_time = "4 MONTHS";
                   orbit_color = '#BA8BC7';
-                  break;                  
+                  break;
               default:
                   orbit_time = "2 YEARS";
                   orbit_color = '#B881C7';
@@ -754,7 +754,7 @@ $(document).ready(function(){
             $(".notification_count").addClass("is-danger").removeClass("is-success").text(Math.floor(notification_count));
           }
         // }
-        setTimeout(update, 500);
+        setTimeout(update, 50);
       }());
     }
 
