@@ -33,8 +33,7 @@ function manageCards(cards) {
 function getCards() {
   cards.length = 0;
   $.getJSON("/cards/all", function(cardData){
-    console.log("Fetching cards. Array should be empty.");
-    console.log(cards);
+    console.log("Fetching cards. Array should be empty: ", cards);
     cardData.forEach(function(card){
       var cardFormatted = {};
       cardFormatted.id = card.id;
@@ -58,18 +57,20 @@ $(document).ready(function(){
   //these codes below are part of amnage cards and will handle card removal from the orbit and 
   //ajax calss to delete the card from the database
   $('.footer-button').on('click', function(e){
+    var footerButton = e.target;
     e.stopPropagation();
     // alert($(this).getAttribute("data-id"));
     cardId = $(this).data("id");
 
     $.ajax({
-      type: "DELETE",
+      type: "POST",
       url: '/cards/delete/' + cardId,
       data: cardId,
       success: function(data){
         console.log("deleteCard AJAX successfully completed")
         // TODO: get some useful data back and update some things
-        deleteCard($(this).parent().parent().parent());
+        deleteCardFromCardsById(cardId);
+        deleteCardFromManageList($(footerButton).closest('.column'));
       },
       error: function(jqXHR, errTxt, errObj){
         console.log("deleteCard AJAX reports ERROR ERROR ERROR WILL ROBINSON ERRRROOOORRRRRR: " + errTxt);
@@ -77,7 +78,7 @@ $(document).ready(function(){
     });
   });
 
-  function deleteCard(card){
+  function deleteCardFromManageList(card){
     $(card).delay(50).fadeOut(600);
     $(card).animate({
       "opacity" : "0",
@@ -87,6 +88,17 @@ $(document).ready(function(){
       }
     });
   }
+
+  function deleteCardFromCardsById(cardId){
+    console.log(cards);
+    cards.forEach(function(elt, idx, set){
+      console.log(idx, elt);
+      if (elt.id == cardId){
+        set.splice(idx, 1);
+      }
+    });
+  }
+
   //////////////////////////////////////////
   //HTML notifications
   function generateNotification(message) {
@@ -244,26 +256,31 @@ $(document).ready(function(){
       console.log("Sending off.");
       var cardContent = $("#cardFinish").html();
       var deck = $("select").val();
-      var returnVal = JSON.stringify({
+      var submissionData = JSON.stringify({
         content_html: cardContent,
         deck: deck,
         user_id: 1 //TODO: Replace with actual session ID... Or delete, depending on how we implement it.
       });
       $.ajax({
         type: 'post',
-        data: returnVal,
+        data: submissionData,
         url: '/cards/create',
         contentType: 'application/json',
         dataType: 'json',
         success: function(data){
           // TODO: get back data listing all cards, and re-render all the cards
+          addNewCardToCardList(); // TODO: what does this need to pass in
           console.log("sendNewCard AJAX reports success");
         },
         error: function(jqXHR, errTxt, errObj){
           console.log("sendNewCard AJAX reports ERROR ERROR ERROR WILL ROBINSON ERRRROOOORRRRRR: " + errTxt);
         }
       });
-      console.log(returnVal);
+      console.log(submissionData);
+
+      function addNewCardToCardList(){
+        // TODO: make this work?  Somehow?
+      }
     }
 
     $("#submit-button").off();
@@ -271,7 +288,7 @@ $(document).ready(function(){
     $("#submit-button").on('click', function(){
       console.log("Clicked submit button");
       sendNewCard();
-      // getCards();
+      getCards();
       // defaultScreen();
     });
   });

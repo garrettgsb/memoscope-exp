@@ -61,11 +61,12 @@ router.get('/cards', function(req, res){
     });
 });
 
-
-// Test route for "viz" view AJAX call
 router.get('/cards/all', function(req, res){
   queryParams('SELECT * FROM cards', [],
     function(err, myCards){
+      if (err){
+        console.log("o my jimmies, got an error getting all cards: " + err);
+      }
       res.json(myCards.rows);
     });
 });
@@ -135,7 +136,7 @@ router.post('/cards/update', function(req,res){
 //    })
 // });
 
-router.delete('/cards/delete/:id', function(req,res){
+router.post('/cards/delete/:id', function(req,res){
   queryParams('DELETE FROM cards WHERE id = $1;', [req.params.id], function(err, result){
     if(err){console.log("Oops: ", err)};
     res.send({"deleted": result});
