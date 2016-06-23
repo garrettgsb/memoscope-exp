@@ -80,7 +80,7 @@ router.get('/cards/new', function(req,res){
   res.render('cards-new', { title: "New Card" });
 });
 
-router.post('/cards/create', function(req,res){
+router.post('/cards/create', function(req, res){
   console.log("now beginning code for POST /cards/create")
   // Put a new card into the database
   // User ID currently hard coded to 1 in 'card-new.js'
@@ -113,8 +113,8 @@ router.post('/cards/create', function(req,res){
 
 
   function createCard(deck_id, content_html){
-    queryParams('INSERT INTO cards (deck_id, content_html, orbit, notified_at, created_at, modified_at) VALUES ($1, $2, 0, null, current_timestamp, current_timestamp)',
-      [deck_id, req.body.content_html],
+    queryParams('INSERT INTO cards (deck_id, content_html, orbit, notified_at, created_at, modified_at) VALUES ($1, $2, 0, $3, current_timestamp, current_timestamp)',
+      [deck_id, req.body.content_html, req.body.notifiedAt],
       function(err, result){
         if (err) {console.log("DB ERROR in createCard: " + err) };
         console.log("createCard database call is now finished.");
@@ -126,7 +126,7 @@ router.post('/cards/create', function(req,res){
 router.post('/cards/update', function(req,res){
   queryParams('UPDATE cards SET orbit=$1, notified_at=$2 WHERE id=$3', [req.body.orbit, req.body.notifiedAt, req.body.id], function(err, response){
       if (err) { console.log(err) };
-      res.send("Hi!");
+      res.send();
   });
 });
 // router.get('/cards/:id', function(req, res){
