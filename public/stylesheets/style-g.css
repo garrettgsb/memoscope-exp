@@ -168,7 +168,8 @@
 #notificationContent {
 /*    position: absolute;
     top: 30%;*/
-    font-size: 3em;
+    font-size: 1.5em;
+    /*font-size: 3em;*/
     font-weight: 300;
 }
 
@@ -295,6 +296,7 @@ body {
 }
 
 .modal-container {
+  font-size: 2em;
   background: rgba(255,255,255,.9);
   min-height: 265px;
   max-height: 75vh;

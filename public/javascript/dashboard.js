@@ -482,7 +482,7 @@ function displayNotification(){
 function renderNotificationDisplay(foundCard){
   $(".notification_display")
     .html(`
-       <div class="notification_display2">
+      <div class="notification_display2">
         <div id="notificationContent">
         `+ foundCard.content_html +`
         </div>
@@ -497,13 +497,14 @@ function renderNotificationDisplay(foundCard){
               </svg>
             </div>
           </div>
-          <div class='button is-success is-pulled-right remembered'>Remembered!</div>
-          <div class='button is-danger is-pulled-right forgot'>Forgot.</div>
         </div>
       </div>
     `);
 }
 
+//  lines removed from Line 500 and line 501
+// <div class='button is-success is-pulled-right remembered'>Remembered!</div>
+// <div class='button is-danger is-pulled-right forgot'>Forgot.</div>
 
 
 
@@ -637,7 +638,7 @@ function setUpAllRendering() {
     // ctx.font = "3.5em sans-serif";
     // ctx.textAlign = "center";
     // ctx.fillText('MEMOSCOPE',xOffset, 0.125 * yOffset);
-    ctx.drawImage(logo,xOffset - (canvas.width/8),0.1* yOffset,canvas.width/4,canvas.width/20);
+    ctx.drawImage(logo,xOffset - (canvas.width/8),0.01* yOffset,canvas.width/4,canvas.width/20);
     // ctx.drawImage(logo,0,0,300,300);
     for (var orbit in orbits) {
       var b = orbits[orbit].radius;

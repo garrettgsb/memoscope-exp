@@ -15,27 +15,29 @@ block content
 
 	section#notifications.modal
 		.modal-container
-			h1 Notifications
 			.notification_display
 				p No notifications!
+		.notification_buttons.columns
+			.button.is-success.is-large.is-pulled-right.remembered.column Remembered!
+			.button.is-danger.is-large.is-pulled-right.forgot.column Forgot.				
 
 
 	section#new-card.modal
 		.modal-container
 			.header
-				ul.new-card-bar
-					li.edit-card-link
-						a(href="#new-card-edit") Edit
-					li.highlight-card-link
-						a(href="#new-card-highlight") Highlight
-					li.finish-card-link
-						a(href="#new-card-finish") Finish
+				ul.new-card-bar.columns
+					li.edit-card-link.column(style="background-color: transparent;")
+						a.button.is-outlined.is-large(href="#new-card-edit") Edit
+					li.highlight-card-link.column(style="background-color: transparent;")
+						a.button.is-info.is-outlined.is-large(href="#new-card-highlight") Highlight
+					li.finish-card-link.column(style="background-color: transparent;")
+						a.button.is-success.is-outlined.is-large(href="#new-card-finish") Finish
 
 			#new-card-edit.new-card-tab.active-tab
 				h1 Click "Highlight" when you've finished entering your text.
 				form
 						textarea#newCard.edit-mode(name="content" rows="10" cols="100")
-				div.highlight-card-link(class="button is-success is-pulled-right") Now let's highlight it
+				div.highlight-card-link(class="button is-info is-pulled-right is-large") Highlight
 
 			#new-card-highlight.new-card-tab
 				div
@@ -48,7 +50,7 @@ block content
 							circle(class="highlighter-blue" cx="40" cy="12" r="12")
 							circle(class="highlighter-green" cx="68" cy="12" r="12")
 							circle(class="highlighter-yellow" cx="94" cy="12" r="12")
-						div.finish-card-link(class="button is-success is-pulled-right") Finishing Touches
+						div.finish-card-link(class="button is-success is-pulled-right is-large") Finishing Touches
 
 			#new-card-finish.new-card-tab
 				.tile.is-ancestor
@@ -65,11 +67,11 @@ block content
 										option Poem Quotes
 										option Another Deck
 								input.input#add-deck-name(type='text', placeholder='Or make a new one...' style="width: 45%")
-								a.button.is-primary#add-new-deck(style="width: 10%")
+								a.button.is-light#add-new-deck(style="width: 10%")
 									| Add
 						.tile.is-child.box.activate-card
 							h1 Would you like to activate the card now?
-								span.tag.large.is-success.is-pulled-right Yes please!
+								span.tag.is-dark.is-pulled-right.is-large Yes please!
 						.tile.is-child.box#submit-area
 							a.button.is-success.is-large#submit-button
 								span.icon
