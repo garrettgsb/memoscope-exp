@@ -20,21 +20,15 @@ var rangeSet;
 var answer;
 var cards = [];
 var notifications = [];
-var notification_count = 0;
 
 
-(function manageCards() {
-  console.log('Managing cards!');
-  $('.manage_card').each(function(i, card){
-    console.log(card);
-    var cardContent = $(card).text();
-    $(card).html(cardContent);
-  })
-})();
+
+
 
 
 
 $(document).ready(function(){
+  renderHtmlForManagementCards();
   ////////////////////////////////////////////////////
   //REMOVE CARD functionality
   //these codes below are part of amnage cards and will handle card removal from the orbit and
@@ -53,6 +47,7 @@ $(document).ready(function(){
         console.log("deleteCard AJAX successfully completed")
         // TODO: get some useful data back and update some things
         deleteCardFromCardsById(cardId);
+        deleteCardFromNotificationsById(cardId);
         deleteCardFromManageList($(footerButton).closest('.column'));
       },
       error: function(jqXHR, errTxt, errObj){
@@ -73,13 +68,20 @@ $(document).ready(function(){
   }
 
   function deleteCardFromCardsById(cardId){
-    console.log(cards);
+    // console.log(cards);
     cards.forEach(function(elt, idx, set){
       console.log(idx, elt);
       if (elt.id == cardId){
         set.splice(idx, 1);
       }
     });
+  }
+
+  function deleteCardFromNotificationsById(cardId){
+    var idx = notifications.indexOf(cardId);
+    if (idx >= 0){
+      notifications.splice(idx, 1);
+    }
   }
 
 
@@ -206,6 +208,7 @@ $(document).ready(function(){
       var cardContent = $("#cardFinish").html();
       var deck = $("select").val();
       var submissionData = JSON.stringify({
+        notifiedAt: Date.now(),
         content_html: cardContent,
         deck: deck,
         user_id: 1 //TODO: Replace with actual session ID... Or delete, depending on how we implement it.
@@ -218,19 +221,15 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(data){
           // TODO: get back data listing all cards, and re-render all the cards
-          addNewCardToCardList(); // TODO: what does this need to pass in
           getCards();
-          console.log("sendNewCard AJAX reports success");
+          // console.log("sendNewCard AJAX reports success");
+          // $.post('/cards/update', card);   // how shameless am I?
         },
         error: function(jqXHR, errTxt, errObj){
           console.log("sendNewCard AJAX reports ERROR ERROR ERROR WILL ROBINSON ERRRROOOORRRRRR: " + errTxt);
         }
       });
       console.log(submissionData);
-
-      function addNewCardToCardList(){
-        // TODO: make this work?  Somehow?
-      }
     }
 
     $("#submit-button").off();
@@ -357,7 +356,7 @@ $(document).ready(function(){
 
   //TODO: Tie in notifications (IDs) with pop-up content
   //TODO: Tie in notification_count with representation of number of pending notifications
-  console.log("Visualization script initialized.");
+  // console.log("Visualization script initialized.");
   $('.notificationButton').on('click', displayNotification);
   setUpAllRendering();
 
@@ -368,6 +367,7 @@ function getCards() {
   $.getJSON("/cards/all", function(cardData){
     console.log("Fetching cards. Array should be empty: ", cards);
     cardData.forEach(function(card){
+      // if (!(card.notified_at)) { console.log("gonna wipe some stuffs, " + card.notifiedAt); }
       var cardFormatted = {};
       cardFormatted.id = card.id;
       cardFormatted.content_html = card.content_html;
@@ -434,17 +434,13 @@ function setUpRememberAndForgetButtons(card, notificationsList){
     card.notifyFlag = false;
     $(".modal-buttons").remove();
     $(".notification_display").html("");
-    //TODO: AJAX: Write card to database
-    //TODO: Update card's entry in var `cards` (if persisted in database...?)
     notificationsList.shift();
     $.post('/cards/update', card, function(response){
       // Basically if I'm parsing the response properly,
       // this should return "Derp" and the response.
-      // Currently, nothing seems to return from the server...
-      // Or at least I'm not accessing it properly.
       // This isn't important at the moment, but if we want to edit cards
       // and show the edits later, we'll probably want to do that here.
-      return console.log("Derp" + response);
+      // console.log("Derp " + response);
     }, 'json');
     if (notificationsList.length == 0) {
       defaultScreen();
@@ -506,7 +502,14 @@ function renderNotificationDisplay(foundCard){
 // <div class='button is-success is-pulled-right remembered'>Remembered!</div>
 // <div class='button is-danger is-pulled-right forgot'>Forgot.</div>
 
-
+function renderHtmlForManagementCards() {
+  // console.log('Managing cards!');
+  $('.manage_card').each(function(i, card){
+    // console.log("here is a card:" + card);
+    var cardContent = $(card).text();
+    $(card).html(cardContent);
+  })
+};
 
 
 
@@ -623,8 +626,6 @@ function setUpAllRendering() {
       //TODO: Do something with set notifications to render notifications, increment a number.
       //NOTE: I don't remember what this TODO is referring to.
     }
-    notification_count = notifications.length;
-
   }
 
   function move() {
@@ -727,6 +728,7 @@ function setUpAllRendering() {
   (function update() {
       move();
       draw();
+      var notification_count = notifications.length;
       if (notification_count < 1) {
         $(".notification_count").addClass("is-success").removeClass("is-danger").text(0);
       } else {
