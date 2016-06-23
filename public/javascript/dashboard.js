@@ -67,9 +67,14 @@ $(document).ready(function(){
       url: '/cards/delete/' + cardId,
       data: cardId,
       success: function(data){
+        console.log("deleteCard AJAX successfully completed")
+        // TODO: get some useful data back and update some things
+        deleteCard($(this).parent().parent().parent());
+      },
+      error: function(jqXHR, errTxt, errObj){
+        console.log("deleteCard AJAX reports ERROR ERROR ERROR WILL ROBINSON ERRRROOOORRRRRR: " + errTxt);
       }
     });
-    deleteCard($(this).parent().parent().parent());
   });
 
   function deleteCard(card){
@@ -225,7 +230,6 @@ $(document).ready(function(){
     });
   });
 
-  console.log("I WILL NOW ADD A HANDLER TO FINISH CARD LINK");
   $(".finish-card-link").on('click', function(){
     removeClickers();
     $("#cardFinish").html(inputText);
@@ -252,6 +256,7 @@ $(document).ready(function(){
         contentType: 'application/json',
         dataType: 'json',
         success: function(data){
+          // TODO: get back data listing all cards, and re-render all the cards
           console.log("sendNewCard AJAX reports success");
         },
         error: function(jqXHR, errTxt, errObj){
@@ -260,6 +265,8 @@ $(document).ready(function(){
       });
       console.log(returnVal);
     }
+
+    $("#submit-button").off();
 
     $("#submit-button").on('click', function(){
       console.log("Clicked submit button");
@@ -393,95 +400,101 @@ $(document).ready(function(){
     $('.notificationButton').on('click', function(){
       function displayNotification(){
         var foundCard;
-          cards.forEach(function(card){
-            if (card.id == notifications[0]) {
-              foundCard = card;
-              // Render card text/HTML and create buttons
-              $(".notification_display")
-                .html("<p id='notificationContent'>" + foundCard.content_html + "</p>")
-                .after(`<div class="modal-buttons"><div style="position: relative">
-                  <div style="position: absolute; bottom: 0; left: 0;">
-                  <svg class="highlight-bar" height="30" width="106">
-                    <circle class="highlighter-red" cx="12" cy="12" r="12"></circle>
-                    <circle class="highlighter-blue" cx="40" cy="12" r="12"></circle>
-                    <circle class="highlighter-green" cx="68" cy="12" r="12"></circle>
-                    <circle class="highlighter-yellow" cx="94" cy="12" r="12"></circle>
-                  </svg>
+        cards.forEach(function(card){
+          if (card.id == notifications[0]) {
+            foundCard = card;
+            // Render card text/HTML and create buttons
+            $(".notification_display")
+              .html(`
+                 <div class="notification_display2">
+                  <div id="notificationContent">
+                  `+ foundCard.content_html +`
                   </div>
-                  <div class='button is-success is-pulled-right remembered'>Remembered!</div>
-                  <div class='button is-danger is-pulled-right forgot'>Forgot.</div>
-                  </div></div>
-                  `);
+                  <div class="modal-buttons">
+                    <div class="modal-wrapper">
+                      <div class = "highlighter-wrapper">
+                        <svg class="highlight-bar" height="30" width="106">
+                          <circle class="highlighter-red" cx="12" cy="12" r="12"></circle>
+                          <circle class="highlighter-blue" cx="40" cy="12" r="12"></circle>
+                          <circle class="highlighter-green" cx="68" cy="12" r="12"></circle>
+                          <circle class="highlighter-yellow" cx="94" cy="12" r="12"></circle>
+                        </svg>
+                      </div>
+                    </div>
+                    <div class='button is-success is-pulled-right remembered'>Remembered!</div>
+                    <div class='button is-danger is-pulled-right forgot'>Forgot.</div>
+                  </div>
+                </div>
+              `);
+            // console.log("I'm adding some buttons now");
+            function hideColor(color){
+            // NOTE: This makes the highlighted words disappear.
+              $("#notificationContent span").each(function(i,e){
+                if ($(e).hasClass(`highlighter-${color}`)) {
+                  $(e).addClass(`highlighter-${color}-hidden`);
+                }
+              });
+            };
 
-              function hideColor(color){
-              // NOTE: This makes the highlighted words disappear.
+            hideColor('red');
+            hideColor('blue');
+            hideColor('green');
+            hideColor('yellow');
+
+            function toggleColor(color){
+              $(`.highlighter-${color}`).on('click', function(){
                 $("#notificationContent span").each(function(i,e){
                   if ($(e).hasClass(`highlighter-${color}`)) {
-                    $(e).addClass(`highlighter-${color}-hidden`);
+                    $(e).toggleClass(`highlighter-${color}-hidden`);
                   }
                 });
-              };
-
-              hideColor('red');
-              hideColor('blue');
-              hideColor('green');
-              hideColor('yellow');
-
-              function toggleColor(color){
-                $(`.highlighter-${color}`).on('click', function(){
-                  $("#notificationContent span").each(function(i,e){
-                    if ($(e).hasClass(`highlighter-${color}`)) {
-                      $(e).toggleClass(`highlighter-${color}-hidden`);
-                    }
-                  });
-                })
-              }
-              toggleColor('red');
-              toggleColor('blue');
-              toggleColor('green');
-              toggleColor('yellow');
-
-              // - TODO: Write updated data to database
-              function notificationFinish(){
-                card.notifiedAt = Date.now();
-                card.notifyFlag = false;
-                $(".modal-buttons").remove();
-                $(".notification_display").html("");
-                //TODO: AJAX: Write card to database
-                //TODO: Update card's entry in var `cards` (if persisted in database...?)
-                notifications.shift();
-                $.post('/cards/update', card, function(response){
-                  // Basically if I'm parsing the response properly,
-                  // this should return "Derp" and the response.
-                  // Currently, nothing seems to return from the server...
-                  // Or at least I'm not accessing it properly.
-                  // This isn't important at the moment, but if we want to edit cards
-                  // and show the edits later, we'll probably want to do that here.
-                  return console.log("Derp" + response);
-                }, 'json');
-                if (notifications.length == 0) {
-                  defaultScreen();
-                } else {
-                  displayNotification();
-                }
-
-              };
-
-
-
-              // "Remembered" and "Forgot" are identical,
-              // except for their effect on card Orbit.
-              $(".remembered").on('click', function(){
-                card.orbit += 1
-                notificationFinish();
-              });
-
-              $(".forgot").on('click', function(foundCard){
-                card.orbit = 1
-                notificationFinish();
-              });
+              })
             }
-          });
+            toggleColor('red');
+            toggleColor('blue');
+            toggleColor('green');
+            toggleColor('yellow');
+
+            // - TODO: Write updated data to database
+            function notificationFinish(){
+              card.notifiedAt = Date.now();
+              card.notifyFlag = false;
+              $(".modal-buttons").remove();
+              $(".notification_display").html("");
+              //TODO: AJAX: Write card to database
+              //TODO: Update card's entry in var `cards` (if persisted in database...?)
+              notifications.shift();
+              $.post('/cards/update', card, function(response){
+                // Basically if I'm parsing the response properly,
+                // this should return "Derp" and the response.
+                // Currently, nothing seems to return from the server...
+                // Or at least I'm not accessing it properly.
+                // This isn't important at the moment, but if we want to edit cards
+                // and show the edits later, we'll probably want to do that here.
+                return console.log("Derp" + response);
+              }, 'json');
+              if (notifications.length == 0) {
+                defaultScreen();
+              } else {
+                displayNotification();
+              }
+            };
+
+
+
+            // "Remembered" and "Forgot" are identical,
+            // except for their effect on card Orbit.
+            $(".remembered").on('click', function(){
+              card.orbit += 1
+              notificationFinish();
+            });
+
+            $(".forgot").on('click', function(foundCard){
+              card.orbit = 1
+              notificationFinish();
+            });
+          }
+        });
       }
       displayNotification();
     })
@@ -565,32 +578,30 @@ $(document).ready(function(){
         var percent = delta / total;
         var angle = 360 * percent;
         angle = angle * (Math.PI / 180);
-        var x = (2.5 * orbit.radius * Math.cos(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
-        var y = (2.5 * orbit.radius * Math.sin(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
-        x = 2.5 * orbit.radius * Math.cos(angle);
-        y = orbit.radius * Math.sin(angle);
+        // var x = (2.5 * orbit.radius * Math.cos(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
+        // var y = (2.5 * orbit.radius * Math.sin(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
+        var x = 2.5 * orbit.radius * Math.cos(angle);
+        var y = orbit.radius * Math.sin(angle);
         if (now < endTime || card.rendered == false) {
+          card.x = x + xOffset;
+          card.y = y + yOffsetDesired;
+          card.rendered = true;
+        } else if (card.notifyFlag == false) {
+          notifyMe("Take a look through your memoscope");
+          card.notifyFlag = true;
+        }
+        if(now >= endTime) {
+        var x = 2.5 * orbit.radius;
+        var y = 0;
         card.x = x + xOffset;
         card.y = y + yOffsetDesired;
-        card.rendered = true;
-        } else {
-          if (card.notifyFlag == false) {
-            notifyMe("Take a look through your memoscope");
-            card.notifyFlag = true;
+          if (notifications.indexOf(card.id) == -1) {
+            notifications.push(card.id);
           }
+          //TODO: Do something with set notifications to render notifications, increment a number.
+          //NOTE: I don't remember what this TODO is referring to.
         }
-      if(now >= endTime) {
-      var x = 2.5 * orbit.radius;
-      var y = 0;
-      card.x = x + xOffset;
-      card.y = y + yOffsetDesired;
-        if (notifications.indexOf(card.id) == -1) {
-          notifications.push(card.id);
-        }
-        //TODO: Do something with set notifications to render notifications, increment a number.
-        //NOTE: I don't remember what this TODO is referring to.
-      }
-      notification_count = notifications.length;
+        notification_count = notifications.length;
 
       }
 
