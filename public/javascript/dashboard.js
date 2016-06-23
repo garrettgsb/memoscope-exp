@@ -20,15 +20,14 @@ var rangeSet;
 var answer;
 var cards = [];
 
-function manageCards(cards) {
-  $(cards).each(function(i, card){
-    console.log(card.id)
-    // Append card to .manage-cards class, I guess.
-    // Give it a class .card-manage, I guess.
-    // Probably add some buttons to the end of that guy
-    // $(".manage-cards")
+(function manageCards() {
+  console.log('Managing cards!');
+  $('.manage_card').each(function(i, card){
+    console.log(card);
+    var cardContent = $(card).text();
+    $(card).html(cardContent);
   })
-}
+})();
 
 function getCards() {
   cards.length = 0;
@@ -54,7 +53,7 @@ function getCards() {
 $(document).ready(function(){
   ////////////////////////////////////////////////////
   //REMOVE CARD functionality
-  //these codes below are part of amnage cards and will handle card removal from the orbit and 
+  //these codes below are part of amnage cards and will handle card removal from the orbit and
   //ajax calss to delete the card from the database
   $('.footer-button').on('click', function(e){
     var footerButton = e.target;
@@ -692,7 +691,12 @@ $(document).ready(function(){
       (function update() {
           move();
           draw();
-          $(".notification_count").text(Math.floor(notification_count));
+          if (notification_count < 1) {
+            $(".notification_count").addClass("is-success");
+            $(".notification_count").removeClass("is-danger");
+          } else {
+            $(".notification_count").addClass("is-danger").removeClass("is-success").text(Math.floor(notification_count));
+          }
         // }
         setTimeout(update, 500);
       }());
