@@ -269,6 +269,7 @@ $(document).ready(function(){
         success: function(data){
           // TODO: get back data listing all cards, and re-render all the cards
           addNewCardToCardList(); // TODO: what does this need to pass in
+          getCards();
           console.log("sendNewCard AJAX reports success");
         },
         error: function(jqXHR, errTxt, errObj){
@@ -287,7 +288,6 @@ $(document).ready(function(){
     $("#submit-button").on('click', function(){
       console.log("Clicked submit button");
       sendNewCard();
-      getCards();
       // defaultScreen();
     });
   });
