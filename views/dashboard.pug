@@ -14,14 +14,23 @@ block content
 				a(href="#manage-cards") MANAGE CARDS
 
 	section#notifications.modal
-		.modal-container
-			.notification_display
+		.modal-container.columns
+			.notification_display.column
 				p No notifications!
+			.modal-buttons.column
+				.modal-wrapper
+					.highlighter-wrapper
+						svg.highlight-bar(height='30', width='106')
+							circle.highlighter-red(cx='12', cy='12', r='12')
+							circle.highlighter-blue(cx='40', cy='12', r='12')
+							circle.highlighter-green(cx='68', cy='12', r='12')
+							circle.highlighter-yellow(cx='94', cy='12', r='12')
 		.notification_buttons.columns
 			.column
 			.button.is-success.is-large.is-pulled-right.remembered.column Remembered!
 			.button.is-danger.is-large.is-pulled-right.forgot.column Forgot.
 			.column
+
 
 
 	section#new-card.modal
@@ -57,7 +66,7 @@ block content
 			#new-card-finish.new-card-tab
 				.tile.is-ancestor
 					.tile.is-parent
-						.tile.is-child.content
+						.tile.is-child.content.card-render-content
 							p#cardFinish Don't forget to write some text.
 					.tile.is-parent.is-vertical
 						.tile.is-child.is-12

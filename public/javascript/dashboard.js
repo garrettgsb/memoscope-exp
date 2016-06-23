@@ -482,18 +482,7 @@ function renderNotificationDisplay(foundCard){
         <div id="notificationContent">
         `+ foundCard.content_html +`
         </div>
-        <div class="modal-buttons">
-          <div class="modal-wrapper">
-            <div class = "highlighter-wrapper">
-              <svg class="highlight-bar" height="30" width="106">
-                <circle class="highlighter-red" cx="12" cy="12" r="12"></circle>
-                <circle class="highlighter-blue" cx="40" cy="12" r="12"></circle>
-                <circle class="highlighter-green" cx="68" cy="12" r="12"></circle>
-                <circle class="highlighter-yellow" cx="94" cy="12" r="12"></circle>
-              </svg>
-            </div>
-          </div>
-        </div>
+
       </div>
     `);
 }
@@ -501,6 +490,20 @@ function renderNotificationDisplay(foundCard){
 //  lines removed from Line 500 and line 501
 // <div class='button is-success is-pulled-right remembered'>Remembered!</div>
 // <div class='button is-danger is-pulled-right forgot'>Forgot.</div>
+
+// <div class="modal-buttons">
+//   <div class="modal-wrapper">
+//     <div class = "highlighter-wrapper">
+//       <svg class="highlight-bar" height="30" width="106">
+//         <circle class="highlighter-red" cx="12" cy="12" r="12"></circle>
+//         <circle class="highlighter-blue" cx="40" cy="12" r="12"></circle>
+//         <circle class="highlighter-green" cx="68" cy="12" r="12"></circle>
+//         <circle class="highlighter-yellow" cx="94" cy="12" r="12"></circle>
+//       </svg>
+//     </div>
+//   </div>
+// </div>
+
 
 function renderHtmlForManagementCards() {
   // console.log('Managing cards!');

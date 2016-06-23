@@ -148,7 +148,7 @@
 #cardHighlight {
     position: relative;
     top: 30%;
-    font-size: 3em;
+    font-size: 1.5em;
     font-weight: 300;
     padding-bottom: 40px;
 }
@@ -156,7 +156,7 @@
 #cardFinish {
     position: relative;
     top: 10%;
-    font-size: 3em;
+    font-size: 1.5em;
     font-weight: 300;
     padding-bottom: 20px;
 }
@@ -463,4 +463,7 @@ textarea {
  }
  #notificationContent{
    padding-bottom: 30px;
+ }
+.card-render-content{
+  border: solid 1px black;  
  }
