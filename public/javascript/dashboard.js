@@ -20,15 +20,18 @@ var rangeSet;
 var answer;
 var cards = [];
 
-function manageCards(cards) {
-  $(cards).each(function(i, card){
-    console.log(card.id)
+(function manageCards() {
+  console.log('Managing cards!');
+  $('.manage_card').each(function(i, card){
+    console.log(card);
+    var cardContent = $(card).text();
+    $(card).html(cardContent);
     // Append card to .manage-cards class, I guess.
     // Give it a class .card-manage, I guess.
     // Probably add some buttons to the end of that guy
     // $(".manage-cards")
   })
-}
+})();
 
 function getCards() {
   cards.length = 0;
@@ -55,7 +58,7 @@ function getCards() {
 $(document).ready(function(){
   ////////////////////////////////////////////////////
   //REMOVE CARD functionality
-  //these codes below are part of amnage cards and will handle card removal from the orbit and 
+  //these codes below are part of amnage cards and will handle card removal from the orbit and
   //ajax calss to delete the card from the database
   $('.footer-button').on('click', function(e){
     e.stopPropagation();
