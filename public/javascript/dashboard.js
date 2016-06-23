@@ -552,32 +552,58 @@ $(document).ready(function(){
           radius: 60,
           time: 10 * 1000
         },
-
         2: {
-          radius: 90,
-          time: 2 * 60 * 1000
+          radius: 85,
+          time: 30 * 1000
         },
 
         3: {
-          radius: 120,
-          time: 60 * 10 * 1000
+          radius: 105,
+          time: 90 * 1000
         },
 
         4: {
-          radius: 150,
-          time: 60 * 30 * 1000
+          radius: 130,
+          time: 5 * 60 * 1000
         },
 
         5: {
-          radius: 180,
-          time: 2 * 60 * 60 * 1000
+          radius: 145,
+          time: 60 * 60 * 1000
+        },
+        6: {
+          radius: 165,
+          time: 5 * 60 * 60 * 1000
+        },
+
+        7: {
+          radius: 190,
+          time: 24 * 60 * 60 * 1000
+        },
+
+        8: {
+          radius: 210,
+          time: 5 * 24 * 60 * 60 * 1000
+        },
+
+        9: {
+          radius: 230,
+          time: 25 * 24 * 60 * 60 * 1000
+        },
+        10: {
+          radius: 250,
+          time: 120 * 24 * 60 * 60 * 1000
+        },
+        11: {
+          radius: 280,
+          time: 365 * 24 * 60 * 60 * 1000
         }
       };
 
       var sun = {
         x: xOffset,
         y: yOffset,
-        r: 30
+        r: 25
       };
 
       function modifyCard(card) {
@@ -596,7 +622,7 @@ $(document).ready(function(){
         angle = angle * (Math.PI / 180);
         // var x = (2.5 * orbit.radius * Math.cos(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
         // var y = (2.5 * orbit.radius * Math.sin(angle))/Math.sqrt((6.25 * Math.pow(Math.sin(angle),2)) + Math.pow(Math.cos(angle),2));
-        var x = 2.5 * orbit.radius * Math.cos(angle);
+        var x = 3.5 * orbit.radius * Math.cos(angle);
         var y = orbit.radius * Math.sin(angle);
         if (now < endTime || card.rendered == false) {
           card.x = x + xOffset;
@@ -607,7 +633,7 @@ $(document).ready(function(){
           card.notifyFlag = true;
         }
         if(now >= endTime) {
-        var x = 2.5 * orbit.radius;
+        var x = 3.5 * orbit.radius;
         var y = 0;
         card.x = x + xOffset;
         card.y = y + yOffsetDesired;
@@ -636,32 +662,63 @@ $(document).ready(function(){
         // ctx.drawImage(logo,0,0,300,300);
         for (var orbit in orbits) {
           var b = orbits[orbit].radius;
-          var a = 2.5 * b;
+          var a = 3.5 * b;
           ctx.beginPath();
           ctx.ellipse(xOffset, yOffsetDesired, a, b , 0 , 0, 2 * Math.PI);
           var time = orbits[orbit].time / 10000;
           var orbit_time;
+          var orbit_color;
           switch(time) {
               case 1:
                   orbit_time = "10 SEC";
+                  orbit_color = '#FFFFFF';
                   break;
-              case 12:
-                  orbit_time = "2 MIN";
+              case 3:
+                  orbit_time = "30 SEC";
+                  orbit_color = '#DBBFE3';
+                  break;
+              case 9:
+                  orbit_time = "1.5 MIN";
+                  orbit_color = '#D9B6E3';
+                  break;
+              case 30:
+                  orbit_time = "5 MIN";
+                  orbit_color = '#D2AFDB';
                   break;
               case 360:
-                  orbit_time = "10 MIN";
+                  orbit_time = "1 HOUR";
+                  orbit_color = '#CEA9D9';
+                  break;
+              case 1800:
+                  orbit_time = "5 HOURS";
+                  orbit_color = '#CAA9D4';
                   break;
               case 8640:
-                  orbit_time = "30 MIN";
+                  orbit_time = "24 HOURS";
+                  orbit_color = '#C69FD1';
                   break;
+              case 43200:
+                  orbit_time = "5 DAYS";
+                  orbit_color = '#C199CC';
+                  break;                  
+              case 216000:
+                  orbit_time = "25 DAYS";
+                  orbit_color = '#BF91CC';
+                  break;
+              case 1036800:
+                  orbit_time = "4 MONTHS";
+                  orbit_color = '#BA8BC7';
+                  break;                  
               default:
-                  orbit_time = "";
+                  orbit_time = "2 YEARS";
+                  orbit_color = '#B881C7';
           }
-          ctx.strokeStyle = '#E5CCFF';
+          ctx.strokeStyle = orbit_color;
           ctx.stroke();
           ctx.font = "1.125em sans-serif";
           ctx.fillStyle = 'white';
-          ctx.fillText(orbit_time, xOffset + (a * 0.500) , yOffsetDesired + (0.866 * b) );
+          // ctx.fillText(orbit_time, xOffset + a  , yOffsetDesired );
+          ctx.fillText(orbit_time, xOffset + (a * 0.707) , yOffsetDesired + (0.707 * b) );
         }
         cards.forEach(function (card) {
           ctx.beginPath();
@@ -692,8 +749,7 @@ $(document).ready(function(){
           move();
           draw();
           if (notification_count < 1) {
-            $(".notification_count").addClass("is-success");
-            $(".notification_count").removeClass("is-danger");
+            $(".notification_count").addClass("is-success").removeClass("is-danger").text(0);
           } else {
             $(".notification_count").addClass("is-danger").removeClass("is-success").text(Math.floor(notification_count));
           }
