@@ -190,6 +190,7 @@
 
 #new-card-edit.active-tab {
   display: block;
+  font-size: 1.5em;
 }
 
 #new-card-highlight.active-tab {
@@ -461,4 +462,8 @@ textarea {
  }
  #notificationContent{
    padding-bottom: 30px;
+ }
+  } 
+.card-render-content{ 
+  border: solid 1px black;   
  }

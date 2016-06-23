@@ -31,9 +31,10 @@ $(document).ready(function(){
   //REMOVE CARD functionality
   //these codes below are part of amnage cards and will handle card removal from the orbit and
   //ajax calss to delete the card from the database
-  $('.footer-button').on('click', function(e){
+  $(document).on('click','.footer-button',function(e){
     var footerButton = e.target;
     e.stopPropagation();
+    console.log('clicked remove');
     // alert($(this).getAttribute("data-id"));
     cardId = $(this).data("id");
 
@@ -385,18 +386,17 @@ function getCards() {
 }
 
 function rebuildAllManagementCards(){
-  // console.log("rekkem");
+
   var sel = $(".management-pane");
-  // console.log(sel);
-  sel.html("");
-  cards.forEach(function(card){
-    $("<div class='column'>").html(`
-      <div class="card is-6">
-        <div class="card-content">
-        <div class="content manage_card">` + card.content_html + `</div> </div>
-        <footer class="card-footer">
-          <a class="card-footer-item footer-button" data-id=` + card.id + `>Remove</a></footer></div>
-    `).appendTo(sel);
+  sel.empty();
+    cards.forEach(function(card){
+      $("<div class='column'>").html(`
+        <div class="card is-6">
+          <div class="card-content">
+          <div class="content manage_card">` + card.content_html + `</div> </div>
+          <footer class="card-footer">
+            <a class="card-footer-item footer-button" data-id=` + card.id + `>Remove</a></footer></div>
+      `).appendTo(sel);
   });
 }
 
@@ -524,8 +524,8 @@ function renderNotificationDisplay(foundCard){
               </svg>
             </div>
           </div>
-          <div class='button is-success is-pulled-right remembered'>Remembered!</div>
-          <div class='button is-danger is-pulled-right forgot'>Forgot.</div>
+          <div class='button is-success is-large is-pulled-right remembered'>Remembered!</div>
+          <div class='button is-danger is-large is-pulled-right forgot'>Forgot.</div>
         </div>
       </div>
     `);
@@ -669,7 +669,7 @@ function setUpAllRendering() {
     // ctx.font = "3.5em sans-serif";
     // ctx.textAlign = "center";
     // ctx.fillText('MEMOSCOPE',xOffset, 0.125 * yOffset);
-    ctx.drawImage(logo,xOffset - (canvas.width/8),0.1* yOffset,canvas.width/4,canvas.width/20);
+    ctx.drawImage(logo,xOffset - (canvas.width/8),0.01* yOffset,canvas.width/4,canvas.width/20);
     // ctx.drawImage(logo,0,0,300,300);
     for (var orbit in orbits) {
       var b = orbits[orbit].radius;
@@ -765,7 +765,7 @@ function setUpAllRendering() {
         $(".notification_count").addClass("is-danger").removeClass("is-success").text(Math.floor(notification_count));
       }
     // }
-    setTimeout(update, 500);
+    setTimeout(update, 25);
   }());
 }
 
